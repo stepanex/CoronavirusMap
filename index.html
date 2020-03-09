@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Place Searches</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script>
+        // This example requires the Places library. Include the libraries=places
+        // parameter when you first load the API. For example:
+        // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+        var map;
+        var service;
+        var infowindow;
+
+        function initMap() {
+            var sydney = new google.maps.LatLng(50.078749, 14.430946);
+
+            infowindow = new google.maps.InfoWindow();
+
+            map = new google.maps.Map(
+                document.getElementById('map'), {center: sydney, zoom: 15});
+
+            service = new google.maps.places.PlacesService(map);
+            var placesCor = [];
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            var wikurl1 = 'https://en.wikipedia.org/w/api.php?action=parse&prop=text&prop=sections&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json';
+            fetch(proxyurl+wikurl1).then(data => data.json()).then(data => {
+                var sectionNumber = data.parse.sections.filter(function (data) {
+                    return data.line == 'Cases';
+                })[0].index;
+                var newUrl = 'https://en.wikipedia.org/w/api.php?action=parse&section='+sectionNumber.toString()+'&prop=text&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json';
+                fetch(proxyurl+newUrl).then(data => data.json()).then(data =>{
+                    var html = data.parse.text['*'];
+                    var htmlDom = new DOMParser().parseFromString(html, "text/xml");
+
+                    var cases = htmlDom.getElementsByClassName('wikitable')[0].children[0].children;
+                    for(let i = 2; i < cases.length;i+=2){
+
+                        let place = cases[i].children[5].firstChild.textContent;
+                        let region = cases[i].children[6].firstChild.textContent;
+
+                        let queryPlace = 'Czech Republic';
+                        if(place.toString().localeCompare('N/A\n')){
+                            queryPlace = place+', '+region
+                        }
+
+                        let found = false;
+                        for(let j = 0; j<placesCor.length;j++){
+                            if(placesCor[j][0] === queryPlace){
+                                placesCor[j][1]+=1;
+                                found = true;
+                                break;
+                            }
+                        }
+                        if(!found){
+                            placesCor.push([queryPlace, 1])
+                        }
+                    }
+                }).then(data => {
+                    let k = 0;
+                    placesCor.forEach(place => {
+                        setTimeout(k*5);
+                        k++;
+                        let request = {
+                            query: place[0],
+                            fields: ['name', 'geometry'],
+                        };
+
+                        let success = false;
+                        tries = 0;
+
+                        let intr = setInterval(function() {
+                            service.findPlaceFromQuery(request, function(results, status) {
+                                console.log(status);
+                                if(status === google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT){
+                                    console.log("FUCK");
+                                }
+                                else if (status === google.maps.places.PlacesServiceStatus.OK) {
+                                    console.log(results[0]);
+                                    if(results.length){
+                                        createMarker(results[0], place[1]);
+                                    }
+                                    success = true;
+                                    clearInterval(intr);
+                                }
+                            });
+                            tries++;
+
+                            if (success || (tries > 3)) clearInterval(intr);
+                        }, 1000);
+                        console.log(place[0]+' '+place[1]);
+                    });
+                });
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
+
+        }
+
+        function createMarker(place, text) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: place.geometry.location
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(place.name+'\ncount: '+text);
+                infowindow.open(map, this);
+            });
+        }
+
+
+    </script>
+</head>
+<body>
+<div id="map"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjOMAwQy-SKsAykvXtd3Q2HBsIkEzyvI0&libraries=places&callback=initMap" async defer></script>
+</body>
+</html>
