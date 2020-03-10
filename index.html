@@ -25,6 +25,10 @@
         var map;
         var service;
         var infowindow;
+        var color_green = '#40ff00';
+        var color_orange = '#ffbf00';
+        var color_red = '#ff0000';
+        var color_white = '#ffffff';
 
         function initMap() {
             var sydney = new google.maps.LatLng(50.078749, 14.430946);
@@ -36,6 +40,10 @@
 
             service = new google.maps.places.PlacesService(map);
             var placesCor = [];
+            var regionsCor = [['Central Bohemian Region', 0],['Hradec Králové Region', 0],['Karlovy Vary Region',0],
+                ['Liberec Region',0],['Moravian-Silesian Region',0],['Olomouc Region',0],['Pardubice Region',0],
+                ['Plzeň Region',0],['Prague',0],['South Bohemian Region',0],['South Moravian Region',0],
+                ['Ústí nad Labem Region',0],['Vysočina Region',0],['Zlín Region',0]];
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             var wikurl1 = 'https://en.wikipedia.org/w/api.php?action=parse&prop=text&prop=sections&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json';
             fetch(proxyurl+wikurl1).then(data => data.json()).then(data => {
@@ -53,21 +61,34 @@
                         let place = cases[i].children[5].firstChild.textContent;
                         let region = cases[i].children[6].firstChild.textContent;
 
-                        let queryPlace = 'Czech Republic';
+                        // let queryPlace = 'Czech Republic';
                         if(place.toString().localeCompare('N/A\n')){
-                            queryPlace = place+', '+region
+                            let queryPlace = place+', '+region;
+
+                            let found = false;
+                            for(let j = 0; j<placesCor.length;j++){
+                                if(placesCor[j][0] === queryPlace){
+                                    placesCor[j][1]+=1;
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if(!found){
+                                placesCor.push([queryPlace, 1])
+                            }
                         }
 
-                        let found = false;
-                        for(let j = 0; j<placesCor.length;j++){
-                            if(placesCor[j][0] === queryPlace){
-                                placesCor[j][1]+=1;
+                        found = false;
+                        for(let j = 0; j<regionsCor.length;j++){
+                            if(regionsCor[j][0] === region){
+                                regionsCor[j][1] += 1;
                                 found = true;
                                 break;
                             }
                         }
-                        if(!found){
-                            placesCor.push([queryPlace, 1])
+                        if(!found && !region.toString().localeCompare('N/A')){
+                            console.log(region);
+                            console.log('FUCK#1');
                         }
                     }
                 }).then(data => {
@@ -85,12 +106,11 @@
 
                         let intr = setInterval(function() {
                             service.findPlaceFromQuery(request, function(results, status) {
-                                console.log(status);
                                 if(status === google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT){
+                                    console.log(status);
                                     console.log("FUCK");
                                 }
                                 else if (status === google.maps.places.PlacesServiceStatus.OK) {
-                                    console.log(results[0]);
                                     if(results.length){
                                         createMarker(results[0], place[1]);
                                     }
@@ -104,6 +124,42 @@
                         }, 1000);
                         console.log(place[0]+' '+place[1]);
                     });
+                    // Define the LatLng coordinates for the polygon.
+                    for(let k = 1; k<15; k++){
+                        fetch('./regionPolygons/area'+String("0" + k).slice(-2)+'.txt').then(data => data.json()).then(data =>{
+                            let color = color_white;
+                            if(regionsCor[k-1][1]<5){
+                                color = color_green;
+                            } else if(regionsCor[k-1][1] < 20){
+                                color = color_orange;
+                            } else {
+                                color = color_red;
+                            }
+                            var bermudaTriangle = new google.maps.Polygon({
+                                paths: data,
+                                strokeColor: color,
+                                strokeOpacity: 0.8,
+                                strokeWeight: 3,
+                                fillColor: color,
+                                fillOpacity: 0.35
+                            });
+                            bermudaTriangle.setMap(map);
+
+                            google.maps.event.addListener(bermudaTriangle, 'click', function(event) {
+                                infowindow.setContent(regionsCor[k-1][0]+'<br/>'+regionsCor[k-1][1]);
+                                if (event) {
+                                    point = event.latLng;
+                                }
+                                infowindow.setPosition(point);
+                                infowindow.open(map);
+                                // map.openInfoWindowHtml(point,html);
+                            });
+
+                            // Add a listener for the click event.
+                            // bermudaTriangle.addListener('click', showArrays('01'));
+
+                        });
+                    }
                 });
             }).catch((error) => {
                 console.error('Error:', error);
@@ -118,7 +174,7 @@
             });
 
             google.maps.event.addListener(marker, 'click', function() {
-                infowindow.setContent(place.name+'\ncount: '+text);
+                infowindow.setContent(place.name+'<br/>'+text);
                 infowindow.open(map, this);
             });
         }
