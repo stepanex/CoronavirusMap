@@ -67,7 +67,8 @@
                 var htmlDom = new DOMParser().parseFromString(html, "text/xml");
 
                 var cases = htmlDom.getElementsByClassName('wikitable')[0].children[0].children;
-                var numberOfCases = cases[cases.length-2].children[0].firstChild.textContent.split('-')[1];
+                var numberOfCasesSplitted = cases[cases.length-2].children[0].firstChild.textContent.split('-');
+                var numberOfCases = numberOfCasesSplitted[numberOfCasesSplitted.length-1];
                 document.getElementsByName('info')[0].innerText='Počet nakažených: '+ numberOfCases;
                 for(let i = 2; i < cases.length;i+=2){
 
