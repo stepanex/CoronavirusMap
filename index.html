@@ -61,7 +61,7 @@
                 ['Plzeň Region',0],['Central Bohemian Region', 0],['South Bohemian Region',0],
                 ['South Moravian Region',0],['Ústí nad Labem Region',0],['Vysočina Region',0],['Zlín Region',0]];
             console.log('loading wiki');
-            fetch('/api/').then(data => data.json()).then(data =>{
+            fetch('/wikiData/').then(data => data.json()).then(data =>{
                 console.log('loaded');
                 var html = data.parse.text['*'];
                 var htmlDom = new DOMParser().parseFromString(html, "text/xml");
