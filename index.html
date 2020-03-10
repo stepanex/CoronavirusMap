@@ -123,16 +123,15 @@
 
                         let intr = setInterval(function() {
                             service.findPlaceFromQuery(request, function(results, status) {
-                                if(status === google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT){
-                                    console.log(status);
-                                    console.log("FUCK");
-                                }
-                                else if (status === google.maps.places.PlacesServiceStatus.OK) {
+                                if (status === google.maps.places.PlacesServiceStatus.OK) {
                                     if(results.length){
                                         createMarker(results[0], place[1]);
                                     }
                                     success = true;
                                     clearInterval(intr);
+                                } else {
+                                    console.log(status);
+                                    console.log("FUCK");
                                 }
                             });
                             tries++;
