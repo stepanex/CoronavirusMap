@@ -72,7 +72,7 @@
                     var htmlDom = new DOMParser().parseFromString(html, "text/xml");
 
                     var cases = htmlDom.getElementsByClassName('wikitable')[0].children[0].children;
-                    document.getElementsByName('info')[0].innerText='Confirmed cases: '+((cases.length-2)/2);
+                    document.getElementsByName('info')[0].innerText='Počet nakažených: '+((cases.length-2)/2);
                     for(let i = 2; i < cases.length;i+=2){
 
                         let place = cases[i].children[5].firstChild.textContent;
@@ -218,7 +218,7 @@
     </script>
 </head>
 <body>
-<div id="info"><div name="info"></div></div>
+<div id="info"><div name="info">Načítání...</div></div>
 <div id="map"></div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjOMAwQy-SKsAykvXtd3Q2HBsIkEzyvI0&libraries=places&callback=initMap" async defer></script>
 </body>
