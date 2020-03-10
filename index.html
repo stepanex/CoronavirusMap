@@ -40,10 +40,10 @@
 
             service = new google.maps.places.PlacesService(map);
             var placesCor = [];
-            var regionsCor = [['Central Bohemian Region', 0],['Hradec Králové Region', 0],['Karlovy Vary Region',0],
+            var regionsCor = [['Prague',0],['Hradec Králové Region', 0],['Karlovy Vary Region',0],
                 ['Liberec Region',0],['Moravian-Silesian Region',0],['Olomouc Region',0],['Pardubice Region',0],
-                ['Plzeň Region',0],['Prague',0],['South Bohemian Region',0],['South Moravian Region',0],
-                ['Ústí nad Labem Region',0],['Vysočina Region',0],['Zlín Region',0]];
+                ['Plzeň Region',0],['Central Bohemian Region', 0],['South Bohemian Region',0],
+                ['South Moravian Region',0],['Ústí nad Labem Region',0],['Vysočina Region',0],['Zlín Region',0]];
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             var wikurl1 = 'https://en.wikipedia.org/w/api.php?action=parse&prop=text&prop=sections&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json';
             fetch(proxyurl+wikurl1).then(data => data.json()).then(data => {
@@ -60,10 +60,13 @@
 
                         let place = cases[i].children[5].firstChild.textContent;
                         let region = cases[i].children[6].firstChild.textContent;
+                        let treatment = cases[i].children[7].firstChild.textContent;
 
                         // let queryPlace = 'Czech Republic';
                         if(place.toString().localeCompare('N/A\n')){
                             let queryPlace = place+', '+region;
+                            if(treatment.toString().localeCompare('N/A\n') && treatment.toString().localeCompare('Home isolation\n'))
+                                queryPlace = treatment+', '+region;
 
                             let found = false;
                             for(let j = 0; j<placesCor.length;j++){
@@ -125,6 +128,7 @@
                         console.log(place[0]+' '+place[1]);
                     });
                     // Define the LatLng coordinates for the polygon.
+                    var prague = [];
                     for(let k = 1; k<15; k++){
                         fetch('./regionPolygons/area'+String("0" + k).slice(-2)+'.txt').then(data => data.json()).then(data =>{
                             let color = color_white;
@@ -135,6 +139,13 @@
                             } else {
                                 color = color_red;
                             }
+                            if(k===1){
+                                prague = data;
+                            }
+                            else if (k===9) {
+                                data = [data, prague.reverse()];
+                            }
+
                             var bermudaTriangle = new google.maps.Polygon({
                                 paths: data,
                                 strokeColor: color,
@@ -145,18 +156,14 @@
                             });
                             bermudaTriangle.setMap(map);
 
-                            google.maps.event.addListener(bermudaTriangle, 'click', function(event) {
-                                infowindow.setContent(regionsCor[k-1][0]+'<br/>'+regionsCor[k-1][1]);
+                            google.maps.event.addListener(bermudaTriangle, 'click', function (event) {
+                                infowindow.setContent(regionsCor[k - 1][0] + '<br/>' + regionsCor[k - 1][1]);
                                 if (event) {
                                     point = event.latLng;
                                 }
                                 infowindow.setPosition(point);
                                 infowindow.open(map);
-                                // map.openInfoWindowHtml(point,html);
                             });
-
-                            // Add a listener for the click event.
-                            // bermudaTriangle.addListener('click', showArrays('01'));
 
                         });
                     }
@@ -175,6 +182,17 @@
 
             google.maps.event.addListener(marker, 'click', function() {
                 infowindow.setContent(place.name+'<br/>'+text);
+                infowindow.open(map, this);
+            });
+        }
+        function createMarker2(location, text) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: location
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(location.lat+':'+location.lng);
                 infowindow.open(map, this);
             });
         }
