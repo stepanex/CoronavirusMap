@@ -60,14 +60,18 @@
                 ['Liberec Region',0],['Moravian-Silesian Region',0],['Olomouc Region',0],['Pardubice Region',0],
                 ['Plzeň Region',0],['Central Bohemian Region', 0],['South Bohemian Region',0],
                 ['South Moravian Region',0],['Ústí nad Labem Region',0],['Vysočina Region',0],['Zlín Region',0]];
+            var fetchOptions = {headers:{'X-Requested-With':'www.koronamap.cz'}};
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             var wikurl1 = 'https://en.wikipedia.org/w/api.php?action=parse&prop=text&prop=sections&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json';
-            fetch(proxyurl+wikurl1).then(data => data.json()).then(data => {
+            console.log('loading wiki 1 ');
+            fetch(proxyurl+wikurl1,fetchOptions).then(data => data.json(),).then(data => {
                 var sectionNumber = data.parse.sections.filter(function (data) {
                     return data.line == 'Cases';
                 })[0].index;
                 var newUrl = 'https://en.wikipedia.org/w/api.php?action=parse&section='+sectionNumber.toString()+'&prop=text&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json';
-                fetch(proxyurl+newUrl).then(data => data.json()).then(data =>{
+                console.log('loading wiki 2 ');
+                fetch(proxyurl+newUrl,fetchOptions).then(data => data.json()).then(data =>{
+                    console.log('loaded');
                     var html = data.parse.text['*'];
                     var htmlDom = new DOMParser().parseFromString(html, "text/xml");
 
