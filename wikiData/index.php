@@ -1,5 +1,7 @@
 <?php
-if(file_exists('./cache') && (time() - filemtime('./cache')) <= 300){
+$getLastRevisionUrl = 'https://en.wikipedia.org/w/api.php?action=query&prop=revisions&pageids=63272856&rvlimit=1&rvprop=ids&format=json';
+$lastRevisionId = json_decode(file_get_contents($getLastRevisionUrl), true)['query']['pages']['63272856']['revisions'][0]['revid'];
+if(file_exists('./cache') && file_exists('./cacheId') && strval($lastRevisionId) == file_get_contents('./cacheId')){
     echo file_get_contents('./cache');
 }else{
     $wiki1 =  file_get_contents("https://en.wikipedia.org/w/api.php?action=parse&prop=text&prop=sections&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json");
@@ -21,5 +23,6 @@ if(file_exists('./cache') && (time() - filemtime('./cache')) <= 300){
     $wiki2Json = json_decode($wiki2, true);
     echo $wiki2;
     file_put_contents('./cache', $wiki2);
+    file_put_contents('./cacheId', $lastRevisionId);
 }
 ?>
