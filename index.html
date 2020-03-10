@@ -60,62 +60,53 @@
                 ['Liberec Region',0],['Moravian-Silesian Region',0],['Olomouc Region',0],['Pardubice Region',0],
                 ['Plzeň Region',0],['Central Bohemian Region', 0],['South Bohemian Region',0],
                 ['South Moravian Region',0],['Ústí nad Labem Region',0],['Vysočina Region',0],['Zlín Region',0]];
-            var fetchOptions = {headers:{'X-Requested-With':'www.koronamap.cz'}};
-            const proxyurl = "http://stormy-wildwood-26810.herokuapp.com/";
-            var wikurl1 = 'https://en.wikipedia.org/w/api.php?action=parse&prop=text&prop=sections&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json';
-            console.log('loading wiki 1');
-            fetch(proxyurl+wikurl1, fetchOptions).then(data => data.json(),).then(data => {
-                var sectionNumber = data.parse.sections.filter(function (data) {
-                    return data.line == 'Cases';
-                })[0].index;
-                var newUrl = 'https://en.wikipedia.org/w/api.php?action=parse&section='+sectionNumber.toString()+'&prop=text&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json';
-                console.log('loading wiki 2 ');
-                fetch(proxyurl+newUrl, fetchOptions).then(data => data.json()).then(data =>{
-                    console.log('loaded');
-                    var html = data.parse.text['*'];
-                    var htmlDom = new DOMParser().parseFromString(html, "text/xml");
+            console.log('loading wiki');
+            fetch('/api/').then(data => data.json()).then(data =>{
+                console.log('loaded');
+                var html = data.parse.text['*'];
+                var htmlDom = new DOMParser().parseFromString(html, "text/xml");
 
-                    var cases = htmlDom.getElementsByClassName('wikitable')[0].children[0].children;
-                    var numberOfCases = cases[cases.length-2].children[0].firstChild.textContent.split('-')[1];
-                    document.getElementsByName('info')[0].innerText='Počet nakažených: '+ numberOfCases;
-                    for(let i = 2; i < cases.length;i+=2){
+                var cases = htmlDom.getElementsByClassName('wikitable')[0].children[0].children;
+                var numberOfCases = cases[cases.length-2].children[0].firstChild.textContent.split('-')[1];
+                document.getElementsByName('info')[0].innerText='Počet nakažených: '+ numberOfCases;
+                for(let i = 2; i < cases.length;i+=2){
 
-                        let place = cases[i].children[5].firstChild.textContent;
-                        let region = cases[i].children[6].firstChild.textContent;
-                        let treatment = cases[i].children[7].firstChild.textContent;
+                    let place = cases[i].children[5].firstChild.textContent;
+                    let region = cases[i].children[6].firstChild.textContent;
+                    let treatment = cases[i].children[7].firstChild.textContent;
 
-                        // let queryPlace = 'Czech Republic';
-                        if(place.toString().localeCompare('N/A\n')){
-                            let queryPlace = place+', '+region;
-                            if(treatment.toString().localeCompare('N/A\n') && treatment.toString().localeCompare('Home isolation\n'))
-                                queryPlace = treatment+', '+region;
+                    // let queryPlace = 'Czech Republic';
+                    if(place.toString().localeCompare('N/A\n')){
+                        let queryPlace = place+', '+region;
+                        if(treatment.toString().localeCompare('N/A\n') && treatment.toString().localeCompare('Home isolation\n'))
+                            queryPlace = treatment+', '+region;
 
-                            let found = false;
-                            for(let j = 0; j<placesCor.length;j++){
-                                if(placesCor[j][0] === queryPlace){
-                                    placesCor[j][1]+=1;
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if(!found){
-                                placesCor.push([queryPlace, 1])
-                            }
-                        }
-
-                        found = false;
-                        for(let j = 0; j<regionsCor.length;j++){
-                            if(regionsCor[j][0] === region){
-                                regionsCor[j][1] += 1;
+                        let found = false;
+                        for(let j = 0; j<placesCor.length;j++){
+                            if(placesCor[j][0] === queryPlace){
+                                placesCor[j][1]+=1;
                                 found = true;
                                 break;
                             }
                         }
-                        if(!found && !region.toString().localeCompare('N/A')){
-                            console.log(region);
-                            console.log('FUCK#1');
+                        if(!found){
+                            placesCor.push([queryPlace, 1])
                         }
                     }
+
+                    found = false;
+                    for(let j = 0; j<regionsCor.length;j++){
+                        if(regionsCor[j][0] === region){
+                            regionsCor[j][1] += 1;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found && !region.toString().localeCompare('N/A')){
+                        console.log(region);
+                        console.log('FUCK#1');
+                    }
+                }
                 }).then(data => {
                     let k = 0;
                     placesCor.forEach(place => {
@@ -189,8 +180,7 @@
 
                         });
                     }
-                });
-            }).catch((error) => {
+                }).catch((error) => {
                 console.error('Error:', error);
             });
 
