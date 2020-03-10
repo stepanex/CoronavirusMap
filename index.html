@@ -63,20 +63,21 @@
             var fetchOptions = {headers:{'X-Requested-With':'www.koronamap.cz'}};
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             var wikurl1 = 'https://en.wikipedia.org/w/api.php?action=parse&prop=text&prop=sections&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json';
-            console.log('loading wiki 1 ');
-            fetch(proxyurl+wikurl1,fetchOptions).then(data => data.json(),).then(data => {
+            console.log('loading wiki 1');
+            fetch(proxyurl+wikurl1, fetchOptions).then(data => data.json(),).then(data => {
                 var sectionNumber = data.parse.sections.filter(function (data) {
                     return data.line == 'Cases';
                 })[0].index;
                 var newUrl = 'https://en.wikipedia.org/w/api.php?action=parse&section='+sectionNumber.toString()+'&prop=text&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json';
                 console.log('loading wiki 2 ');
-                fetch(proxyurl+newUrl,fetchOptions).then(data => data.json()).then(data =>{
+                fetch(proxyurl+newUrl, fetchOptions).then(data => data.json()).then(data =>{
                     console.log('loaded');
                     var html = data.parse.text['*'];
                     var htmlDom = new DOMParser().parseFromString(html, "text/xml");
 
                     var cases = htmlDom.getElementsByClassName('wikitable')[0].children[0].children;
-                    document.getElementsByName('info')[0].innerText='Počet nakažených: '+((cases.length-2)/2);
+                    var numberOfCases = cases[cases.length-2].children[0].firstChild.textContent.split('-')[1];
+                    document.getElementsByName('info')[0].innerText='Počet nakažených: '+ numberOfCases;
                     for(let i = 2; i < cases.length;i+=2){
 
                         let place = cases[i].children[5].firstChild.textContent;
