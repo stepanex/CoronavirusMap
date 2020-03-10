@@ -13,6 +13,11 @@
         #map {
             height: 90%;
         }
+        .ad1{
+            width: 100%;
+            margin: auto;
+            position: absolute;
+        }
         #info{
             height: 10%;
             text-align: center;
@@ -30,8 +35,10 @@
             margin: 0;
             padding: 0;
 			font-family: 'Ubuntu', sans-serif;
+            overflow-y:hidden
         }
     </style>
+    <script data-ad-client="ca-pub-8503799930198018" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
         // This example requires the Places library. Include the libraries=places
         // parameter when you first load the API. For example:
@@ -221,6 +228,17 @@
 <body>
 <div id="info"><div name="info">Načítání...</div></div>
 <div id="map"></div>
+<div class="ad1"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- ad1 -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8503799930198018"
+         data-ad-slot="6222228342"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script></div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjOMAwQy-SKsAykvXtd3Q2HBsIkEzyvI0&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
