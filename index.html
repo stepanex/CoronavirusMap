@@ -72,15 +72,21 @@
                 document.getElementsByName('info')[0].innerText='Počet nakažených: '+ numberOfCases;
                 for(let i = 2; i < cases.length;i+=2){
 
+                    let state = cases[i].children[2].firstChild.textContent;
+                    if(!state.toString().localeCompare('Confirmed')){
+                        continue;
+                    }
+
                     let place = cases[i].children[5].firstChild.textContent;
                     let region = cases[i].children[6].firstChild.textContent;
-                    let treatment = cases[i].children[7].firstChild.textContent;
+                    let treatment = cases[i].children[7].firstChild.textContent.split(',')[0];
 
                     // let queryPlace = 'Czech Republic';
                     if(place.toString().localeCompare('N/A\n')){
                         let queryPlace = place+', '+region;
-                        if(treatment.toString().localeCompare('N/A\n') && treatment.toString().localeCompare('Home isolation\n'))
+                        if(treatment.toString().localeCompare('N/A\n') && treatment.toString().localeCompare('Home isolation\n')){
                             queryPlace = treatment+', '+region;
+                        }
 
                         let found = false;
                         for(let j = 0; j<placesCor.length;j++){
