@@ -4,6 +4,9 @@
     <title>Coronavirus in Czech Republic</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+	<meta name="description" content="Coronavirus in Czech Republic">
+	<meta name="keywords" content="Coronavirus, Koronamap, Czech, Czechia, Czech Republic">
+	<meta name="author" content="Štěpán Štrba">
     <style>
         /* Always set the map height explicitly to define the size of the div
          * element that contains the map. */
@@ -26,6 +29,7 @@
             height: 100%;
             margin: 0;
             padding: 0;
+			font-family: 'Ubuntu', sans-serif;
         }
     </style>
     <script>
@@ -170,7 +174,7 @@
                             bermudaTriangle.setMap(map);
 
                             google.maps.event.addListener(bermudaTriangle, 'click', function (event) {
-                                infowindow.setContent(regionsCor[k - 1][0] + '<br/>' + regionsCor[k - 1][1]);
+                                infowindow.setContent(regionsCor[k - 1][0] + '<br/>Počet nakažených: ' + regionsCor[k - 1][1]);
                                 if (event) {
                                     point = event.latLng;
                                 }
@@ -194,7 +198,7 @@
             });
 
             google.maps.event.addListener(marker, 'click', function() {
-                infowindow.setContent(place.name+'<br/>'+text);
+                infowindow.setContent(place.name+'<br/>Počet nakažených: '+text);
                 infowindow.open(map, this);
             });
         }
