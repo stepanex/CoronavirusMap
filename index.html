@@ -84,6 +84,13 @@
                         continue;
                     }
 
+                    let caseNumber = cases[i].children[0].firstChild.textContent.toString();
+                    let countOfCases = 1;
+                    if(caseNumber.includes('–')){
+                        let caseNumberSplitted = caseNumber.split('–');
+                        countOfCases = parseInt(caseNumberSplitted[1]) - parseInt(caseNumberSplitted[0]) + 1;
+                    }
+
                     let place = cases[i].children[5].firstChild.textContent;
                     let region = cases[i].children[6].firstChild.textContent;
                     let treatment = cases[i].children[7].firstChild.textContent.split(',')[0];
@@ -99,7 +106,7 @@
                         let found = false;
                         for(let j = 0; j<placesCor.length;j++){
                             if(placesCor[j][0] === queryPlace){
-                                placesCor[j][1]+=1;
+                                placesCor[j][1]+=countOfCases;
                                 found = true;
                                 break;
                             }
@@ -113,7 +120,7 @@
                         found = false;
                         for(let j = 0; j<regionsCor.length;j++){
                             if(regionsCor[j][0] === region){
-                                regionsCor[j][1] += 1;
+                                regionsCor[j][1] += countOfCases;
                                 found = true;
                                 break;
                             }
