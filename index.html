@@ -89,7 +89,8 @@
                     let treatment = cases[i].children[7].firstChild.textContent.split(',')[0];
 
                     // let queryPlace = 'Czech Republic';
-                    if(place.toString().localeCompare('N/A')){
+                    if(place.toString().localeCompare('N/A') && place.toString().localeCompare('Praha') ||
+                        (treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace\n'))){
                         let queryPlace = place+', '+region;
                         if(treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace\n')){
                             queryPlace = treatment+', '+region;
