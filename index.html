@@ -141,10 +141,11 @@
                         let data = new FormData();
                         data.append('type','findPlace');
                         data.append('searchName',place[0]);
-                        fetch('http://coronavirusmap.test/api.php', {
+                        var origin = 'http://koronamap.cz';
+                        fetch('http://koronamap.cz/api.php', {
                             method: 'post',
                             body: data,
-                            origin: 'http://coronavirusmap.test'
+                            origin: origin
                         }).then(response => response.json()).then(response => {
                             if(response[0] === 1 && response[1] !== null){
                                 let latitude = JSON.parse(response[1]['location'])[0];
@@ -175,10 +176,10 @@
                                                 data.append('name',foundPlace['name']);
                                                 data.append('searchName',place[0]);
                                                 data.append('location',JSON.stringify(latlng));
-                                                fetch('http://coronavirusmap.test/api.php', {
+                                                fetch('http://koronamap.cz/api.php', {
                                                     method: 'post',
                                                     body: data,
-                                                    origin: 'http://coronavirusmap.test'
+                                                    origin: origin
                                                 }).then(response => response.json()).then(response => {console.log(response)});
 
                                                 createMarkerGplace(results[0], place[1]);

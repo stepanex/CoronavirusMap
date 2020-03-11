@@ -35,4 +35,9 @@ class database
         }
         return json_encode($array);
     }
+
+    function __destruct()
+    {
+        $this->db->close();
+    }
 }

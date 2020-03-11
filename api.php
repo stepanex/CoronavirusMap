@@ -2,7 +2,9 @@
 require_once('./database.php');
 $db = new database();
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
-    echo 'Get request is not supported.';
+    $array = array(-1, "Get request is not supported.");
+    $json = json_encode($array);
+    echo $json;
     die();
 }
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -40,7 +42,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $location = null;
     }
-    header("Content-Type: application/json;charset=utf-8");
+//    header("Content-Type: application/json;charset=utf-8");
     switch ($type) {
         case 'insertPlace':
             if($name == null || $searchName == null || $location == null){
