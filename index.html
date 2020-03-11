@@ -52,9 +52,15 @@
             var sydney = new google.maps.LatLng(49.8037633, 15.4749126);
 
             infowindow = new google.maps.InfoWindow();
+            let zoom = Math.log(window.innerWidth/5)/Math.log(2);
+            let czechHeight = Math.pow(2,zoom)*2.5;
+            let mapHeight = (window.innerHeight/100)*90;
+            if(mapHeight < czechHeight){
+                zoom = Math.log(mapHeight/3)/Math.log(2);
+            }
 
             map = new google.maps.Map(
-                document.getElementById('map'), {center: sydney, zoom: 8});
+                document.getElementById('map'), {center: sydney, zoom: zoom});
 
             service = new google.maps.places.PlacesService(map);
             var placesToPrint = [];
