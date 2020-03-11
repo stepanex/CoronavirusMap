@@ -62,7 +62,8 @@
                 document.getElementById('map'), {center: sydney, zoom: 8});
 
             service = new google.maps.places.PlacesService(map);
-            var placesCor = [];
+            var placesToPrint = [];
+            var placesCached = [];
             var regionsCor = [['Praha',0],['Královéhradecký kraj', 0],['Karlovarský kraj',0],
                 ['Liberecký kraj',0],['Moravskoslezský kraj',0],['Olomoucký kraj',0],['Pardubický kraj',0],
                 ['Plzeňský kraj',0],['Středočeský kraj', 0],['Jihočeský kraj',0],
@@ -96,6 +97,7 @@
                     let treatment = cases[i].children[7].firstChild.textContent.split(',')[0];
 
                     // let queryPlace = 'Czech Republic';
+                    let found = false;
                     if(place.toString().localeCompare('N/A') && place.toString().localeCompare('Praha') ||
                         (treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace\n'))){
                         let queryPlace = place+', '+region;
@@ -103,16 +105,15 @@
                             queryPlace = treatment+', '+region;
                         }
 
-                        let found = false;
-                        for(let j = 0; j<placesCor.length;j++){
-                            if(placesCor[j][0] === queryPlace){
-                                placesCor[j][1]+=countOfCases;
+                        for(let j = 0; j<placesToPrint.length;j++){
+                            if(placesToPrint[j][0] === queryPlace){
+                                placesToPrint[j][1]+=countOfCases;
                                 found = true;
                                 break;
                             }
                         }
                         if(!found){
-                            placesCor.push([queryPlace, 1])
+                            placesToPrint.push([queryPlace, 1])
                         }
                     }
 
@@ -133,34 +134,71 @@
                 }
                 }).then(data => {
                     let k = 0;
-                    placesCor.forEach(place => {
+                    placesToPrint.forEach(place => {
                         setTimeout(k*5);
                         k++;
-                        let request = {
-                            query: place[0],
-                            fields: ['name', 'geometry'],
-                        };
 
-                        let success = false;
-                        tries = 0;
+                        let data = new FormData();
+                        data.append('type','findPlace');
+                        data.append('searchName',place[0]);
+                        fetch('http://coronavirusmap.test/api.php', {
+                            method: 'post',
+                            body: data,
+                            origin: 'http://coronavirusmap.test'
+                        }).then(response => response.json()).then(response => {
+                            if(response[0] === 1 && response[1] !== null){
+                                let latitude = JSON.parse(response[1]['location'])[0];
+                                let longtitude = JSON.parse(response[1]['location'])[1];
+                                let name = response[1]['name'];
+                                let latlng = {lat: latitude, lng: longtitude};
+                                console.log(place[0] + "   " + name);
+                                createMarkerLatlng(latlng, name, place[1]);
+                            } else {
+                                let request = {
+                                    query: place[0],
+                                    fields: ['name', 'geometry'],
+                                };
 
-                        let intr = setInterval(function() {
-                            service.findPlaceFromQuery(request, function(results, status) {
-                                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                                    if(results.length){
-                                        createMarker(results[0], place[1]);
-                                    }
-                                    success = true;
-                                    clearInterval(intr);
-                                } else {
-                                    console.log(status);
-                                    console.log("FUCK");
-                                }
-                            });
-                            tries++;
+                                let success = false;
+                                let tries = 0;
 
-                            if (success || (tries > 3)) clearInterval(intr);
-                        }, 1000);
+                                let intr = setInterval(function() {
+                                    service.findPlaceFromQuery(request, function(results, status) {
+                                        if (status === google.maps.places.PlacesServiceStatus.OK) {
+                                            if(results.length){
+                                                let foundPlace = results[0];
+
+                                                let latlng = [];
+                                                latlng.push(foundPlace['geometry']['location'].lat());
+                                                latlng.push(foundPlace['geometry']['location'].lng());
+                                                let data = new FormData();
+                                                data.append('type','insertPlace');
+                                                data.append('name',foundPlace['name']);
+                                                data.append('searchName',place[0]);
+                                                data.append('location',JSON.stringify(latlng));
+                                                fetch('http://coronavirusmap.test/api.php', {
+                                                    method: 'post',
+                                                    body: data,
+                                                    origin: 'http://coronavirusmap.test'
+                                                }).then(response => response.json()).then(response => {console.log(response)});
+
+                                                createMarkerGplace(results[0], place[1]);
+                                            }
+                                            success = true;
+                                            clearInterval(intr);
+                                        } else {
+                                            console.log(status);
+                                            console.log("FUCK");
+                                        }
+                                    });
+                                    tries++;
+
+                                    if (success || (tries > 3)) clearInterval(intr);
+                                }, 1000);
+                            }
+                        });
+
+
                         console.log(place[0]+' '+place[1]);
                     });
                     // Define the LatLng coordinates for the polygon.
@@ -209,7 +247,17 @@
 
         }
 
-        function createMarker(place, text) {
+        function createMarkerLatlng(latlng, name, text) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: latlng
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(name+'<br/>Počet nakažených: '+text);
+                infowindow.open(map, this);
+            });
+        }function createMarkerGplace(place, text) {
             var marker = new google.maps.Marker({
                 map: map,
                 position: place.geometry.location
