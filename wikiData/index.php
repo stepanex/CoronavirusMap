@@ -4,11 +4,11 @@ $lastRevisionId = json_decode(file_get_contents($getLastRevisionUrl), true)['que
 if(file_exists('./cache') && file_exists('./cacheId') && strval($lastRevisionId) == file_get_contents('./cacheId')){
     echo file_get_contents('./cache');
 }else{
-    $wiki1 =  file_get_contents("https://en.wikipedia.org/w/api.php?action=parse&prop=text&prop=sections&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json");
+    $wiki1 =  file_get_contents("https://cs.wikipedia.org/w/api.php?action=parse&prop=text&prop=sections&page=Epidemie_koronaviru_SARS-CoV-2_v_Česku&format=json");
     $wiki1Json = json_decode($wiki1, true);
     $sectionNumber = -1;
     foreach ($wiki1Json['parse']['sections'] as $section) {
-        if($section['line'] == 'Cases'){
+        if($section['line'] == 'Případy'){
             $sectionNumber = $section['index'];
             break;
         }
@@ -18,7 +18,7 @@ if(file_exists('./cache') && file_exists('./cacheId') && strval($lastRevisionId)
         exit();
     }
 
-    $newUrl = 'https://en.wikipedia.org/w/api.php?action=parse&section='.strval($sectionNumber).'&prop=text&page=2020_coronavirus_outbreak_in_the_Czech_Republic&format=json';
+    $newUrl = 'https://cs.wikipedia.org/w/api.php?action=parse&section='.strval($sectionNumber).'&prop=text&page=Epidemie_koronaviru_SARS-CoV-2_v_Česku&format=json';
     $wiki2 = file_get_contents($newUrl);
     $wiki2Json = json_decode($wiki2, true);
     echo $wiki2;

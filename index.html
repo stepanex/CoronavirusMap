@@ -63,10 +63,10 @@
 
             service = new google.maps.places.PlacesService(map);
             var placesCor = [];
-            var regionsCor = [['Prague',0],['Hradec Králové Region', 0],['Karlovy Vary Region',0],
-                ['Liberec Region',0],['Moravian-Silesian Region',0],['Olomouc Region',0],['Pardubice Region',0],
-                ['Plzeň Region',0],['Central Bohemian Region', 0],['South Bohemian Region',0],
-                ['South Moravian Region',0],['Ústí nad Labem Region',0],['Vysočina Region',0],['Zlín Region',0]];
+            var regionsCor = [['Praha',0],['Královéhradecký kraj', 0],['Karlovarský kraj',0],
+                ['Liberecký kraj',0],['Moravskoslezský kraj',0],['Olomoucký kraj',0],['Pardubický kraj',0],
+                ['Plzeňský kraj',0],['Středočeský kraj', 0],['Jihočeský kraj',0],
+                ['Jihomoravský kraj',0],['Ústecký kraj',0],['Kraj Vysočina',0],['Zlínský kraj',0]];
             console.log('loading wiki');
             fetch('/wikiData/').then(data => data.json()).then(data =>{
                 console.log('loaded');
@@ -80,7 +80,7 @@
                 for(let i = 2; i < cases.length;i+=2){
 
                     let state = cases[i].children[2].firstChild.textContent;
-                    if(!state.toString().localeCompare('Confirmed')){
+                    if(state.toString().localeCompare('nepotvrzeno\n')===0){
                         continue;
                     }
 
@@ -89,9 +89,9 @@
                     let treatment = cases[i].children[7].firstChild.textContent.split(',')[0];
 
                     // let queryPlace = 'Czech Republic';
-                    if(place.toString().localeCompare('N/A\n')){
+                    if(place.toString().localeCompare('N/A')){
                         let queryPlace = place+', '+region;
-                        if(treatment.toString().localeCompare('N/A\n') && treatment.toString().localeCompare('Home isolation\n')){
+                        if(treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace\n')){
                             queryPlace = treatment+', '+region;
                         }
 
@@ -108,17 +108,19 @@
                         }
                     }
 
-                    found = false;
-                    for(let j = 0; j<regionsCor.length;j++){
-                        if(regionsCor[j][0] === region){
-                            regionsCor[j][1] += 1;
-                            found = true;
-                            break;
+                    if(region.toString().localeCompare('N/A')){
+                        found = false;
+                        for(let j = 0; j<regionsCor.length;j++){
+                            if(regionsCor[j][0] === region){
+                                regionsCor[j][1] += 1;
+                                found = true;
+                                break;
+                            }
                         }
-                    }
-                    if(!found && !region.toString().localeCompare('N/A')){
-                        console.log(region);
-                        console.log('FUCK#1');
+                        if(!found){
+                            console.log(region);
+                            console.log('FUCK#1');
+                        }
                     }
                 }
                 }).then(data => {
