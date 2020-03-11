@@ -1,6 +1,6 @@
 <?php
-$getLastRevisionUrl = 'https://en.wikipedia.org/w/api.php?action=query&prop=revisions&pageids=63272856&rvlimit=1&rvprop=ids&format=json';
-$lastRevisionId = json_decode(file_get_contents($getLastRevisionUrl), true)['query']['pages']['63272856']['revisions'][0]['revid'];
+$getLastRevisionUrl = 'https://cs.wikipedia.org/w/api.php?action=query&prop=revisions&pageids=1570967&rvlimit=1&rvprop=ids&format=json';
+$lastRevisionId = json_decode(file_get_contents($getLastRevisionUrl), true)['query']['pages']['1570967']['revisions'][0]['revid'];
 if(file_exists('./cache') && file_exists('./cacheId') && strval($lastRevisionId) == file_get_contents('./cacheId')){
     echo file_get_contents('./cache');
 }else{
