@@ -63,7 +63,6 @@
 
             service = new google.maps.places.PlacesService(map);
             var placesToPrint = [];
-            var placesCached = [];
             var regionsCor = [['Praha',0],['Královéhradecký kraj', 0],['Karlovarský kraj',0],
                 ['Liberecký kraj',0],['Moravskoslezský kraj',0],['Olomoucký kraj',0],['Pardubický kraj',0],
                 ['Plzeňský kraj',0],['Středočeský kraj', 0],['Jihočeský kraj',0],
@@ -92,17 +91,18 @@
                         countOfCases = parseInt(caseNumberSplitted[1]) - parseInt(caseNumberSplitted[0]) + 1;
                     }
 
-                    let place = cases[i].children[5].firstChild.textContent;
-                    let region = cases[i].children[6].firstChild.textContent;
-                    let treatment = cases[i].children[7].firstChild.textContent.split(',')[0];
+                    let place = cases[i].children[5].firstChild.textContent.split(',')[0].split(['\n'])[0];
+                    let region = cases[i].children[6].firstChild.textContent.split(',')[0].split(['\n'])[0];
+                    let treatment = cases[i].children[7].firstChild.textContent.split(',')[0].split(['\n'])[0];
 
-                    // let queryPlace = 'Czech Republic';
                     let found = false;
+                    let queryPlace = '';
                     if(place.toString().localeCompare('N/A') && place.toString().localeCompare('Praha') ||
-                        (treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace\n'))){
-                        let queryPlace = place+', '+region;
-                        if(treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace\n')){
-                            queryPlace = treatment+', '+region;
+                        (treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace'))){
+                        if(treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace')){
+                            queryPlace = treatment;
+                        } else {
+                            queryPlace = place;
                         }
 
                         for(let j = 0; j<placesToPrint.length;j++){
@@ -151,7 +151,6 @@
                                 let longtitude = JSON.parse(response[1]['location'])[1];
                                 let name = response[1]['name'];
                                 let latlng = {lat: latitude, lng: longtitude};
-                                console.log(place[0] + "   " + name);
                                 createMarkerLatlng(latlng, name, place[1]);
                             } else {
                                 let request = {
