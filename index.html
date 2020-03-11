@@ -74,8 +74,16 @@
                 var htmlDom = new DOMParser().parseFromString(html, "text/xml");
 
                 var cases = htmlDom.getElementsByClassName('wikitable')[0].children[0].children;
-                var numberOfCasesSplitted = cases[cases.length-2].children[0].firstChild.textContent.split('-');
-                var numberOfCases = numberOfCasesSplitted[numberOfCasesSplitted.length-1];
+                var numberOfCasesOrigin = cases[cases.length-2].children[0].firstChild.textContent;
+                var numberOfCases = '0';
+                if(numberOfCasesOrigin.includes('–')){
+                    let numberOfCasesSplitted = numberOfCasesOrigin.split('–');
+                    numberOfCases = numberOfCasesSplitted[numberOfCasesSplitted.length-1];
+                }
+                else if(numberOfCasesOrigin.includes('-')){
+                    let numberOfCasesSplitted = numberOfCasesOrigin.split('-');
+                    numberOfCases = numberOfCasesSplitted[numberOfCasesSplitted.length-1];
+                }
                 document.getElementsByName('info')[0].innerText='Počet nakažených: '+ numberOfCases;
                 for(let i = 2; i < cases.length;i+=2){
 
@@ -88,6 +96,10 @@
                     let countOfCases = 1;
                     if(caseNumber.includes('–')){
                         let caseNumberSplitted = caseNumber.split('–');
+                        countOfCases = parseInt(caseNumberSplitted[1]) - parseInt(caseNumberSplitted[0]) + 1;
+                    }
+                    else if(caseNumber.includes('-')){
+                        let caseNumberSplitted = caseNumber.split('-');
                         countOfCases = parseInt(caseNumberSplitted[1]) - parseInt(caseNumberSplitted[0]) + 1;
                     }
 
@@ -142,7 +154,7 @@
                         data.append('type','findPlace');
                         data.append('searchName',place[0]);
                         var origin = 'http://koronamap.cz';
-                        fetch('http://koronamap.cz/api.php', {
+                        fetch('/api.php', {
                             method: 'post',
                             body: data,
                             origin: origin
@@ -176,7 +188,7 @@
                                                 data.append('name',foundPlace['name']);
                                                 data.append('searchName',place[0]);
                                                 data.append('location',JSON.stringify(latlng));
-                                                fetch('http://koronamap.cz/api.php', {
+                                                fetch('/api.php', {
                                                     method: 'post',
                                                     body: data,
                                                     origin: origin
