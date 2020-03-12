@@ -32,6 +32,7 @@
             margin: 22px 10px;
             background-color: white;
             border: 1px solid black;
+            font-size: 11px;
         }
         .color{
             height: 13px;
@@ -40,10 +41,9 @@
             vertical-align: middle;
         }
         .colorContainer{
-            font-size: 11px;
             text-align: left;
             padding: 1px 0;
-            height: 13px;
+            height: fit-content;
         }
         .colorText{
             display: inline-block;
@@ -84,19 +84,38 @@
         var numberOfCases = '0';
 
         document.addEventListener("DOMContentLoaded", function(event) {
-            document.getElementById('color01').style.backgroundColor = color01;
-            document.getElementById('color02').style.backgroundColor = color02;
-            document.getElementById('color03').style.backgroundColor = color03;
-            document.getElementById('color04').style.backgroundColor = color04;
-            document.getElementById('color05').style.backgroundColor = color05;
-            document.getElementById('color06').style.backgroundColor = color06;
+            let color01Elem = document.getElementById('color01');
+            let color02Elem = document.getElementById('color02');
+            let color03Elem = document.getElementById('color03');
+            let color04Elem = document.getElementById('color04');
+            let color05Elem = document.getElementById('color05');
+            let color06Elem = document.getElementById('color06');
+            color01Elem.style.backgroundColor = color01;
+            color02Elem.style.backgroundColor = color02;
+            color03Elem.style.backgroundColor = color03;
+            color04Elem.style.backgroundColor = color04;
+            color05Elem.style.backgroundColor = color05;
+            color06Elem.style.backgroundColor = color06;
+            if(window.innerWidth > 500){
+                color01Elem.style.height = '15px';
+                color01Elem.style.width = '15px';
+                color02Elem.style.height = '15px';
+                color02Elem.style.width = '15px';
+                color03Elem.style.height = '15px';
+                color03Elem.style.width = '15px';
+                color04Elem.style.height = '15px';
+                color04Elem.style.width = '15px';
+                color05Elem.style.height = '15px';
+                color05Elem.style.width = '15px';
+                color06Elem.style.height = '15px';
+                color06Elem.style.width = '15px';
+            }
             let intr = setInterval(function() {
                if(numberOfCases !== '0'){
                    document.getElementById('count').innerText='Počet nakažených: '+ numberOfCases;
                    clearInterval(intr);
                }
             },500);
-            map.loaded
         });
 
 
@@ -117,7 +136,17 @@
 
             google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
                 setTimeout(() => {
-                    document.getElementById('colors').style.display='block';
+                    var legend = document.getElementById('colors');
+                    if(window.innerWidth < 500){
+                        legend.style.marginBottom = '-2px';
+                    } else {
+                        legend.style.marginBottom = '-163px';
+                        legend.style.marginRight = '63px';
+                        legend.style.marginBottom = '-163px';
+                        legend.style.fontSize = '13px';
+                        legend.style.padding = '5px';
+                    }
+                    legend.style.display='block';
                     }, 500);
             });
 
@@ -125,7 +154,6 @@
             var anchor = google.maps.ControlPosition.RIGHT_BOTTOM;
             if(window.innerWidth < 500){
                 anchor = google.maps.ControlPosition.LEFT_BOTTOM;
-                legend.style.marginBottom = '-2px';
             }
             map.controls[anchor].push(legend);
 
@@ -288,17 +316,17 @@
                     for(let k = 1; k<15; k++){
                         fetch('./regionPolygons/area'+String("0" + k).slice(-2)+'.txt').then(data => data.json()).then(data =>{
 
-                            let percent = ((regionsCor[k-1][1])/regionsPopulation[k-1][1])*100;
+                            let regionCount = regionsCor[k-1][1];
                             let color = color_white;
-                            if(regionsCor[k-1][1]<1){
+                            if(regionCount<1){
                                 color = color01;
-                            } else if(percent < 0.001){
+                            } else if(regionCount < 10){
                                 color = color02;
-                            } else if(percent < 0.01){
+                            } else if(regionCount < 100){
                                 color = color03;
-                            } else if(percent < 0.03){
+                            } else if(regionCount < 250){
                                 color = color04;
-                            } else if(percent < 0.07){
+                            } else if(regionCount < 500){
                                 color = color05;
                             } else {
                                 color = color06;
@@ -385,27 +413,27 @@
             </div>
             <div class="colorContainer">
                 <div class="color" id="color01"></div>
-                <div class="colorText">< 0.001%</div>
+                <div class="colorText">0</div>
             </div>
             <div class="colorContainer">
                 <div class="color" id="color02"></div>
-                <div class="colorText">0 - 0.001%</div>
+                <div class="colorText">0 - 10</div>
             </div>
             <div class="colorContainer">
                 <div class="color" id="color03"></div>
-                <div class="colorText">0.001% - 0.01%</div>
+                <div class="colorText">10 - 100</div>
             </div>
             <div class="colorContainer">
                 <div class="color" id="color04"></div>
-                <div class="colorText">0.01% - 0.03%</div>
+                <div class="colorText">100 - 250</div>
             </div>
             <div class="colorContainer">
                 <div class="color" id="color05"></div>
-                <div class="colorText">0.03% - 0.07%</div>
+                <div class="colorText">250 - 500</div>
             </div>
             <div class="colorContainer">
                 <div class="color" id="color06"></div>
-                <div class="colorText">0.007 < </div>
+                <div class="colorText">500 < </div>
             </div>
         </div>
     </div>
