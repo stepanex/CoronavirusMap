@@ -174,7 +174,16 @@
         .casesCasesContainer{
             display: inline-block;
         }
-        @media screen and (max-width: 500px){
+        @media screen and (max-width: 850px){
+
+            .casesCasesContainer{
+                display: block;
+            }
+            .deadContainer {
+                margin-left: 0px;
+            }
+        }
+        @media screen and (max-width: 550px){
             .casesCasesContainer{
                 display: block;
             }
@@ -233,28 +242,33 @@
         }
 
         .footer{
-            height: 19px;
-            width: 70%;
-            margin: 2px 10% 2px;
-            font-size: 13px;
             position: fixed;
-            bottom: 0;
+            z-index: 10;
+            bottom: 5px;
             color: white;
+            font-size: 13px;
         }
         .footer_left{
-            display: inline-block;
-            float: left;
+            left: 31px;
         }
         .footer_right{
-            display: inline-block;
-            float: right;
+            right: 215px;
         }
-        @media screen and (max-width: 500px){
-            .footer{
-                height: 15px;
-                width: 70%;
-                margin: 3px 10% 1px;
+        @media screen and (max-width: 600px){
+         .footer{
+            font-size: 12px;
+         }
+        }
+        @media screen and (max-width: 550px){
+            .footer {
                 font-size: 10px;
+                bottom: 2px;
+            }
+            .footer_left{
+                left: 12px;
+            }
+            .footer_right{
+                right: 65px;
             }
         }
 
@@ -570,7 +584,7 @@
             google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
                 setTimeout(() => {
                     var legend = document.getElementById('colors');
-                    if(window.innerWidth < 500){
+                    if(window.innerWidth < 550){
                         legend.style.marginBottom = '-2px';
                     } else {
                         legend.style.marginRight = '63px';
@@ -583,7 +597,7 @@
 
             var legend = document.getElementById('colors');
             var anchor = google.maps.ControlPosition.RIGHT_BOTTOM;
-            if(window.innerWidth < 500){
+            if(window.innerWidth < 550){
                 anchor = google.maps.ControlPosition.RIGHT_TOP;
             }
             map.controls[anchor].push(legend);
@@ -638,7 +652,7 @@
 
                     let found = false;
 
-                    if(window.innerWidth > 500){
+                    if(window.innerWidth > 550){
                         let queryPlace = '';
                         if(place.toString().localeCompare('N/A') && place.toString().localeCompare('Praha') ||
                             (treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace'))){
@@ -677,7 +691,7 @@
                     }
                 }
                 }).then(data => {
-                    if(window.innerWidth > 500){
+                    if(window.innerWidth > 550){
                         let k = 0;
                         placesToPrint.forEach(place => {
                             setTimeout(k*5);
@@ -924,8 +938,7 @@
     </div>
 </div>
 <div id="map"></div>
-<div class="footer" id="footer">
-    <div class="footer_left">© 2020
+    <div class="footer footer_left">© 2020
         <a href="mailto:stepan.strba@gmail.com">
             Štěpán Štrba,
         </a>
@@ -934,10 +947,9 @@
             David Duong
         </a>
     </div>
-    <div class="footer_right">
+    <div class="footer footer_right">
         <a href="https://cs.wikipedia.org/wiki/Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku">Zdroj dat</a>
     </div>
-</div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjOMAwQy-SKsAykvXtd3Q2HBsIkEzyvI0&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
