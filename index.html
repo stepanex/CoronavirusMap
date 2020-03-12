@@ -24,6 +24,34 @@
             display: table-cell;
             vertical-align: middle;
         }
+        #colors{
+            display: none;
+            width: fit-content;
+            height: fit-content;
+            padding: 5px;
+            margin-right: 10px;
+            margin-bottom: 22px;
+            background-color: white;
+            border: 1px solid black;
+        }
+        .color{
+            height: 13px;
+            width: 13px;
+            display: inline-block;
+        }
+        .colorDiv{
+            font-size: 11px;
+            text-align: left;
+        }
+        .colorText{
+            display: inline-block;
+            width: fit-content;
+            margin-left: 2px;
+        }
+        .colorTitle{
+            text-align: center;
+            margin-bottom: 4px;
+        }
         /* Optional: Makes the sample page fill the window. */
         html, body {
             height: 100%;
@@ -45,21 +73,29 @@
         var color_white = '#ffffff';
 
         var color01 = '#0f9246';
-        var color001 = '#7dbb42';
-        var color02 = '#ffbf00';
-        var color03 = '#f68e1f';
-        var color04 = '#ef4723';
-        var color05 = '#bc2026';
+        var color02 = '#7dbb42';
+        var color03 = '#ffbf00';
+        var color04 = '#f68e1f';
+        var color05 = '#ef4723';
+        var color06 = '#bc2026';
         var numberOfCases = '0';
 
         document.addEventListener("DOMContentLoaded", function(event) {
+            document.getElementById('color01').style.backgroundColor = color01;
+            document.getElementById('color02').style.backgroundColor = color02;
+            document.getElementById('color03').style.backgroundColor = color03;
+            document.getElementById('color04').style.backgroundColor = color04;
+            document.getElementById('color05').style.backgroundColor = color05;
+            document.getElementById('color06').style.backgroundColor = color06;
             let intr = setInterval(function() {
                if(numberOfCases !== '0'){
                    document.getElementById('count').innerText='Počet nakažených: '+ numberOfCases;
                    clearInterval(intr);
                }
             },500);
+            map.loaded
         });
+
 
         function initMap() {
 
@@ -75,6 +111,15 @@
 
             map = new google.maps.Map(
                 document.getElementById('map'), {center: sydney, zoom: zoom});
+
+            google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+                setTimeout(() => {
+                    document.getElementById('colors').style.display='block';
+                    }, 500);
+            });
+
+            var legend = document.getElementById('colors');
+            map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 
             service = new google.maps.places.PlacesService(map);
             var placesToPrint = [];
@@ -240,15 +285,15 @@
                             if(regionsCor[k-1][1]<1){
                                 color = color01;
                             } else if(percent < 0.001){
-                                color = color001;
-                            } else if(percent < 0.01){
                                 color = color02;
-                            } else if(percent < 0.03){
+                            } else if(percent < 0.01){
                                 color = color03;
-                            } else if(percent < 0.07){
+                            } else if(percent < 0.03){
                                 color = color04;
-                            } else {
+                            } else if(percent < 0.07){
                                 color = color05;
+                            } else {
+                                color = color06;
                             }
 
                             if(k===1){
@@ -323,7 +368,39 @@
 </head>
 <body>
 <div id="info">
-    <div id="count">Načítání...</div>
+    <div>
+        <div id="count">Načítání...</div>
+        <div id="colors">
+            <div class="colorTitle">
+                Procento nakažených lidí<br/>
+                (vůči regionu)
+            </div>
+            <div class="colorDiv">
+                <div class="color" id="color01"></div>
+                <div class="colorText">< 0.001%</div>
+            </div>
+            <div class="colorDiv">
+                <div class="color" id="color02"></div>
+                <div class="colorText">0 - 0.001%</div>
+            </div>
+            <div class="colorDiv">
+                <div class="color" id="color03"></div>
+                <div class="colorText">0.001% - 0.01%</div>
+            </div>
+            <div class="colorDiv">
+                <div class="color" id="color04"></div>
+                <div class="colorText">0.01% - 0.03%</div>
+            </div>
+            <div class="colorDiv">
+                <div class="color" id="color05"></div>
+                <div class="colorText">0.03% - 0.07%</div>
+            </div>
+            <div class="colorDiv">
+                <div class="color" id="color06"></div>
+                <div class="colorText">0.007 < </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div id="map"></div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjOMAwQy-SKsAykvXtd3Q2HBsIkEzyvI0&libraries=places&callback=initMap" async defer></script>
