@@ -10,7 +10,7 @@
 
         gtag('config', 'UA-160373551-1');
     </script>
-    <title>Coronavirus in Czech Republic</title>
+    <title>Mapa koronaviru v České Republice</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 	<meta name="description" content="Coronavirus in Czech Republic">
@@ -61,6 +61,12 @@
         @media screen and (max-width: 500px){
             #footer{
                 vertical-align: middle;
+            }
+            #map{
+                height: 77%;
+            }
+            #info{
+                height: 20%;
             }
         }
         a.footer_email{
@@ -139,7 +145,7 @@
         var color04 = '#f68e1f';
         var color05 = '#ef4723';
         var color06 = '#bc2026';
-        var numberOfCases = '0';
+        var infectedCount = '0';
 
         document.addEventListener("DOMContentLoaded", function(event) {
             let color01Elem = document.getElementById('color01');
@@ -168,13 +174,22 @@
                 color06Elem.style.height = '15px';
                 color06Elem.style.width = '15px';
             }
-            let intr = setInterval(function() {
-               if(numberOfCases !== '0'){
-                   document.getElementById('count').innerText='Počet nakažených: '+ numberOfCases;
-                   clearInterval(intr);
-               }
-            },500);
         });
+
+        function printInfo(infected, dead, recovered) {
+            let text = '';
+            text+='Nakažení: '+ infected;
+            if(dead !==null){
+                text+='<br/>Úmrtí: '+ dead;
+            }
+            if(recovered !==null){
+                text+='<br/>Zotavení: '+ recovered;
+            }
+            if(dead !==null || recovered !== null){
+                document.getElementById('count').style.fontSize = '22px';
+            }
+            document.getElementById('count').innerHTML=text;
+        }
 
 
         function initMap() {
@@ -235,11 +250,11 @@
                 var numberOfCasesOrigin = cases[cases.length-2].children[0].firstChild.textContent;
                 if(numberOfCasesOrigin.includes('–')){
                     let numberOfCasesSplitted = numberOfCasesOrigin.split('–');
-                    numberOfCases = numberOfCasesSplitted[numberOfCasesSplitted.length-1];
+                    infectedCount = numberOfCasesSplitted[numberOfCasesSplitted.length-1];
                 }
                 else if(numberOfCasesOrigin.includes('-')){
                     let numberOfCasesSplitted = numberOfCasesOrigin.split('-');
-                    numberOfCases = numberOfCasesSplitted[numberOfCasesSplitted.length-1];
+                    infectedCount = numberOfCasesSplitted[numberOfCasesSplitted.length-1];
                 }
                 for(let i = 2; i < cases.length;i+=2){
 
@@ -370,7 +385,19 @@
                         console.log(place[0]+' '+place[1]);
                     });
                     // Define the LatLng coordinates for the polygon.
-                    fetch('/wikiData/regions.php').then(regionCorCount => regionCorCount.json()).then(regionCorCount =>{
+                        fetch('/wikiData/regions.php').then(regionCorCount => regionCorCount.json()).then(regionCorCount =>{
+                            let deadCount = null;
+                            let recoveredCount = null;
+                            if(regionCorCount['infected']!==null && regionCorCount['infected'] > infectedCount){
+                                infectedCount = regionCorCount['infected'];
+                            }
+                            if(regionCorCount['dead']!==null){
+                                deadCount = regionCorCount['dead'];
+                            }
+                            if(regionCorCount['recovered']!==null){
+                                recoveredCount = regionCorCount['recovered'];
+                            }
+                            printInfo(infectedCount, deadCount, recoveredCount);
                         var prague = [];
                         for(let k = 1; k<15; k++){
                             fetch('./regionPolygons/area'+String("0" + k).slice(-2)+'.txt').then(data => data.json()).then(data =>{
