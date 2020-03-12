@@ -277,24 +277,27 @@
                     let treatment = cases[i].children[7].firstChild.textContent.split(',')[0].split(['\n'])[0];
 
                     let found = false;
-                    let queryPlace = '';
-                    if(place.toString().localeCompare('N/A') && place.toString().localeCompare('Praha') ||
-                        (treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace'))){
-                        if(treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace')){
-                            queryPlace = treatment;
-                        } else {
-                            queryPlace = place;
-                        }
 
-                        for(let j = 0; j<placesToPrint.length;j++){
-                            if(placesToPrint[j][0] === queryPlace){
-                                placesToPrint[j][1]+=countOfCases;
-                                found = true;
-                                break;
+                    if(window.innerWidth > 500){
+                        let queryPlace = '';
+                        if(place.toString().localeCompare('N/A') && place.toString().localeCompare('Praha') ||
+                            (treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace'))){
+                            if(treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace')){
+                                queryPlace = treatment;
+                            } else {
+                                queryPlace = place;
                             }
-                        }
-                        if(!found){
-                            placesToPrint.push([queryPlace, 1])
+
+                            for(let j = 0; j<placesToPrint.length;j++){
+                                if(placesToPrint[j][0] === queryPlace){
+                                    placesToPrint[j][1]+=countOfCases;
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if(!found){
+                                placesToPrint.push([queryPlace, 1])
+                            }
                         }
                     }
 
@@ -314,94 +317,93 @@
                     }
                 }
                 }).then(data => {
-                    let k = 0;
-                    placesToPrint.forEach(place => {
-                        setTimeout(k*5);
-                        k++;
+                    if(window.innerWidth > 500){
+                        let k = 0;
+                        placesToPrint.forEach(place => {
+                            setTimeout(k*5);
+                            k++;
 
-                        let data = new FormData();
-                        data.append('type','findPlace');
-                        data.append('searchName',place[0]);
-                        var origin = 'http://koronamap.cz';
-                        fetch('/api.php', {
-                            method: 'post',
-                            body: data,
-                            origin: origin
-                        }).then(response => response.json()).then(response => {
-                            if(response[0] === 1 && response[1] !== null){
-                                let latitude = JSON.parse(response[1]['location'])[0];
-                                let longtitude = JSON.parse(response[1]['location'])[1];
-                                let name = response[1]['name'];
-                                let latlng = {lat: latitude, lng: longtitude};
-                                createMarkerLatlng(latlng, name, place[1]);
-                            } else {
-                                let request = {
-                                    query: place[0],
-                                    fields: ['name', 'geometry'],
-                                };
+                            let data = new FormData();
+                            data.append('type','findPlace');
+                            data.append('searchName',place[0]);
+                            var origin = 'http://koronamap.cz';
+                            fetch('/api.php', {
+                                method: 'post',
+                                body: data,
+                                origin: origin
+                            }).then(response => response.json()).then(response => {
+                                if(response[0] === 1 && response[1] !== null){
+                                    let latitude = JSON.parse(response[1]['location'])[0];
+                                    let longtitude = JSON.parse(response[1]['location'])[1];
+                                    let name = response[1]['name'];
+                                    let latlng = {lat: latitude, lng: longtitude};
+                                    createMarkerLatlng(latlng, name, place[1]);
+                                } else {
+                                    let request = {
+                                        query: place[0],
+                                        fields: ['name', 'geometry'],
+                                    };
 
-                                let success = false;
-                                let tries = 0;
+                                    let success = false;
+                                    let tries = 0;
 
-                                let intr = setInterval(function() {
-                                    service.findPlaceFromQuery(request, function(results, status) {
-                                        if (status === google.maps.places.PlacesServiceStatus.OK) {
-                                            if(results.length){
-                                                let foundPlace = results[0];
+                                    let intr = setInterval(function() {
+                                        service.findPlaceFromQuery(request, function(results, status) {
+                                            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                                                if(results.length){
+                                                    let foundPlace = results[0];
 
-                                                let latlng = [];
-                                                latlng.push(foundPlace['geometry']['location'].lat());
-                                                latlng.push(foundPlace['geometry']['location'].lng());
-                                                let data = new FormData();
-                                                data.append('type','insertPlace');
-                                                data.append('name',foundPlace['name']);
-                                                data.append('searchName',place[0]);
-                                                data.append('location',JSON.stringify(latlng));
-                                                fetch('/api.php', {
-                                                    method: 'post',
-                                                    body: data,
-                                                    origin: origin
-                                                }).then(response => response.json()).then(response => {console.log(response)});
+                                                    let latlng = [];
+                                                    latlng.push(foundPlace['geometry']['location'].lat());
+                                                    latlng.push(foundPlace['geometry']['location'].lng());
+                                                    let data = new FormData();
+                                                    data.append('type','insertPlace');
+                                                    data.append('name',foundPlace['name']);
+                                                    data.append('searchName',place[0]);
+                                                    data.append('location',JSON.stringify(latlng));
+                                                    fetch('/api.php', {
+                                                        method: 'post',
+                                                        body: data,
+                                                        origin: origin
+                                                    }).then(response => response.json()).then(response => {console.log(response)});
 
-                                                createMarkerGplace(results[0], place[1]);
+                                                    createMarkerGplace(results[0], place[1]);
+                                                }
+                                                success = true;
+                                                clearInterval(intr);
+                                            } else {
+                                                console.log(status);
+                                                console.log("FUCK");
                                             }
-                                            success = true;
-                                            clearInterval(intr);
-                                        } else {
-                                            console.log(status);
-                                            console.log("FUCK");
-                                        }
-                                    });
-                                    tries++;
+                                        });
+                                        tries++;
 
-                                    if (success || (tries > 3)) clearInterval(intr);
-                                }, 1000);
-                            }
+                                        if (success || (tries > 3)) clearInterval(intr);
+                                    }, 1000);
+                                }
+                            });
+                            console.log(place[0]+' '+place[1]);
                         });
-
-
-                        console.log(place[0]+' '+place[1]);
-                    });
-                    // Define the LatLng coordinates for the polygon.
-                        fetch('/wikiData/regions.php').then(regionCorCount => regionCorCount.json()).then(regionCorCount =>{
-                            let deadCount = null;
-                            let recoveredCount = null;
-                            if(regionCorCount['infected']!==null && regionCorCount['infected'] > infectedCount){
-                                infectedCount = regionCorCount['infected'];
-                            }
-                            if(regionCorCount['dead']!==null){
-                                deadCount = regionCorCount['dead'];
-                            }
-                            if(regionCorCount['recovered']!==null){
-                                recoveredCount = regionCorCount['recovered'];
-                            }
+                    }
+                    fetch('/wikiData/regions.php').then(regionCorCount => regionCorCount.json()).then(regionCorCount =>{
+                        let deadCount = null;
+                        let recoveredCount = null;
+                        if(regionCorCount['infected']!==null && regionCorCount['infected'] > infectedCount){
+                            infectedCount = regionCorCount['infected'];
+                        }
+                        if(regionCorCount['dead']!==null){
+                            deadCount = regionCorCount['dead'];
+                        }
+                        if(regionCorCount['recovered']!==null){
+                            recoveredCount = regionCorCount['recovered'];
+                        }
                             printInfo(infectedCount, deadCount, recoveredCount);
                         var prague = [];
-                        for(let k = 1; k<15; k++){
-                            fetch('./regionPolygons/area'+String("0" + k).slice(-2)+'.txt').then(data => data.json()).then(data =>{
-                                let regionCount = regionsCor[k-1][1];
-                                if(regionCorCount[regionsCor[k-1][0]]!==null && regionCorCount[regionsCor[k-1][0]] > regionsCor[k-1][1]){
-                                    regionCount = regionCorCount[regionsCor[k-1][0]];
+                        for(let l = 1; l<15; l++){
+                            fetch('./regionPolygons/area'+String("0" + l).slice(-2)+'.txt').then(data => data.json()).then(data =>{
+                                let regionCount = regionsCor[l-1][1];
+                                if(regionCorCount[regionsCor[l-1][0]]!==null && regionCorCount[regionsCor[l-1][0]] > regionsCor[l-1][1]){
+                                    regionCount = regionCorCount[regionsCor[l-1][0]];
                                 }
                                 let color = color_white;
                                 if(regionCount<1){
@@ -418,10 +420,10 @@
                                     color = color06;
                                 }
 
-                                if(k===1){
+                                if(l===1){
                                     prague = data;
                                 }
-                                else if (k===9) {
+                                else if (l===9) {
                                     data = [data, prague.reverse()];
                                 }
 
@@ -436,7 +438,7 @@
                                 bermudaTriangle.setMap(map);
 
                                 google.maps.event.addListener(bermudaTriangle, 'click', function (event) {
-                                    infowindow.setContent(regionsCor[k - 1][0] + '<br/>Počet nakažených: ' + regionCount);
+                                    infowindow.setContent(regionsCor[l - 1][0] + '<br/>Počet nakažených: ' + regionCount);
                                     if (event) {
                                         point = event.latLng;
                                     }
