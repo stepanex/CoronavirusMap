@@ -42,10 +42,14 @@
         var map;
         var service;
         var infowindow;
-        var color_green = '#40ff00';
-        var color_orange = '#ffbf00';
-        var color_red = '#ff0000';
         var color_white = '#ffffff';
+
+        var color01 = '#0f9246';
+        var color001 = '#7dbb42';
+        var color02 = '#ffbf00';
+        var color03 = '#f68e1f';
+        var color04 = '#ef4723';
+        var color05 = '#bc2026';
 
         function initMap() {
 
@@ -68,6 +72,10 @@
                 ['Liberecký kraj',0],['Moravskoslezský kraj',0],['Olomoucký kraj',0],['Pardubický kraj',0],
                 ['Plzeňský kraj',0],['Středočeský kraj', 0],['Jihočeský kraj',0],
                 ['Jihomoravský kraj',0],['Ústecký kraj',0],['Kraj Vysočina',0],['Zlínský kraj',0]];
+            var regionsPopulation = [['Praha',1308632],['Královéhradecký kraj', 551021],['Karlovarský kraj',294896],
+                ['Liberecký kraj',442356],['Moravskoslezský kraj',1203299],['Olomoucký kraj',632492],['Pardubický kraj',520316],
+                ['Plzeňský kraj',584672],['Středočeský kraj', 1369332],['Jihočeský kraj',642133],
+                ['Jihomoravský kraj',1187667],['Ústecký kraj',820789],['Kraj Vysočina',509274],['Zlínský kraj',582921]];
             console.log('loading wiki');
             fetch('/wikiData/').then(data => data.json()).then(data =>{
                 console.log('loaded');
@@ -218,14 +226,23 @@
                     var prague = [];
                     for(let k = 1; k<15; k++){
                         fetch('./regionPolygons/area'+String("0" + k).slice(-2)+'.txt').then(data => data.json()).then(data =>{
+
+                            let percent = ((regionsCor[k-1][1])/regionsPopulation[k-1][1])*100;
                             let color = color_white;
-                            if(regionsCor[k-1][1]<5){
-                                color = color_green;
-                            } else if(regionsCor[k-1][1] < 20){
-                                color = color_orange;
+                            if(regionsCor[k-1][1]<1){
+                                color = color01;
+                            } else if(percent < 0.001){
+                                color = color001;
+                            } else if(percent < 0.01){
+                                color = color02;
+                            } else if(percent < 0.03){
+                                color = color03;
+                            } else if(percent < 0.07){
+                                color = color04;
                             } else {
-                                color = color_red;
+                                color = color05;
                             }
+
                             if(k===1){
                                 prague = data;
                             }
@@ -239,7 +256,7 @@
                                 strokeOpacity: 0.8,
                                 strokeWeight: 3,
                                 fillColor: color,
-                                fillOpacity: 0.35
+                                fillOpacity: 0.5
                             });
                             bermudaTriangle.setMap(map);
 
