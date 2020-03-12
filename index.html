@@ -180,7 +180,7 @@
             }
             .info{
                 left: 12px;
-                bottom: 2px;
+                bottom: 10px;
             }
             .infoPlaceName{
                 font-size: 20px;
@@ -232,6 +232,31 @@
             }
         }
 
+        .footer{
+            height: 19px;
+            width: 70%;
+            margin: 2px 10% 2px;
+            font-size: 13px;
+            position: fixed;
+            bottom: 0;
+            color: white;
+        }
+        .footer_left{
+            display: inline-block;
+            float: left;
+        }
+        .footer_right{
+            display: inline-block;
+            float: right;
+        }
+        @media screen and (max-width: 500px){
+            .footer{
+                height: 15px;
+                width: 70%;
+                margin: 3px 10% 1px;
+                font-size: 10px;
+            }
+        }
 
         #colors{
             display: none;
@@ -268,7 +293,8 @@
         }
         a{
             text-decoration: none;
-            color: black;
+            color: white;
+            text-shadow: 0px 0px 2px #000000;
         }
         a:hover{
             text-decoration: underline;
@@ -547,9 +573,8 @@
                     if(window.innerWidth < 500){
                         legend.style.marginBottom = '-2px';
                     } else {
-                        legend.style.marginBottom = '-163px';
                         legend.style.marginRight = '63px';
-                        legend.style.marginBottom = '-163px';
+                        legend.style.marginBottom = '-91px';
                         legend.style.fontSize = '13px';
                         legend.style.padding = '5px';
                     }
@@ -899,19 +924,19 @@
     </div>
 </div>
 <div id="map"></div>
-<!--<div id="footer">-->
-    <!--<div class="footer_left">-->
-        <!--&lt;!&ndash;<a href="mailto:stepan.strba@gmail.com" class="footer_email">stepan.strba@gmail.com</a>&ndash;&gt;-->
-    <!--</div>-->
-    <!--<div class="footer_center">-->
-        <!--<a href="mailto:stepan.strba@gmail.com">-->
-            <!--© 2020 Štěpán Štrba-->
-        <!--</a>-->
-    <!--</div>-->
-    <!--<div class="footer_right">-->
-        <!--<a href="https://cs.wikipedia.org/wiki/Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku">Zdroj dat</a>-->
-    <!--</div>-->
-<!--</div>-->
+<div class="footer" id="footer">
+    <div class="footer_left">© 2020
+        <a href="mailto:stepan.strba@gmail.com">
+            Štěpán Štrba,
+        </a>
+        <a href="mailto:david@duong.cz">
+            David Duong
+        </a>
+    </div>
+    <div class="footer_right">
+        <a href="https://cs.wikipedia.org/wiki/Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku">Zdroj dat</a>
+    </div>
+</div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjOMAwQy-SKsAykvXtd3Q2HBsIkEzyvI0&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
