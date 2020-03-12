@@ -10,19 +10,20 @@ function addFileToArray($array, $filename){
     }
     return $array;
 }
+$pageid = '1570967';
 $arr = [];
 $arr['casesCount'] = 0;
 $arr['error'] = [];
 $delimeter = '';
 $cacheFilename = './regionsCache';
 $cacheRevIdFilename = './regionsCacheId';
-$wiki1 =  file_get_contents("https://cs.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&titles=Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku&rvsection=0&rvprop=ids|content");
+$wiki1 =  file_get_contents('https://cs.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids='.$pageid.'&rvsection=0&rvprop=ids|content');
 $wiki1Json = json_decode($wiki1, true);
-$lastRevisionId = $wiki1Json['query']['pages']['1570967']['revisions'][0]['revid'];
+$lastRevisionId = $wiki1Json['query']['pages'][$pageid]['revisions'][0]['revid'];
 if(file_exists($cacheFilename) && file_exists($cacheRevIdFilename) && strval($lastRevisionId) == file_get_contents($cacheRevIdFilename)){
     echo file_get_contents($cacheFilename, true);
 }else{
-    $wiki1Html =  $wiki1Json['query']['pages']['1570967']['revisions'][0]['*'];
+    $wiki1Html =  $wiki1Json['query']['pages'][$pageid]['revisions'][0]['*'];
     //getting counts
     try{
         $delimeter = '| nakažení = ';
