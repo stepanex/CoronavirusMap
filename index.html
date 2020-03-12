@@ -11,7 +11,7 @@
         /* Always set the map height explicitly to define the size of the div
          * element that contains the map. */
         #map {
-            height: 90%;
+            height: 88%;
         }
         #info{
             height: 10%;
@@ -23,6 +23,43 @@
         #info>div{
             display: table-cell;
             vertical-align: middle;
+        }
+        #footer{
+            height: 2%;
+            font-size: 1.3vh;
+            display: inline-block;
+            width: 100%;
+        }
+        .footer_left{
+            width: 30%;
+            text-align: left;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 0.5%;
+        }
+        .footer_center{
+            width: 40%;
+            text-align: center;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .footer_right{
+            width: 28%;
+            text-align: right;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        a.footer_email{
+            position: relative;
+            padding-left: 20px;
+        }
+        a.footer_email::before{
+            content: '✉';
+            position: absolute;
+            height: 100%;
+            width: 15px;
+            left: 5px;
+            top: -2px;
         }
         #colors{
             display: none;
@@ -55,13 +92,20 @@
             text-align: center;
             margin-bottom: 4px;
         }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
         /* Optional: Makes the sample page fill the window. */
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
 			font-family: 'Ubuntu', sans-serif;
-            overflow-y:hidden
+            overflow-y:hidden;
         }
     </style>
     <script data-ad-client="ca-pub-8503799930198018" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -439,6 +483,19 @@
     </div>
 </div>
 <div id="map"></div>
+<div id="footer">
+    <div class="footer_left">
+        <!--<a href="mailto:stepan.strba@gmail.com" class="footer_email">stepan.strba@gmail.com</a>-->
+    </div>
+    <div class="footer_center">
+        <a href="mailto:stepan.strba@gmail.com">
+            © 2020 Štěpán Štrba
+        </a>
+    </div>
+    <div class="footer_right">
+        <a href="https://cs.wikipedia.org/wiki/Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku">Zdroj dat</a>
+    </div>
+</div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjOMAwQy-SKsAykvXtd3Q2HBsIkEzyvI0&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
