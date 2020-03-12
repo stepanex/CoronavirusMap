@@ -29,8 +29,7 @@
             width: fit-content;
             height: fit-content;
             padding: 5px;
-            margin-right: 10px;
-            margin-bottom: 22px;
+            margin: 22px 10px;
             background-color: white;
             border: 1px solid black;
         }
@@ -123,7 +122,11 @@
             });
 
             var legend = document.getElementById('colors');
-            map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+            var anchor = google.maps.ControlPosition.RIGHT_BOTTOM;
+            if(window.innerWidth < 500){
+                anchor = google.maps.ControlPosition.LEFT_BOTTOM;
+            }
+            map.controls[anchor].push(legend);
 
             service = new google.maps.places.PlacesService(map);
             var placesToPrint = [];
