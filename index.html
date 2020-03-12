@@ -50,6 +50,16 @@
         var color03 = '#f68e1f';
         var color04 = '#ef4723';
         var color05 = '#bc2026';
+        var numberOfCases = '0';
+
+        document.addEventListener("DOMContentLoaded", function(event) {
+            let intr = setInterval(function() {
+               if(numberOfCases !== '0'){
+                   document.getElementById('count').innerText='Počet nakažených: '+ numberOfCases;
+                   clearInterval(intr);
+               }
+            },500);
+        });
 
         function initMap() {
 
@@ -84,7 +94,6 @@
 
                 var cases = htmlDom.getElementsByClassName('wikitable')[0].children[0].children;
                 var numberOfCasesOrigin = cases[cases.length-2].children[0].firstChild.textContent;
-                var numberOfCases = '0';
                 if(numberOfCasesOrigin.includes('–')){
                     let numberOfCasesSplitted = numberOfCasesOrigin.split('–');
                     numberOfCases = numberOfCasesSplitted[numberOfCasesSplitted.length-1];
@@ -93,7 +102,6 @@
                     let numberOfCasesSplitted = numberOfCasesOrigin.split('-');
                     numberOfCases = numberOfCasesSplitted[numberOfCasesSplitted.length-1];
                 }
-                document.getElementsByName('info')[0].innerText='Počet nakažených: '+ numberOfCases;
                 for(let i = 2; i < cases.length;i+=2){
 
                     let state = cases[i].children[2].firstChild.textContent;
@@ -314,7 +322,9 @@
     </script>
 </head>
 <body>
-<div id="info"><div name="info">Načítání...</div></div>
+<div id="info">
+    <div id="count">Načítání...</div>
+</div>
 <div id="map"></div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjOMAwQy-SKsAykvXtd3Q2HBsIkEzyvI0&libraries=places&callback=initMap" async defer></script>
 </body>
