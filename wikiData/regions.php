@@ -1,7 +1,10 @@
 <?php
-function addFileToArray($array, $filename){
-    if(file_exists($filename)){
-        $fileJson = json_decode(file_get_contents($filename, true));
+require_once('../database.php');
+
+function addFileToArray($array, $cachedRevidJson){
+    $db = new database();
+    if($cachedRevidJson[0]!=-1){
+        $fileJson = json_decode($db->getCache('wikiInfo'),true)[1]['data'];
         if($fileJson!=null){
             foreach ($fileJson as $region=>$count){
                 $array[$region] = $count;
@@ -10,26 +13,28 @@ function addFileToArray($array, $filename){
     }
     return $array;
 }
+
+$db = new database();
 $pageid = '1570967';
 $arr = [];
 $arr['casesCount'] = 0;
 $arr['error'] = [];
 $delimeter = '';
-$cacheFilename = './regionsCache';
-$cacheRevIdFilename = './regionsCacheId';
 $wiki1 =  file_get_contents('https://cs.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids='.$pageid.'&rvsection=0&rvprop=ids|content');
 $wiki1Json = json_decode($wiki1, true);
 $lastRevisionId = $wiki1Json['query']['pages'][$pageid]['revisions'][0]['revid'];
-if(file_exists($cacheFilename) && file_exists($cacheRevIdFilename) && strval($lastRevisionId) == file_get_contents($cacheRevIdFilename)){
-    echo file_get_contents($cacheFilename, true);
+$cachedRevidJson = json_decode($db->getCacheLastRevision('wikiInfo'), true);
+
+if($cachedRevidJson[0]!=-1 && strval($lastRevisionId) == strval($cachedRevidJson[1]['revid'])){
+    echo json_decode($db->getCache('wikiInfo'),true)[1]['data'];
 }else{
     $wiki1Html =  $wiki1Json['query']['pages'][$pageid]['revisions'][0]['*'];
     //getting counts
     try{
         $delimeter = '| nakažení = ';
         if (strpos($wiki1Html, $delimeter) === false) {
-            $arr = addFileToArray($arr, $cacheFilename);
-            $arr['errorCount'] = 1;
+            $arr = addFileToArray($arr, $cachedRevidJson);
+            $arr['errorCount'] += 1;
             array_push($arr['error'], 'Doesnt contain "'.$delimeter.'".');
             throw new Exception();
         }
@@ -37,8 +42,8 @@ if(file_exists($cacheFilename) && file_exists($cacheRevIdFilename) && strval($la
 
         $delimeter = '| úmrtí = ';
         if (strpos($infectedHtml, $delimeter) === false) {
-            $arr = addFileToArray($arr, $cacheFilename);
-            $arr['errorCount'] = 1;
+            $arr = addFileToArray($arr, $cachedRevidJson);
+            $arr['errorCount'] += 1;
             array_push($arr['error'], 'Doesnt contain "'.$delimeter.'".');
             throw new Exception();
         }
@@ -47,8 +52,8 @@ if(file_exists($cacheFilename) && file_exists($cacheRevIdFilename) && strval($la
 
         $delimeter = '| zotavení = ';
         if (strpos($deadHtml, $delimeter) === false) {
-            $arr = addFileToArray($arr, $cacheFilename);
-            $arr['errorCount'] = 1;
+            $arr = addFileToArray($arr, $cachedRevidJson);
+            $arr['errorCount'] += 1;
             array_push($arr['error'], 'Doesnt contain "'.$delimeter.'".');
             throw new Exception();
         }
@@ -57,8 +62,8 @@ if(file_exists($cacheFilename) && file_exists($cacheRevIdFilename) && strval($la
 
         $delimeter = '| opatření = ';
         if (strpos($recoveredHtml, $delimeter) === false) {
-            $arr = addFileToArray($arr, $cacheFilename);
-            $arr['errorCount'] = 1;
+            $arr = addFileToArray($arr, $cachedRevidJson);
+            $arr['errorCount'] += 1;
             array_push($arr['error'], 'Doesnt contain "'.$delimeter.'".');
             throw new Exception();
         }
@@ -75,8 +80,8 @@ if(file_exists($cacheFilename) && file_exists($cacheRevIdFilename) && strval($la
     //\getting counts
     $delimeter = '| rozšíření = ';
     if (strpos($wiki1Html, $delimeter) === false) {
-        $arr = addFileToArray($arr, $cacheFilename);
-        $arr['errorCount'] = 1;
+        $arr = addFileToArray($arr, $cachedRevidJson);
+        $arr['errorCount'] += 1;
         array_push($arr['error'], 'Doesnt contain "'.$delimeter.'", using older cache if available.');
         echo json_encode($arr);
         die();
@@ -84,8 +89,8 @@ if(file_exists($cacheFilename) && file_exists($cacheRevIdFilename) && strval($la
     $wiki1HtmlExploded = explode($delimeter,$wiki1Html)[1];
     $delimeter = '{{Citace elektronické';
     if (strpos($wiki1HtmlExploded, $delimeter) === false) {
-        $arr = addFileToArray($arr, $cacheFilename);
-        $arr['errorCount'] = 1;
+        $arr = addFileToArray($arr, $cachedRevidJson);
+        $arr['errorCount'] += 1;
         array_push($arr['error'], 'Doesnt contain "'.$delimeter.'", using older cache if available.');
         echo json_encode($arr);
         die();
@@ -93,8 +98,8 @@ if(file_exists($cacheFilename) && file_exists($cacheRevIdFilename) && strval($la
     $regionsHtml = explode($delimeter, $wiki1HtmlExploded)[0];
     $delimeter = '[[';
     if (strpos($wiki1HtmlExploded, $delimeter) === false) {
-        $arr = addFileToArray($arr, $cacheFilename);
-        $arr['errorCount'] = 1;
+        $arr = addFileToArray($arr, $cachedRevidJson);
+        $arr['errorCount'] += 1;
         array_push($arr['error'], 'Doesnt contain "'.$delimeter.'", using older cache if available.');
         echo json_encode($arr);
         die();
@@ -109,7 +114,6 @@ if(file_exists($cacheFilename) && file_exists($cacheRevIdFilename) && strval($la
         }
     }
     echo json_encode($arr);
-    file_put_contents($cacheFilename, json_encode($arr));
-    file_put_contents($cacheRevIdFilename, $lastRevisionId);
+    $db->setCache('wikiInfo', $lastRevisionId, json_encode($arr));
 }
 

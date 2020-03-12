@@ -36,6 +36,39 @@ class database
         return json_encode($array);
     }
 
+    function getCacheLastRevision($name){
+        $query = 'select revid from cache where name = "'.$name.'";';
+        $result = $this->db->query($query);
+        if($result){
+            $array = array(1, $result->fetch_assoc());
+        } else {
+            $array = array(0, $this->db->error);
+        }
+        return json_encode($array);
+    }
+
+    function setCache($name, $revid, $data){
+        $query = 'update cache set revid="'.$revid.'", data="'.$this->db->real_escape_string($data).'" where name="'.$name.'";';
+        $result = $this->db->query($query);
+        if($result){
+            $array = array(1, $result);
+        } else {
+            $array = array(0, $this->db->error);
+        }
+        return json_encode($array);
+    }
+
+    function getCache($name){
+        $query = 'select data from cache where name = "'.$name.'";';
+        $result = $this->db->query($query);
+        if($result){
+            $array = array(1, $result->fetch_assoc());
+        } else {
+            $array = array(0, $this->db->error);
+        }
+        return json_encode($array);
+    }
+
     function __destruct()
     {
         $this->db->close();
