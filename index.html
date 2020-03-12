@@ -11,7 +11,7 @@
         /* Always set the map height explicitly to define the size of the div
          * element that contains the map. */
         #map {
-            height: 88%;
+            height: 87%;
         }
         #info{
             height: 10%;
@@ -25,29 +25,34 @@
             vertical-align: middle;
         }
         #footer{
-            height: 2%;
+            height: 3%;
             font-size: 1.3vh;
             display: inline-block;
             width: 100%;
+            vertical-align: sub;
         }
         .footer_left{
-            width: 30%;
+            width: 30vw;
             text-align: left;
             display: inline-block;
             vertical-align: middle;
-            margin-left: 0.5%;
         }
         .footer_center{
-            width: 40%;
+            width: 40vw;
             text-align: center;
             display: inline-block;
             vertical-align: middle;
         }
         .footer_right{
-            width: 28%;
+            width: 27vw;
             text-align: right;
             display: inline-block;
             vertical-align: middle;
+        }
+        @media screen and (max-width: 500px){
+            #footer{
+                vertical-align: middle;
+            }
         }
         a.footer_email{
             position: relative;
