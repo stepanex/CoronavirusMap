@@ -361,54 +361,58 @@
                         console.log(place[0]+' '+place[1]);
                     });
                     // Define the LatLng coordinates for the polygon.
-                    var prague = [];
-                    for(let k = 1; k<15; k++){
-                        fetch('./regionPolygons/area'+String("0" + k).slice(-2)+'.txt').then(data => data.json()).then(data =>{
-
-                            let regionCount = regionsCor[k-1][1];
-                            let color = color_white;
-                            if(regionCount<1){
-                                color = color01;
-                            } else if(regionCount < 10){
-                                color = color02;
-                            } else if(regionCount < 100){
-                                color = color03;
-                            } else if(regionCount < 250){
-                                color = color04;
-                            } else if(regionCount < 500){
-                                color = color05;
-                            } else {
-                                color = color06;
-                            }
-
-                            if(k===1){
-                                prague = data;
-                            }
-                            else if (k===9) {
-                                data = [data, prague.reverse()];
-                            }
-
-                            var bermudaTriangle = new google.maps.Polygon({
-                                paths: data,
-                                strokeColor: color,
-                                strokeOpacity: 0.8,
-                                strokeWeight: 3,
-                                fillColor: color,
-                                fillOpacity: 0.5
-                            });
-                            bermudaTriangle.setMap(map);
-
-                            google.maps.event.addListener(bermudaTriangle, 'click', function (event) {
-                                infowindow.setContent(regionsCor[k - 1][0] + '<br/>Počet nakažených: ' + regionsCor[k - 1][1]);
-                                if (event) {
-                                    point = event.latLng;
+                    fetch('/wikiData/regions.php').then(regionCorCount => regionCorCount.json()).then(regionCorCount =>{
+                        var prague = [];
+                        for(let k = 1; k<15; k++){
+                            fetch('./regionPolygons/area'+String("0" + k).slice(-2)+'.txt').then(data => data.json()).then(data =>{
+                                let regionCount = regionsCor[k-1][1];
+                                if(regionCorCount[regionsCor[k-1][0]]!==null && regionCorCount[regionsCor[k-1][0]] > regionsCor[k-1][1]){
+                                    regionCount = regionCorCount[regionsCor[k-1][0]];
                                 }
-                                infowindow.setPosition(point);
-                                infowindow.open(map);
-                            });
+                                let color = color_white;
+                                if(regionCount<1){
+                                    color = color01;
+                                } else if(regionCount < 10){
+                                    color = color02;
+                                } else if(regionCount < 100){
+                                    color = color03;
+                                } else if(regionCount < 250){
+                                    color = color04;
+                                } else if(regionCount < 500){
+                                    color = color05;
+                                } else {
+                                    color = color06;
+                                }
 
-                        });
-                    }
+                                if(k===1){
+                                    prague = data;
+                                }
+                                else if (k===9) {
+                                    data = [data, prague.reverse()];
+                                }
+
+                                var bermudaTriangle = new google.maps.Polygon({
+                                    paths: data,
+                                    strokeColor: color,
+                                    strokeOpacity: 0.8,
+                                    strokeWeight: 3,
+                                    fillColor: color,
+                                    fillOpacity: 0.5
+                                });
+                                bermudaTriangle.setMap(map);
+
+                                google.maps.event.addListener(bermudaTriangle, 'click', function (event) {
+                                    infowindow.setContent(regionsCor[k - 1][0] + '<br/>Počet nakažených: ' + regionCount);
+                                    if (event) {
+                                        point = event.latLng;
+                                    }
+                                    infowindow.setPosition(point);
+                                    infowindow.open(map);
+                                });
+
+                            });
+                        }
+                    });
                 }).catch((error) => {
                 console.error('Error:', error);
             });
