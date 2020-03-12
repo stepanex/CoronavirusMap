@@ -16,7 +16,6 @@ $cacheRevIdFilename = './regionsCacheId';
 $wiki1 =  file_get_contents("https://cs.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&titles=Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku&rvsection=0&rvprop=ids|content");
 $wiki1Json = json_decode($wiki1, true);
 $lastRevisionId = $wiki1Json['query']['pages']['1570967']['revisions'][0]['revid'];
-$lastRevisionId=14;
 if(file_exists($cacheFilename) && file_exists($cacheRevIdFilename) && strval($lastRevisionId) == file_get_contents($cacheRevIdFilename)){
     echo file_get_contents($cacheFilename, true);
 }else{
