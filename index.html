@@ -17,48 +17,161 @@
 	<meta name="keywords" content="Coronavirus, Koronamap, Czech, Czechia, Czech Republic">
 	<meta name="author" content="Štěpán Štrba">
     <style>
-        /* Always set the map height explicitly to define the size of the div
-         * element that contains the map. */
+        .logo {
+            position: absolute;
+            z-index: 10;
+            width: fit-content;
+            height: fit-content;
+            font-family: 'Oswald', sans-serif;
+            font-size: 36px;
+            line-height: 53px;
+            left: 20px;
+            top: 20px;
+        }
+        .logoLeft {
+            background: rgba(232, 46, 46, 0.8);
+            backdrop-filter: blur(4px);
+            opacity: 0.85;
+            display: inline-block;
+            width: fit-content;
+            height: 53px;
+            font-style: normal;
+            font-weight: 500;
+            color: #FFFFFF;
+            padding: 2px 8px;
+            float: left;
+        }
+
+        .logoRight {
+            display: inline-block;
+            width: fit-content;
+            height: 53px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            font-style: normal;
+            font-weight: 500;
+            color: #FFFFFF;
+            padding: 2px 8px;
+            float: left;
+        }
+
+
         #map {
-            height: 87%;
+            height: 100%;
         }
-        #info{
-            height: 10%;
-            text-align: center;
-            font-size: 30px;
-            display: table;
-            margin: auto;
+        a[href^="http://maps.google.com/maps"]{display:none !important}
+        a[href^="https://maps.google.com/maps"]{display:none !important}
+
+        .gmnoprint a, .gmnoprint span, .gm-style-cc {
+            display:none;
         }
-        #info>div{
-            display: table-cell;
-            vertical-align: middle;
+        .info {
+            width: fit-content;
+            height: fit-content;
+            position: fixed;
+            bottom: 18px;
+            left: 31px;
+            z-index: 10;
+            font-family: 'Oswald', sans-serif;
+            pointer-events: none;
+            display: none;
         }
-        #footer{
-            height: 3%;
-            font-size: 1.3vh;
-            display: block;
-            width: 100%;
+
+        .infoPlaceName {
+            background-color: rgba(232, 46, 46, 0.9);
+            backdrop-filter: blur(4px);
+            padding: 2px 7px;
+            width: fit-content;font-family: 'Oswald', sans-serif;
+
+            font-style: normal;
+            font-weight: 500;
+            font-size: 36px;
+            line-height: 53px;
+            color: white;
         }
-        .footer_left{
-            width: 30%;
-            text-align: left;
+
+        .casesContainer {
             display: inline-block;
-            vertical-align: middle;
-            margin-top: 0.7vh;
+            vertical-align: bottom;
         }
-        .footer_center{
-            width: 40%;
-            text-align: center;
-            display: inline-block;
-            vertical-align: middle;
-            margin-top: 0.7vh;
+
+        .infectedContainer {
+            width: fit-content;
+            height: fit-content;
+            margin-bottom: 13px;
         }
-        .footer_right{
-            width: 27%;
-            text-align: right;
+
+        .infectedCount {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 144px;
+            line-height: 160px;
+            color: #E82E2E;
+
+            text-shadow: 0px 0px 10px #E82E2E;
+        }
+
+        .infectedTitle {
+            font-style: normal;
+            font-weight: 500;
+            font-size: 36px;
+            line-height: 53px;
+            color: #FFFFFF;
+            text-shadow: 0px 0px 10px #000000;
+        }
+
+        .deadContainer {
+            width: fit-content;
+            height: fit-content;
+            margin-left: 23px;
+        }
+
+        .deadCount {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 64px;
+            line-height: 95px;
             display: inline-block;
-            vertical-align: middle;
-            margin-top: 0.7vh;
+            color: #E82E2E;
+        }
+
+        .deadTitle {
+            font-style: normal;
+            font-weight: 500;
+            font-size: 24px;
+            line-height: 36px;
+            color: #FFFFFF;
+            display: inline-block;
+            text-shadow: 0px 0px 10px #000000;
+        }
+
+        .recoveredContainer {
+            width: fit-content;
+            height: fit-content;
+            margin-left: 33px;
+        }
+
+        .recoveredCount {
+            position: static;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 64px;
+            line-height: 95px;
+            display: inline-block;
+            color: #0BC534;
+        }
+
+        .recoveredTitle {
+            font-style: normal;
+            font-weight: 500;
+            font-size: 24px;
+            line-height: 36px;
+            color: #FFFFFF;
+            display: inline-block;
+            text-shadow: 0px 0px 10px #000000;
+        }
+        .casesCasesContainer{
+            display: inline-block;
         }
         @media screen and (max-height: 850px){
             #map{
@@ -68,27 +181,78 @@
                 height: 20%;
             }
         }
-        a.footer_email{
-            position: relative;
-            padding-left: 20px;
+        @media screen and (max-width: 500px){
+            .casesCasesContainer{
+                display: block;
+            }
+            .info{
+                left: 12px;
+                bottom: 2px;
+            }
+            .infoPlaceName{
+                font-size: 22px;
+                line-height: 39px;
+            }
+
+
+            .infectedContainer {
+                margin-bottom: 0px;
+            }
+            .infectedCount {
+                font-size: 130px;
+                line-height: 146px;
+            }
+            .infectedTitle {
+                font-size: 22px;
+                line-height: 39px;
+            }
+            .deadContainer {
+                margin-left: 0px;
+            }
+            .deadCount {
+                font-size: 50px;
+                line-height: 63px;
+            }
+            .deadTitle {
+                font-size: 14px;
+                line-height: 26px;
+            }
+            .recoveredContainer {
+                margin-left: 33px;
+            }
+            .recoveredCount {
+                font-size: 50px;
+                line-height: 63px;
+            }
+            .recoveredTitle {
+                font-size: 14px;
+                line-height: 26px;
+            }
+
+            .logo{
+                font-size: 30px;
+                line-height: 46px;
+            }
+            .logoLeft{
+                height: 50px;
+            }
+            .logoRight{
+                height: 50px;
+            }
         }
-        a.footer_email::before{
-            content: '✉';
-            position: absolute;
-            height: 100%;
-            width: 15px;
-            left: 5px;
-            top: -2px;
-        }
+
+
         #colors{
             display: none;
             width: fit-content;
             height: fit-content;
             padding: 5px;
             margin: 22px 10px;
-            background-color: white;
-            border: 1px solid black;
+            background-color: black;
+            border: 1px solid red;
+            color: white;
             font-size: 11px;
+            pointer-events: none
         }
         .color{
             height: 13px;
@@ -158,37 +322,28 @@
             color04Elem.style.backgroundColor = color04;
             color05Elem.style.backgroundColor = color05;
             color06Elem.style.backgroundColor = color06;
-            if(window.innerWidth > 500){
-                color01Elem.style.height = '15px';
-                color01Elem.style.width = '15px';
-                color02Elem.style.height = '15px';
-                color02Elem.style.width = '15px';
-                color03Elem.style.height = '15px';
-                color03Elem.style.width = '15px';
-                color04Elem.style.height = '15px';
-                color04Elem.style.width = '15px';
-                color05Elem.style.height = '15px';
-                color05Elem.style.width = '15px';
-                color06Elem.style.height = '15px';
-                color06Elem.style.width = '15px';
-            }
         });
 
-        function printInfo(infected, dead, recovered) {
-            let text = '';
-            text+='Nakažení: '+ infected;
-            if(dead !==null){
-                text+='<br/>Úmrtí: '+ dead;
-            }
-            if(recovered !==null){
-                text+='<br/>Zotavení: '+ recovered;
-            }
-            if(dead !==null || recovered !== null){
-                document.getElementById('count').style.fontSize = '22px';
-            }
-            document.getElementById('count').innerHTML=text;
-        }
+        function printInfo(regionName, infected, dead, recovered) {
+            document.getElementById('infoPlaceName').innerText=regionName;
+            document.getElementById('infectedCount').innerText=infected;
 
+            let deadContainer = document.getElementById('deadContainer');
+            let recoveredContainer = document.getElementById('recoveredContainer');
+
+            if(dead==null){
+                deadContainer.style.display='none';
+            } else{
+                deadContainer.style.display='inline-block';
+                document.getElementById('deadCount').innerText=dead;
+            }
+            if(recovered==null){
+                recoveredContainer.style.display='none';
+            } else{
+                recoveredContainer.style.display='inline-block';
+                document.getElementById('recoveredCount').innerText=recovered;
+            }
+        }
 
         function initMap() {
 
@@ -203,7 +358,195 @@
             }
 
             map = new google.maps.Map(
-                document.getElementById('map'), {center: sydney, zoom: zoom});
+                document.getElementById('map'), {center: sydney,
+                    zoom: zoom,
+                    mapTypeControl : false,
+                    styles: [
+                        {
+                            "elementType": "geometry",
+                            "stylers": [
+                                {
+                                    "color": "#212121"
+                                }
+                            ]
+                        },
+                        {
+                            "elementType": "labels.text.fill",
+                            "stylers": [
+                                {
+                                    "color": "#757575"
+                                }
+                            ]
+                        },
+                        {
+                            "elementType": "labels.text.stroke",
+                            "stylers": [
+                                {
+                                    "color": "#212121"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "administrative",
+                            "elementType": "geometry",
+                            "stylers": [
+                                {
+                                    "color": "#757575"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "administrative.country",
+                            "elementType": "labels.text.fill",
+                            "stylers": [
+                                {
+                                    "color": "#9e9e9e"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "administrative.locality",
+                            "elementType": "labels.text.fill",
+                            "stylers": [
+                                {
+                                    "color": "#bdbdbd"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road",
+                            "elementType": "geometry.fill",
+                            "stylers": [
+                                {
+                                    "color": "#2c2c2c"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road",
+                            "elementType": "labels.text.fill",
+                            "stylers": [
+                                {
+                                    "color": "#8a8a8a"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road.arterial",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road.arterial",
+                            "elementType": "geometry",
+                            "stylers": [
+                                {
+                                    "color": "#373737"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road.highway",
+                            "elementType": "geometry",
+                            "stylers": [
+                                {
+                                    "color": "#3c3c3c"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road.highway",
+                            "elementType": "labels",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road.highway.controlled_access",
+                            "elementType": "geometry",
+                            "stylers": [
+                                {
+                                    "color": "#4e4e4e"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road.local",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road.local",
+                            "elementType": "labels.text.fill",
+                            "stylers": [
+                                {
+                                    "color": "#616161"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "transit",
+                            "elementType": "labels.text.fill",
+                            "stylers": [
+                                {
+                                    "color": "#757575"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "water",
+                            "elementType": "geometry",
+                            "stylers": [
+                                {
+                                    "color": "#000000"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "water",
+                            "elementType": "labels.text.fill",
+                            "stylers": [
+                                {
+                                    "color": "#3d3d3d"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": 'landscape',
+                            "elementType": "labels",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": 'poi',
+                            "elementType": "labels",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": 'transit',
+                            "elementType": "labels",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        }
+                    ]});
 
             google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
                 setTimeout(() => {
@@ -217,15 +560,14 @@
                         legend.style.fontSize = '13px';
                         legend.style.padding = '5px';
                     }
-                    legend.style.display='block';
                     }, 500);
             });
 
             var legend = document.getElementById('colors');
             var anchor = google.maps.ControlPosition.RIGHT_BOTTOM;
-            if(window.innerWidth < 500){
-                anchor = google.maps.ControlPosition.LEFT_BOTTOM;
-            }
+            // if(window.innerWidth < 500){
+            //     anchor = google.maps.ControlPosition.LEFT_BOTTOM;
+            // }
             map.controls[anchor].push(legend);
 
             service = new google.maps.places.PlacesService(map);
@@ -397,7 +739,10 @@
                         if(regionCorCount['recovered']!==null){
                             recoveredCount = regionCorCount['recovered'];
                         }
-                            printInfo(infectedCount, deadCount, recoveredCount);
+                        map.addListener('mousemove', function () {
+                            printInfo('Česká Republika',infectedCount, deadCount, recoveredCount);
+                        });
+                        printInfo('Česká Republika',infectedCount, deadCount, recoveredCount);
                         var prague = [];
                         for(let l = 1; l<15; l++){
                             fetch('./regionPolygons/area'+String("0" + l).slice(-2)+'.txt').then(data => data.json()).then(data =>{
@@ -436,18 +781,13 @@
                                     fillOpacity: 0.5
                                 });
                                 bermudaTriangle.setMap(map);
-
-                                google.maps.event.addListener(bermudaTriangle, 'click', function (event) {
-                                    infowindow.setContent(regionsCor[l - 1][0] + '<br/>Počet nakažených: ' + regionCount);
-                                    if (event) {
-                                        point = event.latLng;
-                                    }
-                                    infowindow.setPosition(point);
-                                    infowindow.open(map);
+                                bermudaTriangle.addListener('mousemove', function () {
+                                    printInfo(regionsCor[l-1][0],regionCount,null,null);
                                 });
-
                             });
                         }
+                        document.getElementById('colors').style.display='block';
+                        document.getElementById('info').style.display='block';
                     });
                 }).catch((error) => {
                 console.error('Error:', error);
@@ -492,55 +832,87 @@
     </script>
 </head>
 <body>
-<div id="info">
-    <div>
-        <div id="count">Načítání...</div>
-        <div id="colors">
-            <div class="colorTitle">
-                Procento nakažených lidí<br/>
-                (vůči regionu)
+<div class="logo">
+    <div class="logoLeft">Korona</div>
+    <div class="logoRight">Map</div>
+</div>
+<div class="info" id="info">
+    <div class="infoPlaceName" id="infoPlaceName">
+        Praha
+    </div>
+    <div class="infoCases">
+        <div class="infectedContainer casesContainer" id="infectedContainer">
+            <div class="infectedCount" id="infectedCount">
+                98
             </div>
-            <div class="colorContainer">
-                <div class="color" id="color01"></div>
-                <div class="colorText">0</div>
+            <div class="infectedTitle">
+                počet nakažených
             </div>
-            <div class="colorContainer">
-                <div class="color" id="color02"></div>
-                <div class="colorText">0 - 10</div>
+        </div>
+        <div class="casesCasesContainer">
+            <div class="deadContainer casesContainer" id="deadContainer">
+                <div class="deadCount" id="deadCount">
+                    0
+                </div>
+                <div class="deadTitle">
+                    úmrtí
+                </div>
             </div>
-            <div class="colorContainer">
-                <div class="color" id="color03"></div>
-                <div class="colorText">10 - 100</div>
-            </div>
-            <div class="colorContainer">
-                <div class="color" id="color04"></div>
-                <div class="colorText">100 - 250</div>
-            </div>
-            <div class="colorContainer">
-                <div class="color" id="color05"></div>
-                <div class="colorText">250 - 500</div>
-            </div>
-            <div class="colorContainer">
-                <div class="color" id="color06"></div>
-                <div class="colorText">500 < </div>
+            <div class="recoveredContainer casesContainer" id="recoveredContainer">
+                <div class="recoveredCount" id="recoveredCount">
+                    120
+                </div>
+                <div class="recoveredTitle">
+                    uzdravení
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div id="map"></div>
-<div id="footer">
-    <div class="footer_left">
-        <!--<a href="mailto:stepan.strba@gmail.com" class="footer_email">stepan.strba@gmail.com</a>-->
+<div id="colors">
+    <div class="colorTitle">
+        Počet nakažených lidí<br/>
+        (vůči regionu)
     </div>
-    <div class="footer_center">
-        <a href="mailto:stepan.strba@gmail.com">
-            © 2020 Štěpán Štrba
-        </a>
+    <div class="colorContainer">
+        <div class="color" id="color01"></div>
+        <div class="colorText">0</div>
     </div>
-    <div class="footer_right">
-        <a href="https://cs.wikipedia.org/wiki/Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku">Zdroj dat</a>
+    <div class="colorContainer">
+        <div class="color" id="color02"></div>
+        <div class="colorText">0 - 10</div>
+    </div>
+    <div class="colorContainer">
+        <div class="color" id="color03"></div>
+        <div class="colorText">10 - 100</div>
+    </div>
+    <div class="colorContainer">
+        <div class="color" id="color04"></div>
+        <div class="colorText">100 - 250</div>
+    </div>
+    <div class="colorContainer">
+        <div class="color" id="color05"></div>
+        <div class="colorText">250 - 500</div>
+    </div>
+    <div class="colorContainer">
+        <div class="color" id="color06"></div>
+        <div class="colorText">500 < </div>
     </div>
 </div>
+<div id="map"></div>
+<!--<div id="footer">-->
+    <!--<div class="footer_left">-->
+        <!--&lt;!&ndash;<a href="mailto:stepan.strba@gmail.com" class="footer_email">stepan.strba@gmail.com</a>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div class="footer_center">-->
+        <!--<a href="mailto:stepan.strba@gmail.com">-->
+            <!--© 2020 Štěpán Štrba-->
+        <!--</a>-->
+    <!--</div>-->
+    <!--<div class="footer_right">-->
+        <!--<a href="https://cs.wikipedia.org/wiki/Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku">Zdroj dat</a>-->
+    <!--</div>-->
+<!--</div>-->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjOMAwQy-SKsAykvXtd3Q2HBsIkEzyvI0&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
