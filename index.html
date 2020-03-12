@@ -125,6 +125,7 @@
             var anchor = google.maps.ControlPosition.RIGHT_BOTTOM;
             if(window.innerWidth < 500){
                 anchor = google.maps.ControlPosition.LEFT_BOTTOM;
+                legend.style.marginBottom = '-2px';
             }
             map.controls[anchor].push(legend);
 
