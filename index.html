@@ -13,8 +13,8 @@
     <title>Mapa koronaviru v České Republice</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-	<meta name="description" content="Interaktiní mapa koronaviru v České Republice">
-	<meta name="keywords" content="Coronavirus, Koronamap, Czech, Czechia, Czech Republic">
+	<meta name="description" content="Interaktivní mapa koronaviru v České Republice">
+	<meta name="keywords" content="Coronavirus, Koronavirus, koronavirus česká republika, koronavir, mapa koronaviru, coronavirus map, korona mapa, Koronamap, Czech, Czechia, Czech Republic, Česká Republika, České Republice, Čechách">
 	<meta name="author" content="Štěpán Štrba">
     <style>
         .logo {
@@ -337,6 +337,8 @@
         var infowindow;
         var color_white = '#ffffff';
 
+        var markerHover = false;
+
         var color01 = '#0f9246';
         var color02 = '#7dbb42';
         var color03 = '#ffbf00';
@@ -360,25 +362,61 @@
             color06Elem.style.backgroundColor = color06;
         });
 
-        function printInfo(regionName, infected, dead, recovered) {
-            document.getElementById('infoPlaceName').innerText=regionName;
-            document.getElementById('infectedCount').innerText=infected;
+        function printInfo(regionName, infected, dead=null, recovered=null, fromMarker=false) {
+            if((markerHover && fromMarker) || !markerHover){
+                document.getElementById('infoPlaceName').innerText=regionName;
+                document.getElementById('infectedCount').innerText=infected;
 
-            let deadContainer = document.getElementById('deadContainer');
-            let recoveredContainer = document.getElementById('recoveredContainer');
+                let deadContainer = document.getElementById('deadContainer');
+                let recoveredContainer = document.getElementById('recoveredContainer');
 
-            if(dead==null){
-                deadContainer.style.display='none';
-            } else{
-                deadContainer.style.display='inline-block';
-                document.getElementById('deadCount').innerText=dead;
+                if(dead==null){
+                    deadContainer.style.display='none';
+                } else{
+                    deadContainer.style.display='inline-block';
+                    document.getElementById('deadCount').innerText=dead;
+                }
+                if(recovered==null){
+                    recoveredContainer.style.display='none';
+                } else{
+                    recoveredContainer.style.display='inline-block';
+                    document.getElementById('recoveredCount').innerText=recovered;
+                }
             }
-            if(recovered==null){
-                recoveredContainer.style.display='none';
-            } else{
-                recoveredContainer.style.display='inline-block';
-                document.getElementById('recoveredCount').innerText=recovered;
-            }
+        }
+        function createMarkerLatlng(latlng, name, text) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: latlng
+            });
+
+            marker.addListener('mouseover', function() {
+                markerHover = true;
+                printInfo(name,text,null,null, true);
+            });
+            marker.addListener('mouseout', function() {
+                markerHover = false;
+            });
+            marker.addListener('click', function() {
+                printInfo(name,text,null,null, true);
+            });
+        }
+        function createMarkerGplace(place, text) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: place.geometry.location
+            });
+
+            marker.addListener('mouseover', function() {
+                markerHover = true;
+                printInfo(name,text,null,null, true);
+            });
+            marker.addListener('mouseout', function() {
+                markerHover = false;
+            });
+            marker.addListener('click', function() {
+                printInfo(name,text,null,null, true);
+            });
         }
 
         function initMap() {
@@ -822,10 +860,10 @@
                                 });
                                 bermudaTriangle.setMap(map);
                                 bermudaTriangle.addListener('mousemove', function () {
-                                    printInfo(regionsCor[l-1][0],regionCount,null,null);
+                                    printInfo(regionsCor[l-1][0],regionCount);
                                 });
                                 bermudaTriangle.addListener('click', function () {
-                                    printInfo(regionsCor[l-1][0],regionCount,null,null);
+                                    printInfo(regionsCor[l-1][0],regionCount);
                                 });
                             });
                         }
@@ -837,41 +875,6 @@
             });
 
         }
-
-        function createMarkerLatlng(latlng, name, text) {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: latlng
-            });
-
-            google.maps.event.addListener(marker, 'click', function() {
-                infowindow.setContent(name+'<br/>Počet nakažených: '+text);
-                infowindow.open(map, this);
-            });
-        }function createMarkerGplace(place, text) {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: place.geometry.location
-            });
-
-            google.maps.event.addListener(marker, 'click', function() {
-                infowindow.setContent(place.name+'<br/>Počet nakažených: '+text);
-                infowindow.open(map, this);
-            });
-        }
-        function createMarker2(location, text) {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: location
-            });
-
-            google.maps.event.addListener(marker, 'click', function() {
-                infowindow.setContent(location.lat+':'+location.lng);
-                infowindow.open(map, this);
-            });
-        }
-
-
     </script>
 </head>
 <body>
