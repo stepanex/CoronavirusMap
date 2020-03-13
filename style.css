@@ -301,7 +301,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 
 @media screen and (max-width: 550px){
         #colors{
-        margin-top: 22px;
+        margin-top: 20px;
         margin-right: 10px;
         font-size: 11px;
     }
