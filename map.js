@@ -291,20 +291,6 @@ function initMap() {
                 }
             ]});
 
-    google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-        setTimeout(() => {
-            var legend = document.getElementById('colors');
-            if(window.innerWidth < 550){
-                legend.style.marginBottom = '-2px';
-            } else {
-                legend.style.marginRight = '63px';
-                legend.style.marginBottom = '-91px';
-                legend.style.fontSize = '13px';
-                legend.style.padding = '5px';
-            }
-        }, 500);
-    });
-
     var legend = document.getElementById('colors');
     var anchor = google.maps.ControlPosition.RIGHT_BOTTOM;
     if(window.innerWidth < 550){

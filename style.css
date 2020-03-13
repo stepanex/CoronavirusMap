@@ -267,13 +267,15 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     width: fit-content;
     height: fit-content;
     padding: 5px;
-    margin: 22px 10px;
     background-color: black;
     border: 1px solid red;
     color: white;
-    font-size: 11px;
+    font-size: 13px;
     pointer-events: none;
-    font: 400 11px Roboto, Arial, sans-serif;
+    font-family: Roboto, Arial, sans-serif;
+
+    margin-right : 63px;
+    margin-bottom: -91px;
 }
 .color{
     height: 13px;
@@ -296,6 +298,15 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     text-align: center;
     margin-bottom: 4px;
 }
+
+@media screen and (max-width: 550px){
+        #colors{
+        margin-top: 22px;
+        margin-right: 10px;
+        font-size: 11px;
+    }
+}
+
 a{
     text-decoration: none;
     color: white;
