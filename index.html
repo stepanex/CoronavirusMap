@@ -689,9 +689,9 @@
                         countOfCases = parseInt(caseNumberSplitted[1]) - parseInt(caseNumberSplitted[0]) + 1;
                     }
 
-                    let place = cases[i].children[5].firstChild.textContent.split(',')[0].split(['\n'])[0];
-                    let region = cases[i].children[6].firstChild.textContent.split(',')[0].split(['\n'])[0];
-                    let treatment = cases[i].children[7].firstChild.textContent.split(',')[0].split(['\n'])[0];
+                    let place = cases[i].children[5].textContent.split(',')[0].split(['\n'])[0].split(['['])[0];
+                    let region = cases[i].children[6].textContent.split(',')[0].split(['\n'])[0].split(['['])[0];
+                    let treatment = cases[i].children[7].textContent.split(',')[0].split(['\n'])[0].split(['['])[0];
 
                     let found = false;
 
@@ -784,7 +784,7 @@
                                                         origin: origin
                                                     }).then(response => response.json()).then(response => {console.log(response)});
 
-                                                    createMarkerGplace(results[0], place[1]);
+                                                    createMarkerGplace(results[0], foundPlace['name']);
                                                 }
                                                 success = true;
                                                 clearInterval(intr);
