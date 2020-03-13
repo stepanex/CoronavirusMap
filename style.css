@@ -1,0 +1,306 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Oswald', sans-serif;
+}
+.logo {
+    position: fixed;
+    z-index: 10;
+    width: fit-content;
+    height: fit-content;
+    font-size: 36px;
+    line-height: 53px;
+    left: 20px;
+    top: 20px;
+    pointer-events: none
+}
+.logoLeft {
+    background: rgba(232, 46, 46, 0.8);
+    backdrop-filter: blur(4px);
+    opacity: 0.85;
+    display: inline-block;
+    width: fit-content;
+    height: 53px;
+    font-style: normal;
+    font-weight: 500;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    float: left;
+}
+
+.logoRight {
+    display: inline-block;
+    width: fit-content;
+    height: 53px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    font-style: normal;
+    font-weight: 500;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    float: left;
+}
+
+
+#map {
+    height: 100%;
+}
+a[href^="http://maps.google.com/maps"]{display:none !important}
+a[href^="https://maps.google.com/maps"]{display:none !important}
+
+.gmnoprint a, .gmnoprint span, .gm-style-cc {
+    display:none;
+}
+.info {
+    width: fit-content;
+    height: fit-content;
+    position: fixed;
+    bottom: 18px;
+    left: 31px;
+    z-index: 10;
+    pointer-events: none;
+    display: none;
+}
+
+.infoPlaceName {
+    background-color: rgba(232, 46, 46, 0.9);
+    backdrop-filter: blur(4px);
+    padding: 2px 7px;
+    width: fit-content;
+
+    font-style: normal;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 53px;
+    color: white;
+}
+
+.casesContainer {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.infectedContainer {
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: 13px;
+}
+
+.infectedCount {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 144px;
+    line-height: 160px;
+    color: #E82E2E;
+
+    text-shadow: 0px 0px 10px #000000;
+}
+
+.infectedTitle {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 53px;
+    color: #FFFFFF;
+    text-shadow: 0px 0px 10px #000000;
+}
+
+.deadContainer {
+    width: fit-content;
+    height: fit-content;
+    margin-left: 23px;
+}
+
+.deadCount {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 64px;
+    line-height: 95px;
+    display: inline-block;
+    color: #E82E2E;
+    text-shadow: 0px 0px 10px #000000;
+}
+
+.deadTitle {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 36px;
+    color: #FFFFFF;
+    display: inline-block;
+    text-shadow: 0px 0px 10px #000000;
+}
+
+.recoveredContainer {
+    width: fit-content;
+    height: fit-content;
+    margin-left: 33px;
+}
+
+.recoveredCount {
+    position: static;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 64px;
+    line-height: 95px;
+    display: inline-block;
+    color: #0BC534;
+    text-shadow: 0px 0px 10px #000000;
+}
+
+.recoveredTitle {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 36px;
+    color: #FFFFFF;
+    display: inline-block;
+    text-shadow: 0px 0px 10px #000000;
+}
+.casesCasesContainer{
+    display: inline-block;
+}
+@media screen and (max-width: 850px){
+
+    .casesCasesContainer{
+        display: block;
+    }
+    .deadContainer {
+        margin-left: 0px;
+    }
+}
+@media screen and (max-width: 550px), screen and (max-height: 500px){
+    .casesCasesContainer{
+        display: block;
+    }
+    .info{
+        left: 12px;
+        bottom: 10px;
+    }
+    .infoPlaceName{
+        font-size: 20px;
+        line-height: 37px;
+    }
+    .infectedContainer {
+        margin-bottom: 0px;
+    }
+    .infectedCount {
+        font-size: 72px;
+        line-height: 82px;
+        text-shadow: 0px 0px 5px #000000;
+    }
+    .infectedTitle {
+        font-size: 20px;
+        line-height: 37px;
+    }
+    .deadContainer {
+        margin-left: 0px;
+    }
+    .deadCount {
+        font-size: 47px;
+        line-height: 60px;
+        text-shadow: 0px 0px 5px #000000;
+    }
+    .deadTitle {
+        font-size: 16px;
+        line-height: 26px;
+    }
+    .recoveredContainer {
+        margin-left: 11px;
+    }
+    .recoveredCount {
+        font-size: 47px;
+        line-height: 60px;
+        text-shadow: 0px 0px 5px #000000;
+    }
+    .recoveredTitle {
+        font-size: 16px;
+        line-height: 26px;
+    }
+
+    .logo{
+        font-size: 30px;
+        line-height: 46px;
+    }
+    .logoLeft{
+        height: 50px;
+    }
+    .logoRight{
+        height: 50px;
+    }
+}
+
+.footer{
+    position: fixed;
+    z-index: 10;
+    bottom: 5px;
+    color: white;
+    font-size: 13px;
+}
+.footer_left{
+    left: 31px;
+}
+.footer_right{
+    right: 215px;
+}
+@media screen and (max-width: 600px){
+    .footer{
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 550px){
+    .footer {
+        font-size: 10px;
+        bottom: 2px;
+    }
+    .footer_left{
+        left: 12px;
+    }
+    .footer_right{
+        right: 65px;
+    }
+}
+
+#colors{
+    display: none;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px;
+    margin: 22px 10px;
+    background-color: black;
+    border: 1px solid red;
+    color: white;
+    font-size: 11px;
+    pointer-events: none;
+    font: 400 11px Roboto, Arial, sans-serif;
+}
+.color{
+    height: 13px;
+    width: 13px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.colorContainer{
+    text-align: left;
+    padding: 1px 0;
+    height: fit-content;
+}
+.colorText{
+    display: inline-block;
+    width: fit-content;
+    margin-left: 2px;
+    vertical-align: middle;
+}
+.colorTitle{
+    text-align: center;
+    margin-bottom: 4px;
+}
+a{
+    text-decoration: none;
+    color: white;
+    text-shadow: 0px 0px 2px #000000;
+}
+a:hover{
+    text-decoration: underline;
+}
