@@ -1,10 +1,7 @@
 
 var map;
-var service;
 var infowindow;
 var color_white = '#ffffff';
-
-var markerHover = false;
 
 var color01 = '#0f9246';
 var color02 = '#7dbb42';
@@ -29,61 +26,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
     color06Elem.style.backgroundColor = color06;
 });
 
-function printInfo(regionName, infected, dead=null, recovered=null, fromMarker=false) {
-    if((markerHover && fromMarker) || !markerHover){
-        document.getElementById('infoPlaceName').innerText=regionName;
-        document.getElementById('infectedCount').innerText=infected;
+function printInfo(regionName, infected, dead=null, recovered=null) {
+    document.getElementById('infoPlaceName').innerText=regionName;
+    document.getElementById('infectedCount').innerText=infected;
 
-        let deadContainer = document.getElementById('deadContainer');
-        let recoveredContainer = document.getElementById('recoveredContainer');
+    let deadContainer = document.getElementById('deadContainer');
+    let recoveredContainer = document.getElementById('recoveredContainer');
 
-        if(dead==null){
-            deadContainer.style.display='none';
-        } else{
-            deadContainer.style.display='inline-block';
-            document.getElementById('deadCount').innerText=dead;
-        }
-        if(recovered==null){
-            recoveredContainer.style.display='none';
-        } else{
-            recoveredContainer.style.display='inline-block';
-            document.getElementById('recoveredCount').innerText=recovered;
-        }
+    if(dead==null){
+        deadContainer.style.display='none';
+    } else{
+        deadContainer.style.display='inline-block';
+        document.getElementById('deadCount').innerText=dead;
+    }
+    if(recovered==null){
+        recoveredContainer.style.display='none';
+    } else{
+        recoveredContainer.style.display='inline-block';
+        document.getElementById('recoveredCount').innerText=recovered;
     }
 }
-function createMarkerLatlng(latlng, name, text) {
-    var marker = new google.maps.Marker({
-        map: map,
-        position: latlng
+function setMapListeners(infectedCount, deadCount, recoveredCount){
+    map.addListener('mousemove', function () {
+        printInfo('Česká Republika',infectedCount, deadCount, recoveredCount);
     });
-
-    marker.addListener('mouseover', function() {
-        markerHover = true;
-        printInfo(name,text,null,null, true);
+    map.addListener('click', function () {
+        printInfo('Česká Republika',infectedCount, deadCount, recoveredCount);
     });
-    marker.addListener('mouseout', function() {
-        markerHover = false;
-    });
-    marker.addListener('click', function() {
-        printInfo(name,text,null,null, true);
-    });
-}
-function createMarkerGplace(place, text) {
-    var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location
-    });
-
-    marker.addListener('mouseover', function() {
-        markerHover = true;
-        printInfo(name,text,null,null, true);
-    });
-    marker.addListener('mouseout', function() {
-        markerHover = false;
-    });
-    marker.addListener('click', function() {
-        printInfo(name,text,null,null, true);
-    });
+    printInfo('Česká Republika',infectedCount, deadCount, recoveredCount);
+    document.getElementById('info').style.display='block';
 }
 
 function initMap() {
@@ -297,234 +268,118 @@ function initMap() {
         anchor = google.maps.ControlPosition.RIGHT_TOP;
     }
     map.controls[anchor].push(legend);
+    var regionsIndex = {
+        'Praha':'01',
+        'Královéhradecký kraj':'02',
+        'Karlovarský kraj':'03',
+        'Liberecký kraj':'04',
+        'Moravskoslezský kraj':'05',
+        'Olomoucký kraj':'06',
+        'Pardubický kraj':'07',
+        'Plzeňský kraj':'08',
+        'Středočeský kraj':'09',
+        'Jihočeský kraj':'10',
+        'Jihomoravský kraj':'11',
+        'Ústecký kraj':'12',
+        'Vysočina':'13',
+        'Zlínský kraj':'14'
+    };
+    console.log('Loading data');
+    let loaded = false;
+    let infectedCount = 0;
+    fetch('https://api.apify.com/v2/key-value-stores/K373S4uCFR9W1K8ei/records/LATEST?disableRedirect=true')
+        .then(data => data.json()).then(data => {
+        console.log('Loaded data');
+        let regionData = data['infectedByRegion'];
+        infectedCount = data['infected'];
+        let deadCount = 0;
+        let recoveredCount = 0;
 
-    service = new google.maps.places.PlacesService(map);
-    var placesToPrint = [];
-    var regionsCor = [['Praha',0],['Královéhradecký kraj', 0],['Karlovarský kraj',0],
-        ['Liberecký kraj',0],['Moravskoslezský kraj',0],['Olomoucký kraj',0],['Pardubický kraj',0],
-        ['Plzeňský kraj',0],['Středočeský kraj', 0],['Jihočeský kraj',0],
-        ['Jihomoravský kraj',0],['Ústecký kraj',0],['Kraj Vysočina',0],['Zlínský kraj',0]];
-    var regionsPopulation = [['Praha',1308632],['Královéhradecký kraj', 551021],['Karlovarský kraj',294896],
-        ['Liberecký kraj',442356],['Moravskoslezský kraj',1203299],['Olomoucký kraj',632492],['Pardubický kraj',520316],
-        ['Plzeňský kraj',584672],['Středočeský kraj', 1369332],['Jihočeský kraj',642133],
-        ['Jihomoravský kraj',1187667],['Ústecký kraj',820789],['Kraj Vysočina',509274],['Zlínský kraj',582921]];
-    console.log('loading wiki');
-    fetch('/wikiData/').then(data => data.json()).then(data =>{
-        console.log('loaded');
-        var html = data.parse.text['*'];
-        var htmlDom = new DOMParser().parseFromString(html, "text/xml");
-
-        var cases = htmlDom.getElementsByClassName('wikitable')[0].children[0].children;
-        var numberOfCasesOrigin = cases[cases.length-2].children[0].firstChild.textContent;
-        if(numberOfCasesOrigin.includes('–')){
-            let numberOfCasesSplitted = numberOfCasesOrigin.split('–');
-            infectedCount = numberOfCasesSplitted[numberOfCasesSplitted.length-1];
+        if(data['dead'] !== undefined && data['dead'] !== null){
+            deadCount = data['dead'];
         }
-        else if(numberOfCasesOrigin.includes('-')){
-            let numberOfCasesSplitted = numberOfCasesOrigin.split('-');
-            infectedCount = numberOfCasesSplitted[numberOfCasesSplitted.length-1];
+        if(data['recovered'] !== undefined && data['recovered'] !== null){
+            recoveredCount = data['recovered'];
         }
-        for(let i = 2; i < cases.length;i+=2){
-
-            let state = cases[i].children[2].firstChild.textContent;
-            if(state.toString().localeCompare('nepotvrzeno\n')===0){
-                continue;
-            }
-
-            let caseNumber = cases[i].children[0].firstChild.textContent.toString();
-            let countOfCases = 1;
-            if(caseNumber.includes('–')){
-                let caseNumberSplitted = caseNumber.split('–');
-                countOfCases = parseInt(caseNumberSplitted[1]) - parseInt(caseNumberSplitted[0]) + 1;
-            }
-            else if(caseNumber.includes('-')){
-                let caseNumberSplitted = caseNumber.split('-');
-                countOfCases = parseInt(caseNumberSplitted[1]) - parseInt(caseNumberSplitted[0]) + 1;
-            }
-
-            let place = cases[i].children[5].textContent.split(',')[0].split(['\n'])[0].split(['['])[0];
-            let region = cases[i].children[6].textContent.split(',')[0].split(['\n'])[0].split(['['])[0];
-            let treatment = cases[i].children[7].textContent.split(',')[0].split(['\n'])[0].split(['['])[0];
-
-            let found = false;
-
-            if(window.innerWidth > 550){
-                let queryPlace = '';
-                if(place.toString().localeCompare('N/A') && place.toString().localeCompare('Praha') ||
-                    (treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace'))){
-                    if(treatment.toString().localeCompare('N/A') && treatment.toString().localeCompare('domácí izolace')){
-                        queryPlace = treatment;
-                    } else {
-                        queryPlace = place;
-                    }
-
-                    for(let j = 0; j<placesToPrint.length;j++){
-                        if(placesToPrint[j][0] === queryPlace){
-                            placesToPrint[j][1]+=countOfCases;
-                            found = true;
-                            break;
-                        }
-                    }
-                    if(!found){
-                        placesToPrint.push([queryPlace, 1])
-                    }
-                }
-            }
-
-            if(region.toString().localeCompare('N/A')){
-                found = false;
-                for(let j = 0; j<regionsCor.length;j++){
-                    if(regionsCor[j][0] === region){
-                        regionsCor[j][1] += countOfCases;
-                        found = true;
-                        break;
-                    }
-                }
-                if(!found){
-                    console.log(region);
-                    console.log('FUCK#1');
-                }
-            }
+        if(loaded){
+            setMapListeners(infectedCount, recoveredCount, deadCount);
+        } else {
+            loaded = true;
         }
-    }).then(data => {
-        if(window.innerWidth > 550){
-            let k = 0;
-            placesToPrint.forEach(place => {
-                setTimeout(k*5);
-                k++;
 
-                let data = new FormData();
-                data.append('type','findPlace');
-                data.append('searchName',place[0]);
-                var origin = 'http://koronamap.cz';
-                fetch('/api.php', {
-                    method: 'post',
-                    body: data,
-                    origin: origin
-                }).then(response => response.json()).then(response => {
-                    if(response[0] === 1 && response[1] !== null){
-                        let latitude = JSON.parse(response[1]['location'])[0];
-                        let longtitude = JSON.parse(response[1]['location'])[1];
-                        let name = response[1]['name'];
-                        let latlng = {lat: latitude, lng: longtitude};
-                        createMarkerLatlng(latlng, name, place[1]);
-                    } else {
-                        let request = {
-                            query: place[0],
-                            fields: ['name', 'geometry'],
-                        };
+        var prague = [];
+        regionData.forEach(function (item) {
+            let regionName = item['region'];
+            let regionInfected = item['value'];
+            let regionDead = item['dead'];
+            let regionRecovered = item['recovered'];
 
-                        let success = false;
-                        let tries = 0;
+            console.log('Loading region polygon');
+            fetch('./regionPolygons/area'+regionsIndex[regionName]+'.txt').then(data => data.json()).then(regionPolygonData =>{
+                console.log('Loaded region polygon');
 
-                        let intr = setInterval(function() {
-                            service.findPlaceFromQuery(request, function(results, status) {
-                                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                                    if(results.length){
-                                        let foundPlace = results[0];
+                let color = color_white;
+                if(regionInfected<1){
+                    color = color01;
+                } else if(regionInfected < 10){
+                    color = color02;
+                } else if(regionInfected < 100){
+                    color = color03;
+                } else if(regionInfected < 250){
+                    color = color04;
+                } else if(regionInfected < 500){
+                    color = color05;
+                } else {
+                    color = color06;
+                }
 
-                                        let latlng = [];
-                                        latlng.push(foundPlace['geometry']['location'].lat());
-                                        latlng.push(foundPlace['geometry']['location'].lng());
-                                        let data = new FormData();
-                                        data.append('type','insertPlace');
-                                        data.append('name',foundPlace['name']);
-                                        data.append('searchName',place[0]);
-                                        data.append('location',JSON.stringify(latlng));
-                                        fetch('/api.php', {
-                                            method: 'post',
-                                            body: data,
-                                            origin: origin
-                                        }).then(response => response.json()).then(response => {console.log(response)});
+                if(regionName === 'Praha'){
+                    prague = regionPolygonData;
+                }
+                else if (regionName === 'Středočeský kraj') {
+                    regionPolygonData = [regionPolygonData, prague.reverse()];
+                }
 
-                                        createMarkerGplace(results[0], foundPlace['name']);
-                                    }
-                                    success = true;
-                                    clearInterval(intr);
-                                } else {
-                                    console.log(status);
-                                    console.log("FUCK");
-                                }
-                            });
-                            tries++;
-
-                            if (success || (tries > 3)) clearInterval(intr);
-                        }, 1000);
-                    }
+                var regionPolygon = new google.maps.Polygon({
+                    paths: regionPolygonData,
+                    strokeColor: color,
+                    strokeOpacity: 0.8,
+                    strokeWeight: 3,
+                    fillColor: color,
+                    fillOpacity: 0.5
                 });
-                console.log(place[0]+' '+place[1]);
-            });
-        }
-        fetch('/wikiData/regions.php').then(regionCorCount => regionCorCount.json()).then(regionCorCount =>{
-            let deadCount = null;
-            let recoveredCount = null;
-            if(regionCorCount['infected']!==null && regionCorCount['infected'] > infectedCount){
-                infectedCount = regionCorCount['infected'];
-            }
-            if(regionCorCount['dead']!==null){
-                deadCount = regionCorCount['dead'];
-            }
-            if(regionCorCount['recovered']!==null){
-                recoveredCount = regionCorCount['recovered'];
-            }
-            map.addListener('mousemove', function () {
-                printInfo('Česká Republika',infectedCount, deadCount, recoveredCount);
-            });
-            map.addListener('click', function () {
-                printInfo('Česká Republika',infectedCount, deadCount, recoveredCount);
-            });
-            printInfo('Česká Republika',infectedCount, deadCount, recoveredCount);
-            var prague = [];
-            for(let l = 1; l<15; l++){
-                fetch('./regionPolygons/area'+String("0" + l).slice(-2)+'.txt').then(data => data.json()).then(data =>{
-                    let regionCount = regionsCor[l-1][1];
-                    if(regionCorCount[regionsCor[l-1][0]]!==null && regionCorCount[regionsCor[l-1][0]] > regionsCor[l-1][1]){
-                        regionCount = regionCorCount[regionsCor[l-1][0]];
-                    }
-                    let color = color_white;
-                    if(regionCount<1){
-                        color = color01;
-                    } else if(regionCount < 10){
-                        color = color02;
-                    } else if(regionCount < 100){
-                        color = color03;
-                    } else if(regionCount < 250){
-                        color = color04;
-                    } else if(regionCount < 500){
-                        color = color05;
-                    } else {
-                        color = color06;
-                    }
-
-                    if(l===1){
-                        prague = data;
-                    }
-                    else if (l===9) {
-                        data = [data, prague.reverse()];
-                    }
-
-                    var bermudaTriangle = new google.maps.Polygon({
-                        paths: data,
-                        strokeColor: color,
-                        strokeOpacity: 0.8,
-                        strokeWeight: 3,
-                        fillColor: color,
-                        fillOpacity: 0.5
-                    });
-                    bermudaTriangle.setMap(map);
-                    bermudaTriangle.addListener('mousemove', function () {
-                        printInfo(regionsCor[l-1][0],regionCount);
-                    });
-                    bermudaTriangle.addListener('click', function () {
-                        printInfo(regionsCor[l-1][0],regionCount);
-                    });
+                regionPolygon.setMap(map);
+                regionPolygon.addListener('mousemove', function () {
+                    printInfo(regionName,regionInfected, regionDead, regionRecovered);
                 });
-            }
-            document.getElementById('colors').style.display='block';
-            document.getElementById('info').style.display='block';
+                regionPolygon.addListener('click', function () {
+                    printInfo(regionName,regionInfected, regionDead, regionRecovered);
+                });
+            });
+            // console.log(regionName+":"+regionInfected);
         });
+        document.getElementById('colors').style.display='block';
     }).catch((error) => {
         console.error('Error:', error);
     });
 
+    console.log('Loading wiki data');
+    fetch('/wikiData/regions.php').then(wikiInfoData => wikiInfoData.json()).then(wikiInfoData =>{
+        console.log('Loaded wiki data');
+        let deadCount = 0;
+        let recoveredCount = 0;
+        if(wikiInfoData['dead']!==null){
+            deadCount = wikiInfoData['dead'];
+        }
+        if(wikiInfoData['recovered']!==null){
+            recoveredCount = wikiInfoData['recovered'];
+        }
+        if(loaded){
+            setMapListeners(infectedCount, recoveredCount, deadCount);
+        } else {
+            loaded = true;
+        }
+    }).catch((error) => {
+        console.error('Error:', error);
+    });
 }
