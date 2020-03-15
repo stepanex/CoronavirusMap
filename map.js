@@ -191,11 +191,14 @@ var countriesPopupTranslation={
 function styleFunction(feature, resolution) {
     let name = null;
     let styleInfectedCount=0;
-    if(feature.get('regionName') !== undefined){
+
+    let regionName = feature.get('regionName');
+    let stateName = feature.get('stateName');
+    if(regionName !== undefined){
         name = feature.get('regionName');
         styleInfectedCount=regionsCor[name];
     }
-    else if(feature.get('stateName') !== undefined){
+    else if(stateName !== undefined){
         name = feature.get('stateName');
         styleInfectedCount=stateCor[name];
         console.log(name);
@@ -211,15 +214,21 @@ function styleFunction(feature, resolution) {
         color = color04;
     } else if (styleInfectedCount < 500) {
         color = color05;
-    } else {
+    } else if(styleInfectedCount >= 500) {
         color = color06;
     }
+
+    let strokeColor = [color[0], color[1], color[2], 1];
+    if(stateName !== undefined){
+        strokeColor = [0,0,0, 1];
+    }
+
     return new ol.style.Style({
         fill: new ol.style.Fill({
             color: [color[0], color[1], color[2], 0.6]
         }),
         stroke: new ol.style.Stroke({
-            color: [color[0], color[1], color[2], 1],
+            color: strokeColor,
             width: 1,
             lineCap: 'round'
         })
@@ -253,7 +262,6 @@ console.log('loading wiki');
         });
         map.addLayer(regionLayer);
         layers.push(regionLayer);
-        document.getElementById('colorTitle').innerText=countriesPopupTranslation[state]['legendTitle'];
         document.getElementById('colors').style.display='block';
         document.getElementById('info').style.display='block';
         printInfo(undefined);
@@ -279,8 +287,11 @@ fetch('/states/statesData.php').then(statesCorCount => statesCorCount.json()).th
         }
     });
 });
-//TODO fetch data, style according to number of infected
 
+document.getElementById('colorTitle').innerText=countriesPopupTranslation[state]['legendTitle'];
+document.getElementById('infectedTitle').innerText=countriesPopupTranslation[state]['infectedTitle'];
+document.getElementById('deadTitle').innerText=countriesPopupTranslation[state]['deadTitle'];
+document.getElementById('recoveredTitle').innerText=countriesPopupTranslation[state]['recoveredTitle'];
 
 if(window.innerWidth > 550) {
     map.on('pointermove', function (e) {
@@ -326,9 +337,6 @@ map.on('click', function(e) {
                 return layer === layers[i]
             }});
         if(feature !== undefined){
-            console.log(feature.getKeys()[1]);
-            console.log(feature.getKeys()[2]);
-            console.log(feature.getKeys()[3]);
             break;
         }
     }

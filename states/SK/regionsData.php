@@ -53,7 +53,7 @@ function get_inner_html( $node ) {
     return $innerHTML;
 }
 
-if($cachedRevidJson[0] && strval($lastRevisionId) == strval($cachedRevidJson[1]['revid'])){
+if($cachedRevidJson[0] && intval($lastRevisionId) <= intval($cachedRevidJson[1]['revid'])){
     echo json_decode($db->getCache($state, 'wikiInfo'),true)[1]['data'];
 }else {
     $newUrl = 'https://en.wikipedia.org/w/api.php?action=parse&section=' . strval($sectionNumber) . '&prop=text&pageid=' . $pageid . '&format=json';

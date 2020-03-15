@@ -264,7 +264,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 #colors{
     display: none;
     position: fixed;
-    width: fit-content;
+    width: 128px;
     height: fit-content;
     padding: 5px;
     background-color: black;
@@ -344,7 +344,7 @@ a:hover{
 .ol-control.ol-zoom{
     top: unset;
     left: unset;
-    right: 158px;
+    right: 160px;
     bottom: 15px;
 }
 .ol-overlay-container.ol-selectable{

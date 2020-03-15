@@ -28,7 +28,7 @@ $wiki1Json = json_decode($wiki1, true);
 $lastRevisionId = $wiki1Json['query']['pages'][$pageid]['revisions'][0]['revid'];
 $cachedRevidJson = json_decode($db->getCacheLastRevision($state, 'wikiInfo'), true);
 
-if($cachedRevidJson[0] && strval($lastRevisionId) == strval($cachedRevidJson[1]['revid'])){
+if($cachedRevidJson[0] && intval($lastRevisionId) <= intval($cachedRevidJson[1]['revid'])){
     echo json_decode($db->getCache($state, 'wikiInfo'),true)[1]['data'];
 }else{
     $wiki1Html =  $wiki1Json['query']['pages'][$pageid]['revisions'][0]['*'];
@@ -81,7 +81,7 @@ if($cachedRevidJson[0] && strval($lastRevisionId) == strval($cachedRevidJson[1][
     } catch (Exception $e){
     }
     //\getting counts
-    $delimeter = '| rozšíření = ';
+    $delimeter = '| nakažení';
     if (strpos($wiki1Html, $delimeter) === false) {
         $arr = addFileToArray($arr, $cachedRevidJson);
         $arr['errorCount'] += 1;
@@ -89,8 +89,8 @@ if($cachedRevidJson[0] && strval($lastRevisionId) == strval($cachedRevidJson[1][
         echo json_encode($arr);
         die();
     }
-    $wiki1HtmlExploded = explode($delimeter,$wiki1Html)[1];
-    $delimeter = '{{Citace elektronické';
+    $wiki1HtmlExploded = explode($delimeter,$wiki1Html)[0];
+    $delimeter = '</ref>';
     if (strpos($wiki1HtmlExploded, $delimeter) === false) {
         $arr = addFileToArray($arr, $cachedRevidJson);
         $arr['errorCount'] += 1;
@@ -98,7 +98,7 @@ if($cachedRevidJson[0] && strval($lastRevisionId) == strval($cachedRevidJson[1][
         echo json_encode($arr);
         die();
     }
-    $regionsHtml = explode($delimeter, $wiki1HtmlExploded)[0];
+    $wiki1HtmlExploded = explode($delimeter,$wiki1HtmlExploded)[1];
     $delimeter = '[[';
     if (strpos($wiki1HtmlExploded, $delimeter) === false) {
         $arr = addFileToArray($arr, $cachedRevidJson);
@@ -107,8 +107,7 @@ if($cachedRevidJson[0] && strval($lastRevisionId) == strval($cachedRevidJson[1][
         echo json_encode($arr);
         die();
     }
-    $regionsHtmlExploded =  explode($delimeter, $regionsHtml);
-    $arr['errorCount'] = 0;
+    $regionsHtmlExploded =  explode($delimeter, $wiki1HtmlExploded);
     foreach ($regionsHtmlExploded as $region ){
         if (strpos($region, ']]') !== false) {
             $regionExploded = explode(']]', $region);
