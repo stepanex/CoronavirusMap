@@ -3,6 +3,8 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: 'Oswald', sans-serif;
+    font-style: normal;
+    font-weight: 500;
 }
 .logo {
     position: fixed;
@@ -22,8 +24,6 @@ html, body {
     display: inline-block;
     width: fit-content;
     height: 53px;
-    font-style: normal;
-    font-weight: 500;
     color: #FFFFFF;
     padding: 2px 8px;
     float: left;
@@ -35,8 +35,6 @@ html, body {
     height: 53px;
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
-    font-style: normal;
-    font-weight: 500;
     color: #FFFFFF;
     padding: 2px 8px;
     float: left;
@@ -74,8 +72,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     padding: 2px 7px;
     width: fit-content;
 
-    font-style: normal;
-    font-weight: 500;
     font-size: 36px;
     line-height: 53px;
     color: white;
@@ -93,7 +89,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 }
 
 .infectedCount {
-    font-style: normal;
     font-weight: bold;
     font-size: 144px;
     line-height: 160px;
@@ -103,8 +98,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 }
 
 .infectedTitle {
-    font-style: normal;
-    font-weight: 500;
     font-size: 36px;
     line-height: 53px;
     color: #FFFFFF;
@@ -118,7 +111,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 }
 
 .deadCount {
-    font-style: normal;
     font-weight: bold;
     font-size: 64px;
     line-height: 95px;
@@ -128,8 +120,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 }
 
 .deadTitle {
-    font-style: normal;
-    font-weight: 500;
     font-size: 24px;
     line-height: 36px;
     color: #FFFFFF;
@@ -145,7 +135,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 
 .recoveredCount {
     position: static;
-    font-style: normal;
     font-weight: bold;
     font-size: 64px;
     line-height: 95px;
@@ -155,8 +144,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 }
 
 .recoveredTitle {
-    font-style: normal;
-    font-weight: 500;
     font-size: 24px;
     line-height: 36px;
     color: #FFFFFF;
@@ -360,9 +347,34 @@ a:hover{
     right: 158px;
     bottom: 15px;
 }
+.ol-overlay-container.ol-selectable{
+    width: fit-content;
+}
 @media screen and (max-width: 550px){
     .ol-control.ol-zoom{
         right:10px;
         bottom: 30px;
     }
+}
+
+#popup {
+    background: rgba(232, 46, 46, 0.9);
+    padding: 3px 10px;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(4px);
+}
+
+#popupTitle{
+    font-weight: 400;
+}
+
+#popupInfectedCount {
+    display: inline-block;
+    font-size: 64px;
+    line-height: 71px;
+}
+
+#popupInfectedTitle {
+    display: inline-block;
 }

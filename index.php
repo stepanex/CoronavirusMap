@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--<script src="https://cdn.maptiler.com/ol/v6.0.0/ol.js"></script>-->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/build/ol.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/css/ol.css" type="text/css">
 
@@ -28,21 +27,43 @@
     <!--<script data-ad-client="ca-pub-8503799930198018" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
 </head>
 <body>
+<script>
+    var state=
+    <?php
+    $state = "CZ";
+    if(isset($_GET['state'])){
+        $state = $_GET['state'];
+    }
+    echo '"'.$state.'"';
+    ?>;
+</script>
+<div id="popup">
+    <a href="#" id="popup-closer"></a>
+    <div id="popup-content">
+        <div id="popup-content">
+            <div id="popupTitle"></div>
+            <div id="popupCasesContainer">
+                <div id="popupInfectedCount"></div>
+                <div id="popupInfectedTitle"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="logo">
     <div class="logoLeft">Korona</div>
     <div class="logoRight">Map</div>
 </div>
 <div class="info" id="info">
     <div class="infoPlaceName" id="infoPlaceName">
-        Praha
+        Česká Republika
     </div>
     <div class="infoCases">
         <div class="infectedContainer casesContainer" id="infectedContainer">
             <div class="infectedCount" id="infectedCount">
                 -
             </div>
-            <div class="infectedTitle">
-                počet nakažených
+            <div class="infectedTitle" id="infectedTitle">
+                -
             </div>
         </div>
         <div class="casesCasesContainer">
@@ -50,25 +71,23 @@
                 <div class="deadCount" id="deadCount">
                     -
                 </div>
-                <div class="deadTitle">
-                    úmrtí
+                <div class="deadTitle" id="deadTitle">
+                    -
                 </div>
             </div>
             <div class="recoveredContainer casesContainer" id="recoveredContainer">
                 <div class="recoveredCount" id="recoveredCount">
                     -
                 </div>
-                <div class="recoveredTitle">
-                    uzdravení
+                <div class="recoveredTitle" id="recoveredTitle">
+                    -
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div id="colors">
-    <div class="colorTitle">
-        Počet nakažených lidí<br/>
-        (vůči regionu)
+    <div class="colorTitle" id="colorTitle">
     </div>
     <div class="colorContainer">
         <div class="color" id="color01"></div>
