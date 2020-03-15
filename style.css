@@ -41,7 +41,12 @@ html, body {
     padding: 2px 8px;
     float: left;
 }
-
+@media screen and (max-width: 550px){
+    .logo{
+        top: 15px;
+        left: 15px;
+    }
+}
 
 #map {
     height: 100%;
@@ -244,6 +249,12 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 .footer_right{
     right: 215px;
 }
+.footer_small{
+    bottom: 2px;
+    right: 14px;
+    position: fixed;
+    font-size: 8px;
+}
 @media screen and (max-width: 600px){
     .footer{
         font-size: 12px;
@@ -258,12 +269,14 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
         left: 12px;
     }
     .footer_right{
-        right: 65px;
+        right: 14px;
+        bottom: 12px;
     }
 }
 
 #colors{
     display: none;
+    position: fixed;
     width: fit-content;
     height: fit-content;
     padding: 5px;
@@ -274,8 +287,9 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     pointer-events: none;
     font-family: Roboto, Arial, sans-serif;
 
-    margin-right : 63px;
-    margin-bottom: -91px;
+    z-index: 10;
+    right: 10px;
+    bottom: 15px;
 }
 .color{
     height: 13px;
@@ -301,9 +315,9 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 
 @media screen and (max-width: 550px){
         #colors{
-        margin-top: 20px;
-        margin-right: 10px;
-        font-size: 11px;
+            bottom: unset;
+            top: 15px;
+            right: 15px;
     }
 }
 
@@ -314,4 +328,41 @@ a{
 }
 a:hover{
     text-decoration: underline;
+}
+
+.ol-control button{
+    width: 40px;
+    height: 40px;
+    margin: 0px;
+    background: none;
+    color: #666666;
+    font-size: 30px;
+}
+.ol-control button:focus, .ol-control button:hover{
+    color: #333333;
+    background-color: white;
+}
+.ol-control{
+    padding: 0;
+    border-radius: 2px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+}
+.ol-control:hover{
+    background-color: white;
+}
+.ol-control.ol-attribution{
+    display: none;
+}
+.ol-control.ol-zoom{
+    top: unset;
+    left: unset;
+    right: 158px;
+    bottom: 15px;
+}
+@media screen and (max-width: 550px){
+    .ol-control.ol-zoom{
+        right:10px;
+        bottom: 30px;
+    }
 }
