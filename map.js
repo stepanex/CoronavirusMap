@@ -176,17 +176,19 @@ console.log('loading wiki');
     }).catch((error) => {
     console.error('Error:', error);
 });
-map.on('pointermove', function(e) {
-    if (e.dragging) {
-        return;
-    }
-    var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
-        return feature;
-    }, 12, function(layer) {
-        return layer == regionLayer
+if(window.innerWidth > 550) {
+    map.on('pointermove', function (e) {
+        if (e.dragging) {
+            return;
+        }
+        var feature = map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
+            return feature;
+        }, 12, function (layer) {
+            return layer == regionLayer
+        });
+        printInfo(feature);
     });
-    printInfo(feature);
-});
+}
 
 map.on('click', function(e) {
     var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
@@ -211,7 +213,6 @@ featureOverlay = new ol.layer.Vector({
     source: new ol.source.Vector(),
     map: map,
     style: function(feature) {
-        // highlightStyle.getText().setText(feature.get('name'));
         return highlightStyle;
     }
 });
