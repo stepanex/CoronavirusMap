@@ -304,7 +304,7 @@ if(window.innerWidth > 550) {
         }
         var feature = map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
             return feature;
-        }, {hitTolerance: 2, layerFilter: function (layer) {
+        }, {hitTolerance: 1, layerFilter: function (layer) {
             return layer === regionLayer
         }});
         printInfo(feature);
@@ -336,7 +336,7 @@ map.on('click', function(e) {
     for(let i = 0; i<layers.length; i++){
         var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
             return feature;
-        }, {hitTolerance: 2, layerFilter: function (layer) {
+        }, {hitTolerance: 1, layerFilter: function (layer) {
                 return layer === layers[i]
             }});
         if(feature !== undefined){
