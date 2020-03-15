@@ -55,7 +55,7 @@
 </div>
 <div class="info" id="info">
     <div class="infoPlaceName" id="infoPlaceName">
-        Česká Republika
+        -
     </div>
     <div class="infoCases">
         <div class="infectedContainer casesContainer" id="infectedContainer">

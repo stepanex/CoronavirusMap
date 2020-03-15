@@ -74,7 +74,7 @@ function printInfo(feature, coordinate = null, from=null) {
                 }
             }
         } else {
-            document.getElementById('infoPlaceName').innerText='Česká Republika';
+            document.getElementById('infoPlaceName').innerText=countriesPopupTranslation[state]['infoPlaceName'];;
             document.getElementById('infectedCount').innerText=infectedCount;
             deadContainer.style.display='inline-block';
             document.getElementById('deadCount').innerText=deadCount;
@@ -176,7 +176,8 @@ var countriesPopupTranslation={
         'infectedTitle':'počet nakažených',
         'deadTitle':'úmrtí',
         'recoveredTitle':'uzdravení',
-        'legendTitle':'Počet nakažených lidí'
+        'legendTitle':'Počet nakažených lidí',
+        'infoPlaceName':'Česká Republika'
     },
     'SK':{
         'CZ':'Prejsť na Českú Republiku',
@@ -185,7 +186,8 @@ var countriesPopupTranslation={
         'infectedTitle':'počet infikovaných',
         'deadTitle':'úmrtí',
         'recoveredTitle':'uzdravení',
-        'legendTitle':'Počet infikovaných ľudí'
+        'legendTitle':'Počet infikovaných ľudí',
+        'infoPlaceName':'Slovenská Republika'
     }
 };
 function styleFunction(feature, resolution) {
@@ -292,6 +294,7 @@ document.getElementById('colorTitle').innerText=countriesPopupTranslation[state]
 document.getElementById('infectedTitle').innerText=countriesPopupTranslation[state]['infectedTitle'];
 document.getElementById('deadTitle').innerText=countriesPopupTranslation[state]['deadTitle'];
 document.getElementById('recoveredTitle').innerText=countriesPopupTranslation[state]['recoveredTitle'];
+document.getElementById('infoPlaceName').innerText=countriesPopupTranslation[state]['infoPlaceName'];
 
 if(window.innerWidth > 550) {
     map.on('pointermove', function (e) {
@@ -301,7 +304,7 @@ if(window.innerWidth > 550) {
         }
         var feature = map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
             return feature;
-        }, {hitTolerance: 12, layerFilter: function (layer) {
+        }, {hitTolerance: 2, layerFilter: function (layer) {
             return layer === regionLayer
         }});
         printInfo(feature);
@@ -333,7 +336,7 @@ map.on('click', function(e) {
     for(let i = 0; i<layers.length; i++){
         var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
             return feature;
-        }, {hitTolerance: 12, layerFilter: function (layer) {
+        }, {hitTolerance: 2, layerFilter: function (layer) {
                 return layer === layers[i]
             }});
         if(feature !== undefined){
