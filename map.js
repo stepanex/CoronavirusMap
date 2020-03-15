@@ -167,7 +167,8 @@ console.log('loading wiki');
         });
         regionLayer = new ol.layer.Vector({
             source: regionsData,
-            style: styleFunction
+            style: styleFunction,
+            zIndex: 10
         });
         map.addLayer(regionLayer);
         document.getElementById('colors').style.display='block';
@@ -214,5 +215,6 @@ featureOverlay = new ol.layer.Vector({
     map: map,
     style: function(feature) {
         return highlightStyle;
-    }
+    },
+    zIndex: 10
 });
