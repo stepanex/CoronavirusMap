@@ -53,8 +53,13 @@ $regionsCount = 0;
 
 $apify = file_get_contents('https://api.apify.com/v2/key-value-stores/K373S4uCFR9W1K8ei/records/LATEST?disableRedirect=true');
 $apifyJson = json_decode($apify, true);
-if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['infected'])){
-    $arr['infected'] = $apifyJson['infected'];
+if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['fromBabisNewspapers'])){
+
+    $babisNewspapers = $apifyJson['fromBabisNewspapers'];
+    $arr['infected'] = $babisNewspapers['totalInfected'];
+    $arr['dead'] = $babisNewspapers['totalDeaths'];
+    $arr['recovered'] = $babisNewspapers['totalCured'];
+
     $regions = $apifyJson['infectedByRegion'];
     foreach ($regions as $region){
         if($region['region'] == 'Vysočina')
@@ -66,8 +71,6 @@ if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['infected'])){
     }
 
     if($regionsCount == 14){
-        $arr['dead'] = 0;
-        $arr['recovered'] = 0;
         echo json_encode($arr);
         die();
     }
