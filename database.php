@@ -1,4 +1,5 @@
 <?php
+require_once('databaseLogin.php');
 class database
 {
 
@@ -6,7 +7,8 @@ class database
 
     function __construct()
     {
-        $this->db = new mysqli("35.246.28.71:3306", "root", "krutoheslo", "koronamap");
+        $databaseLogin = getDatabaseLogin();
+        $this->db = new mysqli($databaseLogin[0], $databaseLogin[1], $databaseLogin[2], $databaseLogin[3]);
 
         if ($this->db->connect_error) {
             die("Connection failed: " . $this->db->connect_error);
