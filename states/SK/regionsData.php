@@ -74,7 +74,7 @@ function get_inner_html( $node ) {
     return $innerHTML;
 }
 
-if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1]['revid']) && false){
+if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1]['revid'])){
     echo json_decode($db->getCache($state, 'wikiInfo'),true)[1]['data'];
 }else {
     $arr = addFileToArray($arr, $cachedRevidJson);
