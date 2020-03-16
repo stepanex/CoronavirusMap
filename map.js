@@ -144,11 +144,11 @@ console.log('loading wiki');
                 color = color02;
             } else if (regionCount < 100) {
                 color = color03;
-            } else if (regionCount < 250) {
-                color = color04;
             } else if (regionCount < 500) {
+                color = color04;
+            } else if (regionCount < 1000) {
                 color = color05;
-            } else if (regionCount >= 500){
+            } else if (regionCount >= 1000){
                 color = color06;
             }
             return new ol.style.Style({
