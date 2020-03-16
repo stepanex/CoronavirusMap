@@ -3,25 +3,46 @@ require_once('../../database.php');
 
 $state = 'SK';
 
+$db = new database();
+$dbStatus = $db->getStatusArr();
+if(!($dbStatus[0])){
+    $arr['errorCount'] +=1;
+    array_push($arr['error'], $dbStatus[1]);
+    echo json_encode($arr);
+    die();
+}
+
 function addFileToArray($array, $cachedRevidJson){
     global $state;
-    $db = new database();
-    if($cachedRevidJson[0]!=-1){
-        $fileJson = json_decode($db->getCache($state, 'wikiInfo'),true)[1]['data'];
+    global $db;
+    if($cachedRevidJson[0]){
+        $fileJson = json_decode(json_decode($db->getCache($state, 'wikiInfo'),true)[1]['data']);
         if($fileJson!=null){
             foreach ($fileJson as $region=>$count){
-                $array[$region] = $count;
+                if(array_key_exists($region, $array)){
+                    $array[$region] = $count;
+                }
             }
         }
     }
     return $array;
 }
 
-$db = new database();
 $pageid = '63300608';
 $arr = [];
+$arr['errorCount'] = 0;
 $arr['error'] = [];
-$delimeter = '';
+$arr['infected'] = null;
+$arr['dead'] = null;
+$arr['recovered'] = null;
+$arr['Bratislava'] = null;
+$arr['Žilina'] = null;
+$arr['Košice'] = null;
+$arr['Trnava'] = null;
+$arr['Trenčín'] = null;
+$arr['Prešov'] = null;
+$arr['Banská Bystrica'] = null;
+$arr['Nitra'] = null;
 
 $wiki =  file_get_contents('https://en.wikipedia.org/w/api.php?action=parse&prop=text&prop=sections&pageid='.$pageid.'&format=json');
 $wikiJson = json_decode($wiki, true);
@@ -53,9 +74,10 @@ function get_inner_html( $node ) {
     return $innerHTML;
 }
 
-if($cachedRevidJson[0] && intval($lastRevisionId) <= intval($cachedRevidJson[1]['revid'])){
+if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1]['revid']) && false){
     echo json_decode($db->getCache($state, 'wikiInfo'),true)[1]['data'];
 }else {
+    $arr = addFileToArray($arr, $cachedRevidJson);
     $newUrl = 'https://en.wikipedia.org/w/api.php?action=parse&section=' . strval($sectionNumber) . '&prop=text&pageid=' . $pageid . '&format=json';
     $wiki = file_get_contents($newUrl);
     $wikiJson = json_decode($wiki, true);
@@ -66,21 +88,35 @@ if($cachedRevidJson[0] && intval($lastRevisionId) <= intval($cachedRevidJson[1][
     $finder = new DomXPath($dom);
     $classname = "wikitable mw-collapsible";
     $nodes = $finder->query("//table[contains(@class, '$classname')]");
+    if(count($nodes) != 1){
+        $arr['errorCount'] += 1;
+        array_push($arr['error'], 'Count of found tables != 1, using older cache if available.');
+        echo json_encode($arr);
+        die();
+    }
 
     $wikiTable = $nodes[0]->childNodes[3];
+    $tableLength = $wikiTable->childNodes->length;
     $wikiTableHeader = $wikiTable->childNodes[0];
-    $wikiTableFooter = $wikiTable->childNodes[26];
+    $wikiTableFooter = $wikiTable->childNodes[$tableLength - 1];
     for ($i = 3; $i < 18; $i += 2) {
         $regionName = $wikiTableHeader->childNodes[$i]->nodeValue;
         $regionName = str_replace(array("\n", "\r"), '', $regionName);
         $regionName = mb_convert_encoding($regionName, 'iso-8859-1','utf-8');
         $regionCount = $wikiTableFooter->childNodes[$i]->nodeValue;
-        $arr[$regionName] = intval($regionCount);
+        if(array_key_exists($regionName, $arr)){
+            $arr[$regionName] = intval($regionCount);
+        }
     }
-
-    $arr['infected'] = intval($wikiTableFooter->childNodes[21]->nodeValue);
-    $arr['dead'] = intval($wikiTableFooter->childNodes[23]->nodeValue);
-    $arr['recovered'] = intval($wikiTableFooter->childNodes[25]->nodeValue);
+    if(strpos($wikiTableHeader->childNodes[19]->nodeValue, 'Confirmed') !== false){
+        $arr['infected'] = intval($wikiTableFooter->childNodes[19]->nodeValue);
+    }
+    if(strpos($wikiTableHeader->childNodes[21]->nodeValue, 'Deaths') !== false){
+        $arr['dead'] = intval($wikiTableFooter->childNodes[21]->nodeValue);
+    }
+    if(strpos($wikiTableHeader->childNodes[23]->nodeValue, 'Confirmed') !== false){
+        $arr['recovered'] = intval($wikiTableFooter->childNodes[23]->nodeValue);
+    }
     echo json_encode($arr);
     $db->setCache($state, $lastRevisionId, json_encode($arr), 'wikiInfo');
     $db->setStateInfected($state, $arr['infected']);
