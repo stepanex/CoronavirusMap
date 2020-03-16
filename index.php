@@ -103,19 +103,19 @@
     </div>
     <div class="colorContainer">
         <div class="color" id="color04"></div>
-        <div class="colorText">100 - 250</div>
+        <div class="colorText">100 - 500</div>
     </div>
     <div class="colorContainer">
         <div class="color" id="color05"></div>
-        <div class="colorText">250 - 500</div>
+        <div class="colorText">500 - 1000</div>
     </div>
     <div class="colorContainer">
         <div class="color" id="color06"></div>
-        <div class="colorText">500 < </div>
+        <div class="colorText">1000 < </div>
     </div>
 </div>
 <div id="map" class="map"></div>
-<script src="/map.js?v=1.1.0"></script>
+<script src="/map.js?v=1.1.2"></script>
     <div class="footer footer_left">© 2020
         <a href="mailto:stepan.strba@gmail.com">Štěpán Štrba</a>,
         design:
@@ -127,7 +127,6 @@
         <a href="https://cs.wikipedia.org/wiki/Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku">Zdroj dat</a>
     </div>
     <div class="footer_small">
-        i
         <div class="text"><a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a></div>
     </div>
 </body>

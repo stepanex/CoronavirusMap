@@ -203,11 +203,11 @@ function styleFunction(feature, resolution) {
     let stateName = feature.get('stateName');
     if(regionName !== undefined){
         name = feature.get('regionName');
-        styleInfectedCount=regionsCor[name];
+        styleInfectedCount=parseInt(regionsCor[name]);
     }
     else if(stateName !== undefined){
         name = feature.get('stateName');
-        styleInfectedCount=stateCor[name];
+        styleInfectedCount=parseInt(stateCor[name]);
     }
     let color = color_white;
     if (styleInfectedCount < 1) {
@@ -216,11 +216,11 @@ function styleFunction(feature, resolution) {
         color = color02;
     } else if (styleInfectedCount < 100) {
         color = color03;
-    } else if (styleInfectedCount < 250) {
-        color = color04;
     } else if (styleInfectedCount < 500) {
+        color = color04;
+    } else if (styleInfectedCount < 1000) {
         color = color05;
-    } else if(styleInfectedCount >= 500) {
+    } else if(styleInfectedCount >= 1000) {
         color = color06;
     }
 
