@@ -20,12 +20,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Interaktivní mapa koronaviru v České Republice">
-    <meta name="keywords" content="mapa, koronavirus, coronavirus, počet, nakažených, aktuálně, online, regiony, česko, zprávy, koronavirus česko, koronavirus cesko,
-        koronavirus počet nakažených,koronavirus dnes, koronavirus zpravy, brno koronavirus, brno, praha, středočeský kraj, kraj,
-        cesko, koronavirus v cesku, koronavirus v česku, koronamap, corona, corona map, coronamap, korona map,
-        koronamap.cz,koronamapa.cz, coronamap.cz, coronamapa.cz, Coronavirus, Koronavirus, koronavirus česká republika, koronavir,
-        mapa koronaviru, coronavirus map, korona mapa, Czech, Czechia, Czech Republic, Česká Republika,
-        České Republice, Čechách">
+    <meta name="keywords" content="mapa, koronavirus, coronavirus, počet, nakažených, aktuálně, online, regiony, česko,
+        zprávy, čr, brno, praha, koronavirus česko, koronavirus cesko, koronavirus počet nakažených,koronavirus dnes,
+        koronavirus zpravy, brno koronavirus, středočeský kraj, kraj, cesko, koronavirus v cesku, koronavirus v česku,
+        koronamap, corona, corona map, coronamap, korona map, koronamap.cz,koronamapa.cz, coronamap.cz, coronamapa.cz,
+        Coronavirus, Koronavirus, koronavirus česká republika, koronavir, mapa koronaviru, coronavirus map, korona mapa,
+        Czech, Czechia, Czech Republic, Česká Republika, České Republice, Čechách">
     <meta name="robots" content="index" />
     <meta name="googlebot" content="index" />
 	<meta name="author" content="Štěpán Štrba">
@@ -122,7 +122,6 @@
     </div>
 </div>
 <div id="map" class="map"></div>
-<script src="/map.js?v=1.1.5"></script>
     <div class="footer footer_left">© 2020
         <a href="mailto:stepan.strba@gmail.com">Štěpán Štrba</a>,
         design:
@@ -131,10 +130,11 @@
         </a>
     </div>
     <div class="footer footer_right">
-        <a href="https://cs.wikipedia.org/wiki/Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku">Zdroj dat</a>
+        <a href="https://cs.wikipedia.org/wiki/Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku" id="footerRightUrl">Zdroj dat</a>
     </div>
     <div class="footer_small">
         <div class="text"><a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a></div>
     </div>
 </body>
+<script src="/map.js?v=1.1.5"></script>
 </html>

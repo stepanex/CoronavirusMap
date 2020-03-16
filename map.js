@@ -8,7 +8,9 @@ var countriesPopupTranslation={
         'deadTitle':'úmrtí',
         'recoveredTitle':'uzdravení',
         'legendTitle':'Počet nakažených lidí',
-        'infoPlaceName':'Česká Republika'
+        'infoPlaceName':'Česká Republika',
+        'footerRightTitle':'Zdroj dat',
+        'footerRightUrl':'https://onemocneni-aktualne.mzcr.cz/covid-19'
     },
     'SK':{
         'CZ':'Prejsť na Českú Republiku',
@@ -18,7 +20,9 @@ var countriesPopupTranslation={
         'deadTitle':'úmrtí',
         'recoveredTitle':'uzdravení',
         'legendTitle':'Počet infikovaných ľudí',
-        'infoPlaceName':'Slovenská Republika'
+        'infoPlaceName':'Slovenská Republika',
+        'footerRightTitle':'Zdroj údajov',
+        'footerRightUrl':'https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Slovakia'
     }
 };
 
@@ -299,6 +303,10 @@ document.getElementById('infectedTitle').innerText=countriesPopupTranslation[sta
 document.getElementById('deadTitle').innerText=countriesPopupTranslation[state]['deadTitle'];
 document.getElementById('recoveredTitle').innerText=countriesPopupTranslation[state]['recoveredTitle'];
 document.getElementById('infoPlaceName').innerText=countriesPopupTranslation[state]['infoPlaceName'];
+
+let footerRight = document.getElementById('footerRightUrl');
+footerRight.href = countriesPopupTranslation[state]['footerRightUrl'];
+footerRight.innerText = countriesPopupTranslation[state]['footerRightTitle'];
 
 if(window.innerWidth > 550) {
     map.on('pointermove', function (e) {
