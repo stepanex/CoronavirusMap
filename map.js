@@ -136,6 +136,7 @@ console.log('loading wiki');
         function styleFunction(feature, resolution) {
             let name = feature.get('regionName');
             let regionCount=regionCorCount[name];
+            regionCount = parseInt(regionCount);
             let color = color_white;
             if (regionCount < 1) {
                 color = color01;
@@ -147,7 +148,7 @@ console.log('loading wiki');
                 color = color04;
             } else if (regionCount < 500) {
                 color = color05;
-            } else {
+            } else if (regionCount >= 500){
                 color = color06;
             }
             return new ol.style.Style({
@@ -185,7 +186,7 @@ if(window.innerWidth > 550) {
         var feature = map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
             return feature;
         }, 12, function (layer) {
-            return layer == regionLayer
+            return layer === regionLayer
         });
         printInfo(feature);
     });
@@ -195,7 +196,7 @@ map.on('click', function(e) {
     var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
         return feature;
     }, 12, function(layer) {
-        return layer == regionLayer
+        return layer === regionLayer
     });
     printInfo(feature);
 });
