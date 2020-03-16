@@ -18,7 +18,8 @@
     </script>
     <title>Mapa koronaviru v České Republice</title>
     <meta charset="utf-8">
-	<meta name="description" content="Interaktivní mapa koronaviru v České Republice">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interaktivní mapa koronaviru v České Republice">
     <meta name="keywords" content="mapa, koronavirus, coronavirus, počet, nakažených, aktuálně, online, regiony, česko, zprávy, koronavirus česko, koronavirus cesko,
         koronavirus počet nakažených,koronavirus dnes, koronavirus zpravy, brno koronavirus, brno, praha, středočeský kraj, kraj,
         cesko, koronavirus v cesku, koronavirus v česku, koronamap, corona, corona map, coronamap, korona map,
@@ -29,7 +30,7 @@
     <meta name="googlebot" content="index" />
 	<meta name="author" content="Štěpán Štrba">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="/style.css?v=1.1.3" rel="stylesheet">
+    <link href="/style.css?v=1.1.4" rel="stylesheet">
     <!--<script data-ad-client="ca-pub-8503799930198018" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
 </head>
 <body>
@@ -121,7 +122,7 @@
     </div>
 </div>
 <div id="map" class="map"></div>
-<script src="/map.js?v=1.1.4"></script>
+<script src="/map.js?v=1.1.5"></script>
     <div class="footer footer_left">© 2020
         <a href="mailto:stepan.strba@gmail.com">Štěpán Štrba</a>,
         design:
