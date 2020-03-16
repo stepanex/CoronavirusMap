@@ -17,10 +17,16 @@
         gtag('config', 'UA-160373551-1');
     </script>
     <title>Mapa koronaviru v České Republice</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 	<meta name="description" content="Interaktivní mapa koronaviru v České Republice">
-	<meta name="keywords" content="Coronavirus, Koronavirus, koronavirus česká republika, koronavir, mapa koronaviru, coronavirus map, korona mapa, Koronamap, Czech, Czechia, Czech Republic, Česká Republika, České Republice, Čechách">
+    <meta name="keywords" content="mapa, koronavirus, coronavirus, počet, nakažených, aktuálně, online, regiony, česko, zprávy, koronavirus česko, koronavirus cesko,
+        koronavirus počet nakažených,koronavirus dnes, koronavirus zpravy, brno koronavirus, brno, praha, středočeský kraj, kraj,
+        cesko, koronavirus v cesku, koronavirus v česku, koronamap, corona, corona map, coronamap, korona map,
+        koronamap.cz,koronamapa.cz, coronamap.cz, coronamapa.cz, Coronavirus, Koronavirus, koronavirus česká republika, koronavir,
+        mapa koronaviru, coronavirus map, korona mapa, Czech, Czechia, Czech Republic, Česká Republika,
+        České Republice, Čechách">
+    <meta name="robots" content="index" />
+    <meta name="googlebot" content="index" />
 	<meta name="author" content="Štěpán Štrba">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="/style.css?v=1.1.0" rel="stylesheet">
