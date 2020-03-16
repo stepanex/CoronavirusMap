@@ -25,13 +25,13 @@ $wiki1Json = json_decode($wiki1, true);
 $lastRevisionId = $wiki1Json['query']['pages'][$pageid]['revisions'][0]['revid'];
 $cachedRevidJson = json_decode($db->getCacheLastRevision('wikiInfo'), true);
 
-if($cachedRevidJson[0]!=-1 && intval($lastRevisionId) <= intval($cachedRevidJson[1]['revid'])){
+if($cachedRevidJson[0] && intval($lastRevisionId) <= intval($cachedRevidJson[1]['revid'])){
     echo json_decode($db->getCache('wikiInfo'),true)[1]['data'];
 }else{
     $wiki1Html =  $wiki1Json['query']['pages'][$pageid]['revisions'][0]['*'];
     //getting counts
     try{
-        $delimeter = '| nakažení = ';
+        $delimeter = '| nakažení =';
         if (strpos($wiki1Html, $delimeter) === false) {
             $arr = addFileToArray($arr, $cachedRevidJson);
             $arr['errorCount'] += 1;
@@ -40,7 +40,7 @@ if($cachedRevidJson[0]!=-1 && intval($lastRevisionId) <= intval($cachedRevidJson
         }
         $infectedHtml = explode($delimeter,$wiki1Html)[1];
 
-        $delimeter = '| úmrtí = ';
+        $delimeter = '| úmrtí =';
         if (strpos($infectedHtml, $delimeter) === false) {
             $arr = addFileToArray($arr, $cachedRevidJson);
             $arr['errorCount'] += 1;
@@ -50,7 +50,7 @@ if($cachedRevidJson[0]!=-1 && intval($lastRevisionId) <= intval($cachedRevidJson
         $infectedBase = explode($delimeter,$infectedHtml)[0];
         $deadHtml = explode($delimeter,$infectedHtml)[1];
 
-        $delimeter = '| zotavení = ';
+        $delimeter = '| zotavení =';
         if (strpos($deadHtml, $delimeter) === false) {
             $arr = addFileToArray($arr, $cachedRevidJson);
             $arr['errorCount'] += 1;
@@ -60,7 +60,7 @@ if($cachedRevidJson[0]!=-1 && intval($lastRevisionId) <= intval($cachedRevidJson
         $deadBase = explode($delimeter,$deadHtml)[0];
         $recoveredHtml = explode($delimeter,$deadHtml)[1];
 
-        $delimeter = '| opatření = ';
+        $delimeter = '| opatření =';
         if (strpos($recoveredHtml, $delimeter) === false) {
             $arr = addFileToArray($arr, $cachedRevidJson);
             $arr['errorCount'] += 1;
