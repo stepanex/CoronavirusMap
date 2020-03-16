@@ -37,6 +37,8 @@ $arr['Ústecký kraj'] = null;
 $arr['Kraj Vysočina'] = null;
 $arr['Zlínský kraj'] = null;
 
+$regionsCount = 0;
+
 $db = new database();
 $dbStatus = $db->getStatusArr();
 if(!($dbStatus[0])){
@@ -45,6 +47,29 @@ if(!($dbStatus[0])){
     echo json_encode($arr);
     die();
 }
+
+$apify = file_get_contents('https://api.apify.com/v2/key-value-stores/K373S4uCFR9W1K8ei/records/LATEST?disableRedirect=true');
+$apifyJson = json_decode($apify, true);
+if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['infected'])){
+    $arr['infected'] = $apifyJson['infected'];
+    $regions = $apifyJson['infectedByRegion'];
+    foreach ($regions as $region){
+        if($region['region'] == 'Vysočina')
+            $region['region'] = 'Kraj Vysočina';
+        if(array_key_exists($region['region'], $arr)){
+            $arr[$region['region']] = $region['value'];
+            $regionsCount++;
+        }
+    }
+
+    if($regionsCount == 14){
+        $arr['dead'] = 0;
+        $arr['recovered'] = 0;
+        echo json_encode($arr);
+        die();
+    }
+}
+
 $pageid = '1570967';
 $delimeter = '';
 $wiki1 =  file_get_contents('https://cs.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids='.$pageid.'&rvsection=0&rvprop=ids|content');
