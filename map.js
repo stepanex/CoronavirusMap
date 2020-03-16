@@ -40,12 +40,28 @@ function popupClose(){
 function printInfo(feature, coordinate = null, from=null) {
     let deadContainer = document.getElementById('deadContainer');
     let recoveredContainer = document.getElementById('recoveredContainer');
+    let stateName = undefined;
+    let regionName = undefined;
+    if(feature!==undefined){
+        stateName = feature.get('stateName');
+        regionName = feature.get('regionName');
+    }
     if(from === 'click'){
         popupClose();
     }
+    if(feature ===undefined || (feature!==undefined && (stateName!==undefined || regionName===undefined))){
+        document.getElementById('infoPlaceName').innerText=countriesPopupTranslation[state]['infoPlaceName'];;
+        document.getElementById('infectedCount').innerText=infectedCount;
+        deadContainer.style.display='inline-block';
+        document.getElementById('deadCount').innerText=deadCount;
+        recoveredContainer.style.display='inline-block';
+        document.getElementById('recoveredCount').innerText=recoveredCount;
+        if(highlight)
+            featureOverlay.getSource().removeFeature(highlight);
+        highlight = null;
+    }
+
     if(from === 'click' && feature !== undefined && feature.get('stateName') !== undefined ){
-        console.log('click');
-        let stateName = feature.get('stateName');
 
         popupTitle.innerHTML='<a href="'+countriesPopupTranslation[state][stateName+'url']+'">'+
                                     countriesPopupTranslation[state][stateName] +
@@ -58,9 +74,8 @@ function printInfo(feature, coordinate = null, from=null) {
     else if(regionLayer != null){
         if(feature !== undefined){
             if(feature.get('regionName') !== undefined){
-                let name = feature.get('regionName');
-                document.getElementById('infoPlaceName').innerText=name;
-                document.getElementById('infectedCount').innerText=regionsCor[name];
+                document.getElementById('infoPlaceName').innerText=regionName;
+                document.getElementById('infectedCount').innerText=regionsCor[regionName];
                 deadContainer.style.display='none';
                 recoveredContainer.style.display='none';
                 if (feature !== highlight) {
@@ -73,16 +88,6 @@ function printInfo(feature, coordinate = null, from=null) {
                     highlight = feature;
                 }
             }
-        } else {
-            document.getElementById('infoPlaceName').innerText=countriesPopupTranslation[state]['infoPlaceName'];;
-            document.getElementById('infectedCount').innerText=infectedCount;
-            deadContainer.style.display='inline-block';
-            document.getElementById('deadCount').innerText=deadCount;
-            recoveredContainer.style.display='inline-block';
-            document.getElementById('recoveredCount').innerText=recoveredCount;
-            if(highlight)
-                featureOverlay.getSource().removeFeature(highlight);
-            highlight = null;
         }
     }
 }
@@ -203,7 +208,6 @@ function styleFunction(feature, resolution) {
     else if(stateName !== undefined){
         name = feature.get('stateName');
         styleInfectedCount=stateCor[name];
-        console.log(name);
     }
     let color = color_white;
     if (styleInfectedCount < 1) {
@@ -252,7 +256,7 @@ console.log('loading wiki');
         if(regionCorCount['recovered']!==null){
             recoveredCount = regionCorCount['recovered'];
         }
-        printInfo('Česká Republika',infectedCount, deadCount, recoveredCount);
+        printInfo(undefined);
         var regionsData = new ol.source.Vector({
             url: '/states/'+state+'/regions.geojson',
             format: new ol.format.GeoJSON()
