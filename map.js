@@ -1,4 +1,26 @@
-//TODO zmensit geojsony
+var countries=['CZ', 'SK'];
+var countriesPopupTranslation={
+    'CZ':{
+        'SK':'Přejít na Slovenskou Republiku',
+        'SKurl':'http://koronamap.sk',
+        'infected':'Nakažených',
+        'infectedTitle':'počet nakažených',
+        'deadTitle':'úmrtí',
+        'recoveredTitle':'uzdravení',
+        'legendTitle':'Počet nakažených lidí',
+        'infoPlaceName':'Česká Republika'
+    },
+    'SK':{
+        'CZ':'Prejsť na Českú Republiku',
+        'CZurl':'http://koronamap.cz',
+        'infected': 'Infikovaných',
+        'infectedTitle':'počet infikovaných',
+        'deadTitle':'úmrtí',
+        'recoveredTitle':'uzdravení',
+        'legendTitle':'Počet infikovaných ľudí',
+        'infoPlaceName':'Slovenská Republika'
+    }
+};
 
 var color01legend = '#0f9246';
 var color02legend = '#7dbb42';
@@ -172,29 +194,7 @@ var stateIndex = {
     'CZ': '01',
     'SK': '02'
 };
-var countries=['CZ', 'SK'];
-var countriesPopupTranslation={
-    'CZ':{
-        'SK':'Přejít na Slovenskou Republiku',
-        'SKurl':'http://koronamap.sk',
-        'infected':'Nakažených',
-        'infectedTitle':'počet nakažených',
-        'deadTitle':'úmrtí',
-        'recoveredTitle':'uzdravení',
-        'legendTitle':'Počet nakažených lidí',
-        'infoPlaceName':'Česká Republika'
-    },
-    'SK':{
-        'CZ':'Prejsť na Českú Republiku',
-        'CZurl':'http://koronamap.cz',
-        'infected': 'Infikovaných',
-        'infectedTitle':'počet infikovaných',
-        'deadTitle':'úmrtí',
-        'recoveredTitle':'uzdravení',
-        'legendTitle':'Počet infikovaných ľudí',
-        'infoPlaceName':'Slovenská Republika'
-    }
-};
+
 function styleFunction(feature, resolution) {
     let name = null;
     let styleInfectedCount=0;
