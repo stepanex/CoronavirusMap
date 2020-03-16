@@ -1,17 +1,25 @@
 <?php
+require_once('databaseLogin.php');
 class database
 {
 
     protected $db;
+    protected $statusArr;
 
     function __construct()
     {
-        $this->db = new mysqli("35.246.28.71:3306", "root", "krutoheslo", "koronamap");
+        $databaseLogin = getDatabaseLogin();
+        $this->db = new mysqli($databaseLogin[0], $databaseLogin[1], $databaseLogin[2], $databaseLogin[3]);
 
         if ($this->db->connect_error) {
-            die("Connection failed: " . $this->db->connect_error);
+            $this->statusArr = array(0, "Connection failed: " . $this->db->connect_error);
+        } else {
+            $this->statusArr = array(1, "Connected successfully.");
         }
-//        echo "Connected successfully";
+    }
+
+    function getStatusArr(){
+        return json_encode($this->statusArr, true);
     }
 
     function insertPlace($name, $searchName, $location){
