@@ -258,7 +258,7 @@ console.log('loading wiki');
         }
         printInfo(undefined);
         var regionsData = new ol.source.Vector({
-            url: '/states/'+state+'/regions.geojson',
+            url: '/states/'+state+'/regions.geojson?v=1.0.1',
             format: new ol.format.GeoJSON()
         });
         regionLayer = new ol.layer.Vector({
@@ -280,7 +280,7 @@ fetch('/states/statesData.php').then(statesCorCount => statesCorCount.json()).th
         if(country !== state){
             console.log(country);
             let stateData = new ol.source.Vector({
-                url: '/states/'+country+'/state.geojson',
+                url: '/states/'+country+'/state.geojson?v=1.0.1',
                 format: new ol.format.GeoJSON()
             });
             let stateLayer = new ol.layer.Vector({
