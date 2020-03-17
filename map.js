@@ -1,7 +1,7 @@
 var countries=['CZ', 'SK'];
 var countriesPopupTranslation={
     'CZ':{
-        'SK':'Přejít na Slovenskou Republiku',
+        'SK':'Přejít na Slovenskou republiku',
         'SKurl':'http://koronamap.sk',
         'infected':'Nakažených',
         'infectedTitle':'počet nakažených',
@@ -20,7 +20,7 @@ var countriesPopupTranslation={
         'deadTitle':'úmrtí',
         'recoveredTitle':'uzdravení',
         'legendTitle':'Počet infikovaných ľudí',
-        'infoPlaceName':'Slovenská Republika',
+        'infoPlaceName':'Slovenská republika',
         'footerRightTitle':'Zdroj údajov',
         'footerRightUrl':'https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Slovakia'
     }
