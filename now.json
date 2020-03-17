@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "*.php": {
+      "runtime": "now-php@0.0.9"
+    }
+    "states/*/*.php": {
+      "runtime": "now-php@0.0.9"
+    }
+    "states/*.php": {
+      "runtime": "now-php@0.0.9"
+    }
+  }
+}
