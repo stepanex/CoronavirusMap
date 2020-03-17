@@ -262,7 +262,7 @@ console.log('loading wiki');
         }
         printInfo(undefined);
         var regionsData = new ol.source.Vector({
-            url: '/states/'+state+'/regions.geojson?v=1.0.1',
+            url: '/states/'+state+'/regions.geojson?v=1.0.2',
             format: new ol.format.GeoJSON()
         });
         regionLayer = new ol.layer.Vector({
