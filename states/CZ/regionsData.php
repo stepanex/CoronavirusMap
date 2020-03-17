@@ -1,10 +1,22 @@
 <?php
-require_once('../database.php');
+require_once('../../database.php');
+
+$state = 'CZ';
+
+$db = new database();
+$dbStatus = $db->getStatusArr();
+if(!($dbStatus[0])){
+    $arr['errorCount'] +=1;
+    array_push($arr['error'], $dbStatus[1]);
+    echo json_encode($arr);
+    die();
+}
 
 function addFileToArray($array, $cachedRevidJson){
-    $db = new database();
+    global $state;
+    global $db;
     if($cachedRevidJson[0]){
-        $fileJson = json_decode(json_decode($db->getCache('wikiInfo'),true)[1]['data']);
+        $fileJson = json_decode(json_decode($db->getCache($state, 'wikiInfo'),true)[1]['data']);
         if($fileJson!=null){
             foreach ($fileJson as $region=>$count){
                 if(array_key_exists($region, $array)){
@@ -39,19 +51,10 @@ $arr['Zlínský kraj'] = null;
 
 $regionsCount = 0;
 
-$db = new database();
-$dbStatus = $db->getStatusArr();
-if(!($dbStatus[0])){
-    $arr['errorCount'] +=1;
-    array_push($arr['error'], $dbStatus[1]);
-    echo json_encode($arr);
-    die();
-}
 
 $apify = file_get_contents('https://api.apify.com/v2/key-value-stores/K373S4uCFR9W1K8ei/records/LATEST?disableRedirect=true');
 $apifyJson = json_decode($apify, true);
 if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['fromBabisNewspapers'])){
-    
     $babisNewspapers = $apifyJson['fromBabisNewspapers'];
     $arr['infected'] = $babisNewspapers['totalInfected'];
     $arr['dead'] = $babisNewspapers['totalDeaths'];
@@ -78,10 +81,10 @@ $delimeter = '';
 $wiki1 =  file_get_contents('https://cs.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids='.$pageid.'&rvsection=0&rvprop=ids|content');
 $wiki1Json = json_decode($wiki1, true);
 $lastRevisionId = $wiki1Json['query']['pages'][$pageid]['revisions'][0]['revid'];
-$cachedRevidJson = json_decode($db->getCacheLastRevision('wikiInfo'), true);
+$cachedRevidJson = json_decode($db->getCacheLastRevision($state, 'wikiInfo'), true);
 
 if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1]['revid'])){
-    echo json_decode($db->getCache('wikiInfo'),true)[1]['data'];
+    echo json_decode($db->getCache($state, 'wikiInfo'),true)[1]['data'];
 }else{
     $wiki1Html =  $wiki1Json['query']['pages'][$pageid]['revisions'][0]['*'];
     $arr = addFileToArray($arr, $cachedRevidJson);
@@ -170,6 +173,5 @@ if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1][
         }
     }
     echo json_encode($arr);
-    $db->setCache('wikiInfo', $lastRevisionId, json_encode($arr));
+    $db->setCache($state, $lastRevisionId, json_encode($arr), 'wikiInfo');
 }
-

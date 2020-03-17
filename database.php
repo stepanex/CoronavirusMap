@@ -44,8 +44,8 @@ class database
         return json_encode($array);
     }
 
-    function getCacheLastRevision($name){
-        $query = 'select revid from cache where name = "'.$name.'";';
+    function getCacheLastRevision($state, $name){
+        $query = 'select revid from cacheTest where state="'.$state.'" and name = "'.$name.'";';
         $result = $this->db->query($query);
         if($result){
             $array = array(1, $result->fetch_assoc());
@@ -55,8 +55,8 @@ class database
         return json_encode($array);
     }
 
-    function setCache($name, $revid, $data){
-        $query = 'update cache set revid="'.$revid.'", data="'.$this->db->real_escape_string($data).'" where name="'.$name.'";';
+    function setCache($state, $revid, $data, $name){
+        $query = 'update cacheTest set revid="'.$revid.'", data="'.$this->db->real_escape_string($data).'" where state="'.$state.'" and name="'.$name.'";';
         $result = $this->db->query($query);
         if($result){
             $array = array(1, $result);
@@ -66,11 +66,48 @@ class database
         return json_encode($array);
     }
 
-    function getCache($name){
-        $query = 'select data from cache where name = "'.$name.'";';
+    function getCache($state, $name){
+        $query = 'select data from cacheTest where state="'.$state.'" and name = "'.$name.'";';
         $result = $this->db->query($query);
         if($result){
             $array = array(1, $result->fetch_assoc());
+        } else {
+            $array = array(0, $this->db->error);
+        }
+        return json_encode($array);
+    }
+
+    function setStateInfected($state, $infectedCount){
+        $query = 'update states set infectedCount="'.$infectedCount.'" where state="'.$state.'";';
+        $result = $this->db->query($query);
+        if($result){
+            $array = array(1, $result);
+        } else {
+            $array = array(0, $this->db->error);
+        }
+        return json_encode($array);
+    }
+
+    function getStateInfected($state){
+        $query = 'select infectedCount from states where state = "'.$state.'";';
+        $result = $this->db->query($query);
+        if($result){
+            $array = array(1, $result->fetch_assoc());
+        } else {
+            $array = array(0, $this->db->error);
+        }
+        return json_encode($array);
+    }
+
+    function getStates(){
+        $query = 'select state, infectedCount, revid, url from states;';
+        $result = $this->db->query($query);
+        if($result){
+            $resArr = [];
+            while($resultFetch = $result->fetch_assoc()){
+                array_push($resArr, $resultFetch);
+            }
+            $array = array(1, $resArr);
         } else {
             $array = array(0, $this->db->error);
         }
