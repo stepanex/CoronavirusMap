@@ -56,6 +56,9 @@
         </div>
     </div>
 </div>
+<script>
+
+</script>
 <div class="logo">
     <div class="logoLeft">Korona</div>
     <div class="logoRight">Map</div>
@@ -136,5 +139,5 @@
         <div class="text"><a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a></div>
     </div>
 </body>
-<script src="/map.js?v=1.1.7"></script>
+<script src="/map.js?v=1.1.8"></script>
 </html>

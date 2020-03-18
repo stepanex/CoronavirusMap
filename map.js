@@ -32,6 +32,7 @@ var color03legend = '#ffbf00';
 var color04legend = '#f68e1f';
 var color05legend = '#ef4723';
 var color06legend = '#bc2026';
+var popupUrl;
 
 document.addEventListener("DOMContentLoaded", function(event) {
     let color01Elem = document.getElementById('color01');
@@ -76,7 +77,7 @@ function printInfo(feature, coordinate = null, from=null) {
         popupClose();
     }
     if(feature ===undefined || (feature!==undefined && (stateName!==undefined || regionName===undefined))){
-        document.getElementById('infoPlaceName').innerText=countriesPopupTranslation[state]['infoPlaceName'];;
+        document.getElementById('infoPlaceName').innerText=countriesPopupTranslation[state]['infoPlaceName'];
         document.getElementById('infectedCount').innerText=infectedCount;
         deadContainer.style.display='inline-block';
         document.getElementById('deadCount').innerText=deadCount;
@@ -88,10 +89,8 @@ function printInfo(feature, coordinate = null, from=null) {
     }
 
     if(from === 'click' && feature !== undefined && feature.get('stateName') !== undefined ){
-
-        popupTitle.innerHTML='<a href="'+countriesPopupTranslation[state][stateName+'url']+'">'+
-                                    countriesPopupTranslation[state][stateName] +
-                            '</a>';
+        popupUrl = countriesPopupTranslation[state][stateName+'url'];
+        popupTitle.innerHTML=countriesPopupTranslation[state][stateName];
         popupInfectedCount.innerHTML = stateCor[stateName];
         popupInfectedTitle.innerHTML = countriesPopupTranslation[state]['infected'];
         popupOverlay.setPosition(coordinate);
@@ -338,6 +337,9 @@ var popupOverlay = new ol.Overlay({
 });
 map.addOverlay(popupOverlay);
 
+popupContainer.onclick = function(){
+    window.location.href = popupUrl;
+};
 popupCloser.onclick = function() {
     popupOverlay.setPosition(undefined);
     popupCloser.blur();
