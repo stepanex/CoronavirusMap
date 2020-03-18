@@ -3,5 +3,6 @@
 /wikiData/regionsCache
 /wikiData/regionsCacheId
 .idea
+.htaccess
 /backup/
 /aText/
