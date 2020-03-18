@@ -114,11 +114,11 @@
     </div>
     <div class="colorContainer">
         <div class="color" id="color05"></div>
-        <div class="colorText">500 - 1000</div>
+        <div class="colorText">500 - 5000</div>
     </div>
     <div class="colorContainer">
         <div class="color" id="color06"></div>
-        <div class="colorText">1000 < </div>
+        <div class="colorText">5000 < </div>
     </div>
 </div>
 <div id="map" class="map"></div>

@@ -222,9 +222,9 @@ function styleFunction(feature, resolution) {
         color = color03;
     } else if (styleInfectedCount < 500) {
         color = color04;
-    } else if (styleInfectedCount < 1000) {
+    } else if (styleInfectedCount < 5000) {
         color = color05;
-    } else if(styleInfectedCount >= 1000) {
+    } else if(styleInfectedCount >= 5000) {
         color = color06;
     }
 
