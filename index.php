@@ -30,7 +30,7 @@
     <meta name="robots" content="index" />
     <meta name="googlebot" content="index" />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="/style.css?v=1.1.4" rel="stylesheet">
+    <link href="/style.css?v=1.1.5" rel="stylesheet">
     <!--<script data-ad-client="ca-pub-8503799930198018" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
 </head>
 <body>
@@ -139,5 +139,5 @@
         <div class="text"><a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a></div>
     </div>
 </body>
-<script src="/map.js?v=1.1.8"></script>
+<script src="/map.js?v=1.1.9"></script>
 </html>

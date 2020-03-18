@@ -338,7 +338,7 @@ var popupOverlay = new ol.Overlay({
 map.addOverlay(popupOverlay);
 
 popupContainer.onclick = function(){
-    window.location.href = popupUrl;
+    window.top.location.href = popupUrl;
 };
 popupCloser.onclick = function() {
     popupOverlay.setPosition(undefined);
