@@ -27,7 +27,7 @@ function addFileToArray($array, $cachedRevidJson){
     }
     return $array;
 }
-$pageid = '63300608';
+$pageid = '63417582';
 $arr = [];
 $arr['errorCount'] = 0;
 $arr['error'] = [];
@@ -43,22 +43,7 @@ $arr['Prešov'] = null;
 $arr['Banská Bystrica'] = null;
 $arr['Nitra'] = null;
 
-$wiki =  file_get_contents('https://en.wikipedia.org/w/api.php?action=parse&prop=text&prop=sections&pageid='.$pageid.'&format=json');
-$wikiJson = json_decode($wiki, true);
-$sectionNumber = -1;
-foreach ($wikiJson['parse']['sections'] as $section) {
-    if($section['line'] == 'Cases'){
-        $sectionNumber = $section['index'];
-        break;
-    }
-}
-if($sectionNumber == -1){
-    $arr['errorCount'] += 1;
-    array_push($arr['error'], 'Didnt find section number');
-    echo json_encode($arr);
-    die();
-}
-$wiki =  file_get_contents('https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids='.$pageid.'&rvsection='.$sectionNumber.'&rvprop=ids|content');
+$wiki =  file_get_contents('https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids='.$pageid.'&rvprop=ids|content');
 $wikiJson = json_decode($wiki, true);
 $lastRevisionId = $wikiJson['query']['pages'][$pageid]['revisions'][0]['revid'];
 $cachedRevidJson = json_decode($db->getCacheLastRevision($state, 'wikiInfo'), true);
@@ -79,7 +64,7 @@ if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1][
     $arr = addFileToArray($arr, $cachedRevidJson);
     $arr['errorCount'] = 0;
     $arr['error']=[];
-    $newUrl = 'https://en.wikipedia.org/w/api.php?action=parse&section=' . strval($sectionNumber) . '&prop=text&pageid=' . $pageid . '&format=json';
+    $newUrl = 'https://en.wikipedia.org/w/api.php?action=parse&prop=text&pageid=' . $pageid . '&format=json';
     $wiki = file_get_contents($newUrl);
     $wikiJson = json_decode($wiki, true);
     $wikiData = $wikiJson['parse']['text']['*'];
@@ -111,20 +96,20 @@ if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1][
             $arr[$regionName] = intval($regionCount);
         }
     }
-    if(strpos($wikiTableHeader->childNodes[20]->nodeValue, 'Confirmed') !== false){
-        $arr['infected'] = intval($wikiTableFooter->childNodes[20]->nodeValue);
+    if(strpos($wikiTableHeader->childNodes[18]->nodeValue, 'Confirmed') !== false){
+        $arr['infected'] = intval($wikiTableFooter->childNodes[18]->nodeValue);
     } else {
         $arr['errorCount']+=1;
         array_push($arr['error'], 'Confirmed number not at usual place.');
     }
-    if(strpos($wikiTableHeader->childNodes[22]->nodeValue, 'Deaths') !== false){
-        $arr['dead'] = intval($wikiTableFooter->childNodes[22]->nodeValue);
+    if(strpos($wikiTableHeader->childNodes[20]->nodeValue, 'Deaths') !== false){
+        $arr['dead'] = intval($wikiTableFooter->childNodes[20]->nodeValue);
     } else {
         $arr['errorCount']+=1;
         array_push($arr['error'], 'Dead number not at usual place.');
     }
-    if(strpos($wikiTableHeader->childNodes[24]->nodeValue, 'Recoveries') !== false){
-        $arr['recovered'] = intval($wikiTableFooter->childNodes[24]->nodeValue);
+    if(strpos($wikiTableHeader->childNodes[22]->nodeValue, 'Recoveries') !== false){
+        $arr['recovered'] = intval($wikiTableFooter->childNodes[22]->nodeValue);
     } else {
         $arr['errorCount']+=1;
         array_push($arr['error'], 'Recovered number not at usual place.');
