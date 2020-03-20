@@ -109,7 +109,7 @@ if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1][
         array_push($arr['error'], 'Dead number not at usual place.');
     }
     if(strpos($wikiTableHeader->childNodes[22]->nodeValue, 'Recoveries') !== false){
-        $arr['recovered'] = intval($wikiTableFooter->childNodes[24]->nodeValue);
+        $arr['recovered'] = intval($wikiTableFooter->childNodes[26]->nodeValue);
     } else {
         $arr['errorCount']+=1;
         array_push($arr['error'], 'Recovered number not at usual place.');
