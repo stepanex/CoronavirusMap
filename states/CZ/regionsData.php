@@ -62,12 +62,14 @@ if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['fromBabisNewspaper
 
     $regions = $apifyJson['infectedByRegion'];
     foreach ($regions as $region){
-        if($region['region'] == 'Vysočina')
-            $region['region'] = 'Kraj Vysočina';
-        if(array_key_exists($region['region'], $arr)){
-            $arr[$region['region']] = $region['value'];
-            $regionsCount++;
-        }
+		if(isset($region['name'])){
+			if($region['name'] == 'Vysočina')
+				$region['name'] = 'Kraj Vysočina';
+			if(array_key_exists($region['name'], $arr)){
+				$arr[$region['name']] = $region['value'];
+				$regionsCount++;
+			}
+		}
     }
 
     if($regionsCount == 14){
