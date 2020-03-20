@@ -383,3 +383,17 @@ a:hover{
 #popupInfectedTitle {
     display: inline-block;
 }
+
+.adRight{
+    width: 140px;
+    height: 500px;
+    position: fixed;
+    z-index: 1;
+    right: 10px;
+    bottom: 170px;
+}
+@media screen and (max-width: 550px), screen and (max-height: 690px){
+    .adRight{
+		display: none;
+	}
+}

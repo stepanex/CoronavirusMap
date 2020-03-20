@@ -124,6 +124,17 @@
         <div class="colorText">5000 < </div>
     </div>
 </div>
+<div class="adRight">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad1 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:140px;height:500px"
+     data-ad-client="ca-pub-8503799930198018"
+     data-ad-slot="6222228342"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
 <div id="map" class="map"></div>
     <div class="footer footer_left">© 2020
         <a href="mailto:stepan.strba@gmail.com">Štěpán Štrba</a>,
