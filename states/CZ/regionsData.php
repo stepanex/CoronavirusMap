@@ -65,6 +65,8 @@ if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['fromBabisNewspaper
 		if(isset($region['name'])){
 			if($region['name'] == 'Vysočina')
 				$region['name'] = 'Kraj Vysočina';
+			if($region['name'] == 'Hlavní město Praha')
+				$region['name'] = 'Praha';
 			if(array_key_exists($region['name'], $arr)){
 				$arr[$region['name']] = $region['value'];
 				$regionsCount++;
@@ -76,6 +78,9 @@ if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['fromBabisNewspaper
         echo json_encode($arr);
         die();
     }
+	
+	$arr['errorCount'] += 1;
+	array_push($arr['error'], 'Apify didnt find all regions.');
 }
 
 $pageid = '1570967';
@@ -89,10 +94,11 @@ if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1][
     echo json_decode($db->getCache($state, 'wikiInfo'),true)[1]['data'];
 }else{
     $wiki1Html =  $wiki1Json['query']['pages'][$pageid]['revisions'][0]['*'];
+	$errTmp = $arr['error'];
+	$errCount = $arr['errorCount'];
     $arr = addFileToArray($arr, $cachedRevidJson);
-
-    $arr['errorCount'] = 0;
-    $arr['error'] = [];
+    $arr['errorCount'] = $errCount;
+    $arr['error'] = $errTmp;
     //getting counts
     try{
         $delimeter = '| nakažení =';
