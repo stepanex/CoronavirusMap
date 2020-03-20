@@ -384,16 +384,25 @@ a:hover{
     display: inline-block;
 }
 
+
 .adRight{
-    width: 140px;
-    height: 500px;
+    width: 120px;
+    height: 600px;
     position: fixed;
     z-index: 1;
     right: 10px;
     bottom: 170px;
 }
-@media screen and (max-width: 550px), screen and (max-height: 690px){
+.hidden{
+    opacity: 0;
+    pointer-events: none;
+    top: -100px;
+    right: -100px;
+    height: 0px;
+    width: 0px;
+}
+@media screen and (max-width: 670px), screen and (max-height: 690px){
     .adRight{
-		display: none;
-	}
+        display: none;
+    }
 }
