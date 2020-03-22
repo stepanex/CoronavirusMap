@@ -97,7 +97,7 @@ if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1][
         }
     }
     if(strpos($wikiTableHeader->childNodes[18]->nodeValue, 'Confirmed') !== false){
-        $arr['infected'] = intval($wikiTableFooter->childNodes[18]->nodeValue);
+        $arr['infected'] = intval($wikiTableFooter->childNodes[20]->nodeValue);
     } else {
         $arr['errorCount']+=1;
         array_push($arr['error'], 'Confirmed number not at usual place.');
