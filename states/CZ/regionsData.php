@@ -54,11 +54,10 @@ $regionsCount = 0;
 
 $apify = file_get_contents('https://api.apify.com/v2/key-value-stores/K373S4uCFR9W1K8ei/records/LATEST?disableRedirect=true');
 $apifyJson = json_decode($apify, true);
-if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['fromBabisNewspapers'])){
-    $babisNewspapers = $apifyJson['fromBabisNewspapers'];
-    $arr['infected'] = $babisNewspapers['totalInfected'];
-    $arr['dead'] = $babisNewspapers['totalDeaths'];
-    $arr['recovered'] = $babisNewspapers['totalCured'];
+if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['infected']) && isset($apifyJson['recovered']) && isset($apifyJson['deceased'])){
+    $arr['infected'] = $apifyJson['infected'];
+    $arr['dead'] = $apifyJson['deceased'];
+    $arr['recovered'] = $apifyJson['recovered'];
 
     $regions = $apifyJson['infectedByRegion'];
     foreach ($regions as $region){
