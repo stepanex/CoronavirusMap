@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<base target="_parent" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/build/ol.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/css/ol.css" type="text/css">
 
@@ -133,6 +134,7 @@
         </a>
     </div>
     <div class="footer footer_right">
+        <a href="https://github.com/stepanex/CoronavirusMap">Github</a>&nbsp;&nbsp;
         <a href="https://cs.wikipedia.org/wiki/Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku" id="footerRightUrl">Zdroj dat</a>
     </div>
     <div class="footer_small">
