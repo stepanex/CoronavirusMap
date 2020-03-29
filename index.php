@@ -127,9 +127,9 @@
 </div>
 <div id="map" class="map"></div>
     <div class="footer footer_left">© 2020
-        <a href="mailto:stepan.strba@gmail.com">Štěpán Štrba</a>,
+        <a href="https://www.linkedin.com/in/stepan-strba/">Štěpán Štrba</a>,
         design:
-        <a href="mailto:david@duong.cz">
+        <a href="https://duong.cz/">
             David Duong
         </a>
     </div>
