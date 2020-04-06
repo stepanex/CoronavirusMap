@@ -9,8 +9,12 @@ html, body {
 .logo {
     position: fixed;
     z-index: 10;
-    width: fit-content;
-    height: fit-content;
+    width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
+    height: -webkit-fit-content;
+	height: -moz-fit-content;
+	height: fit-content;
     font-size: 36px;
     line-height: 53px;
     left: 20px;
@@ -22,7 +26,9 @@ html, body {
     backdrop-filter: blur(4px);
     opacity: 0.85;
     display: inline-block;
-    width: fit-content;
+    width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
     height: 53px;
     color: #FFFFFF;
     padding: 2px 8px;
@@ -31,7 +37,9 @@ html, body {
 
 .logoRight {
     display: inline-block;
-    width: fit-content;
+    width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
     height: 53px;
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
@@ -56,8 +64,12 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     display:none;
 }
 .info {
-    width: fit-content;
-    height: fit-content;
+    width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
+    height: -webkit-fit-content;
+	height: -moz-fit-content;
+	height: fit-content;
     position: fixed;
     bottom: 18px;
     left: 31px;
@@ -71,7 +83,9 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     backdrop-filter: blur(4px);
     padding: 2px 7px;
     width: max-content;
-    width: fit-content;
+    width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
 
     font-size: 36px;
     line-height: 53px;
@@ -84,8 +98,12 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 }
 
 .infectedContainer {
-    width: fit-content;
-    height: fit-content;
+    width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
+    height: -webkit-fit-content;
+	height: -moz-fit-content;
+	height: fit-content;
     margin-bottom: 13px;
 }
 
@@ -106,8 +124,12 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 }
 
 .deadContainer {
-    width: fit-content;
-    height: fit-content;
+    width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
+    height: -webkit-fit-content;
+	height: -moz-fit-content;
+	height: fit-content;
     margin-left: 23px;
 }
 
@@ -129,8 +151,12 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 }
 
 .recoveredContainer {
-    width: fit-content;
-    height: fit-content;
+    width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
+    height: -webkit-fit-content;
+	height: -moz-fit-content;
+	height: fit-content;
     margin-left: 33px;
 }
 
@@ -266,7 +292,9 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     display: none;
     position: fixed;
     width: 128px;
-    height: fit-content;
+    height: -webkit-fit-content;
+	height: -moz-fit-content;
+	height: fit-content;
     padding: 5px;
     background-color: black;
     border: 1px solid red;
@@ -288,11 +316,15 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 .colorContainer{
     text-align: left;
     padding: 1px 0;
-    height: fit-content;
+    height: -webkit-fit-content;
+	height: -moz-fit-content;
+	height: fit-content;
 }
 .colorText{
     display: inline-block;
-    width: fit-content;
+    width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
     margin-left: 2px;
     vertical-align: middle;
 }
@@ -349,7 +381,9 @@ a:hover{
     bottom: 15px;
 }
 .ol-overlay-container.ol-selectable{
-    width: fit-content;
+    width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
 }
 @media screen and (max-width: 550px){
     .ol-control.ol-zoom{
