@@ -32,7 +32,7 @@
     <meta name="robots" content="index" />
     <meta name="googlebot" content="index" />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="/style.css?v=1.1.9" rel="stylesheet">
+    <link href="/style.css?v=1.2.0" rel="stylesheet">
     <!--<script data-ad-client="ca-pub-8503799930198018" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
 </head>
 <body>
@@ -68,7 +68,7 @@
 <form id="donate" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
     <input type="hidden" name="cmd" value="_s-xclick" />
     <input type="hidden" name="hosted_button_id" value="XRZQ6HRLU3DGE" />
-    <input type="image" src="/donate_icon_50w.png" name="submit" title="Přispějte pomocí služby Paypal" alt="Přispějte pomocí služby Paypal" />
+    <input type="image" src="/donate_icon_50w.png" name="submit" title="Přispějte na chod webu pomocí služby Paypal" alt="Přispějte na chod webu pomocí služby Paypal" />
 </form>
 <div class="info" id="info">
     <div class="infoPlaceName" id="infoPlaceName">

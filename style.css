@@ -390,10 +390,10 @@ a:hover{
     top: 20px;
     right: 20px;
     z-index: 100;
-    color: white;
 }
 #donate > input[type="image"]{
     width: 50px;
+    color: white;
 }
 
 @media screen and (max-width: 550px){
