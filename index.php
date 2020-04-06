@@ -147,5 +147,5 @@
         <div class="text"><a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a></div>
     </div>
 </body>
-<script src="/map.js?v=1.1.9"></script>
+<script src="/map.js?v=1.2.0"></script>
 </html>

@@ -89,6 +89,7 @@ function printInfo(feature, coordinate = null, from=null) {
     }
 
     if(from === 'click' && feature !== undefined && feature.get('stateName') !== undefined ){
+        clickedOnce = false;
         popupUrl = countriesPopupTranslation[state][stateName+'url'];
         popupTitle.innerHTML=countriesPopupTranslation[state][stateName];
         popupInfectedCount.innerHTML = stateCor[stateName];
@@ -337,8 +338,13 @@ var popupOverlay = new ol.Overlay({
 });
 map.addOverlay(popupOverlay);
 
+var clickedOnce = false;
 popupContainer.onclick = function(){
-    window.top.location.href = popupUrl;
+    if(!clickedOnce){
+        clickedOnce = true;
+    } else {
+        window.top.location.href = popupUrl;
+    }
 };
 popupCloser.onclick = function() {
     popupOverlay.setPosition(undefined);
