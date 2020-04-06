@@ -384,3 +384,25 @@ a:hover{
 #popupInfectedTitle {
     display: inline-block;
 }
+
+#donate{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    color: white;
+}
+#donate > input[type="image"]{
+    width: 50px;
+}
+
+@media screen and (max-width: 550px){
+    #donate{
+        top: unset;
+        bottom: 120px;
+        right: 10px;
+    }
+    #donate > input[type="image"]{
+        width: 40px;
+    }
+}

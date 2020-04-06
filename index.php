@@ -20,7 +20,8 @@
     <title>Mapa koronaviru v České Republice</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Interaktivní mapa koronaviru v České Republice">
+    <meta name="description" content="Interaktivní mapa počtu nakažení, úmrtí a uzdravení na koronavir v České Republice podle krajů.">
+    <meta name="og:description" content="Interaktivní mapa počtu nakažení, úmrtí a uzdravení na koronavir v České Republice podle krajů.">
     <meta name="keywords" content="mapa koronaviru, mapa, koronavirus, coronavirus, počet, nakažených, aktuálně, online,
     regiony, česko, zprávy, koronavirus česko, koronavirus cesko, koronavirus počet nakažených,koronavirus mapa,
     koronavirus dnes, koronavirus zpravy, brno koronavirus, brno, praha, středočeský kraj, kraj, cesko,
@@ -31,7 +32,7 @@
     <meta name="robots" content="index" />
     <meta name="googlebot" content="index" />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="/style.css?v=1.1.7" rel="stylesheet">
+    <link href="/style.css?v=1.1.9" rel="stylesheet">
     <!--<script data-ad-client="ca-pub-8503799930198018" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
 </head>
 <body>
@@ -64,6 +65,11 @@
     <div class="logoLeft">Korona</div>
     <div class="logoRight">Map</div>
 </div>
+<form id="donate" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+    <input type="hidden" name="cmd" value="_s-xclick" />
+    <input type="hidden" name="hosted_button_id" value="XRZQ6HRLU3DGE" />
+    <input type="image" src="/donate_icon_50w.png" name="submit" title="Přispějte pomocí služby Paypal" alt="Přispějte pomocí služby Paypal" />
+</form>
 <div class="info" id="info">
     <div class="infoPlaceName" id="infoPlaceName">
         -
