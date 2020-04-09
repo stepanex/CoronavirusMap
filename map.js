@@ -127,7 +127,7 @@ var color06 = [188,32,38];
 var color_white = [255, 255, 255];
 
 
-var styleJson = '/mapStyle.json';
+var styleJson = '/mapStyle.json?v=1.0.0';
 var stateCenter = {
     'CZ':[15.4749126, 49.8037633],
     'SK':[19.6961, 48.6738]

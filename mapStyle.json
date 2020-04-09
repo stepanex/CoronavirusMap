@@ -25,7 +25,7 @@
    "sources":{
       "openmaptiles":{
          "type":"vector",
-         "url":"https://api.maptiler.com/tiles/v3/tiles.json?key=VxKbehLACl2NSnfeXN94"
+         "url":"https://api.maptiler.com/tiles/v3/tiles.json?key=0DMYRleIZUbNQHTfZM2G"
       },
       "maptiler_attribution":{
          "type":"vector",
@@ -33,7 +33,7 @@
       }
    },
    "sprite":"https://api.maptiler.com/maps/388b9501-b967-47e6-853d-1ea40ce54a3d/sprite",
-   "glyphs":"https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=VxKbehLACl2NSnfeXN94",
+   "glyphs":"https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=0DMYRleIZUbNQHTfZM2G",
    "layers":[
       {
          "id":"background",
