@@ -47,7 +47,7 @@ html, body {
     padding: 2px 8px;
     float: left;
 }
-@media screen and (max-width: 550px){
+@media screen and (max-width: 650px){
     .logo{
         top: 15px;
         left: 15px;
@@ -180,7 +180,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 .casesCasesContainer{
     display: inline-block;
 }
-@media screen and (max-width: 850px){
+@media screen and (max-width: 1000px){
 
     .casesCasesContainer{
         display: block;
@@ -189,7 +189,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
         margin-left: 0px;
     }
 }
-@media screen and (max-width: 550px), screen and (max-height: 500px){
+@media screen and (max-width: 650px), screen and (max-height: 500px){
     .casesCasesContainer{
         display: block;
     }
@@ -274,7 +274,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
         font-size: 12px;
     }
 }
-@media screen and (max-width: 550px){
+@media screen and (max-width: 650px){
     .footer {
         font-size: 10px;
         bottom: 2px;
@@ -333,7 +333,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     margin-bottom: 4px;
 }
 
-@media screen and (max-width: 550px){
+@media screen and (max-width: 650px){
         #colors{
             bottom: unset;
             top: 15px;
@@ -385,7 +385,7 @@ a:hover{
 	width: -moz-fit-content;
 	width: fit-content;
 }
-@media screen and (max-width: 550px){
+@media screen and (max-width: 650px){
     .ol-control.ol-zoom{
         right:10px;
         bottom: 30px;
@@ -430,7 +430,7 @@ a:hover{
     color: white;
 }
 
-@media screen and (max-width: 550px){
+@media screen and (max-width: 650px){
     #donate{
         top: unset;
         bottom: 120px;

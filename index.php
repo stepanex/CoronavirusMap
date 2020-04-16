@@ -32,7 +32,7 @@
     <meta name="robots" content="index" />
     <meta name="googlebot" content="index" />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="/style.css?v=1.2.3" rel="stylesheet">
+    <link href="/style.css?v=1.2.4" rel="stylesheet">
     <!--<script data-ad-client="ca-pub-8503799930198018" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
 </head>
 <body>
