@@ -103,7 +103,7 @@ if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1][
         array_push($arr['error'], 'Confirmed number not at usual place.');
     }
     if(strpos($wikiTableHeader->childNodes[22]->nodeValue, 'Deaths') !== false){
-        $arr['dead'] = intval($wikiTableFooter->childNodes[24]->nodeValue);
+        $arr['dead'] = intval($wikiTableFooter->childNodes[26]->nodeValue);
     } else {
         $arr['errorCount']+=1;
         array_push($arr['error'], 'Dead number not at usual place.');
