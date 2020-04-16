@@ -34,14 +34,16 @@ $arr['error'] = [];
 $arr['infected'] = null;
 $arr['dead'] = null;
 $arr['recovered'] = null;
-$arr['Bratislava'] = null;
-$arr['Žilina'] = null;
-$arr['Košice'] = null;
-$arr['Trnava'] = null;
-$arr['Trenčín'] = null;
-$arr['Prešov'] = null;
-$arr['Banská Bystrica'] = null;
-$arr['Nitra'] = null;
+
+$infectedRegion = [];
+$infectedRegion['Bratislava'] = null;
+$infectedRegion['Žilina'] = null;
+$infectedRegion['Košice'] = null;
+$infectedRegion['Trnava'] = null;
+$infectedRegion['Trenčín'] = null;
+$infectedRegion['Prešov'] = null;
+$infectedRegion['Banská Bystrica'] = null;
+$infectedRegion['Nitra'] = null;
 
 $wiki =  file_get_contents('https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids='.$pageid.'&rvprop=ids|content');
 $wikiJson = json_decode($wiki, true);
@@ -92,8 +94,8 @@ if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1][
         $regionName = str_replace(array("\n", "\r"), '', $regionName);
         $regionName = mb_convert_encoding($regionName, 'iso-8859-1','utf-8');
         $regionCount = $wikiTableFooter->childNodes[$i]->nodeValue;
-        if(array_key_exists($regionName, $arr)){
-            $arr[$regionName] = intval($regionCount);
+        if(array_key_exists($regionName, $infectedRegion)){
+            $infectedRegion[$regionName] = intval($regionCount);
         }
     }
     if(strpos($wikiTableHeader->childNodes[20]->nodeValue, 'Confirmed') !== false){
@@ -115,6 +117,7 @@ if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1][
         array_push($arr['error'], 'Recovered number not at usual place.');
     }
 
+    $arr['infectedRegion'] = $infectedRegion;
     echo json_encode($arr);
     $db->setCache($state, $lastRevisionId, json_encode($arr), 'wikiInfo');
     $db->setStateInfected($state, $arr['infected']);

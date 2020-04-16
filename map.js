@@ -76,7 +76,7 @@ function printInfo(feature, coordinate = null, from=null) {
     if(from === 'click'){
         popupClose();
     }
-    if(feature ===undefined || (feature!==undefined && (stateName!==undefined || regionName===undefined))){
+    if(feature === undefined || (feature !== undefined && (stateName !== undefined || regionName === undefined))){
         document.getElementById('infoPlaceName').innerText=countriesPopupTranslation[state]['infoPlaceName'];
         document.getElementById('infectedCount').innerText=infectedCount;
         deadContainer.style.display='inline-block';
@@ -101,8 +101,12 @@ function printInfo(feature, coordinate = null, from=null) {
         if(feature !== undefined){
             if(feature.get('regionName') !== undefined){
                 document.getElementById('infoPlaceName').innerText=regionName;
-                document.getElementById('infectedCount').innerText=regionsCor[regionName];
-                deadContainer.style.display='none';
+                document.getElementById('infectedCount').innerText=infectedRegion[regionName];
+                if(deadRegion !== null){
+                    document.getElementById('deadCount').innerText=deadRegion[regionName];
+                } else {
+                    deadContainer.style.display='none';
+                }
                 recoveredContainer.style.display='none';
                 if (feature !== highlight) {
                     if (highlight) {
@@ -207,7 +211,7 @@ function styleFunction(feature, resolution) {
     let stateName = feature.get('stateName');
     if(regionName !== undefined){
         name = feature.get('regionName');
-        styleInfectedCount=parseInt(regionsCor[name]);
+        styleInfectedCount=parseInt(infectedRegion[name]);
     }
     else if(stateName !== undefined){
         name = feature.get('stateName');
@@ -245,11 +249,19 @@ function styleFunction(feature, resolution) {
     });
 }
 var regionsCor = null;
+var infectedRegion = null;
+var deadRegion = null;
 var stateCor = {'SK':0};
 console.log('loading wiki');
     fetch('/states/'+state+'/regionsData.php').then(regionCorCount => regionCorCount.json()).then(regionCorCount =>{
         console.log('loaded');
         regionsCor = regionCorCount;
+        infectedRegion = regionsCor['infectedRegion'];
+
+        if('deadRegion' in regionsCor){
+            console.log('deadRegion exists');
+            deadRegion = regionsCor['deadRegion'];
+        }
 
         infectedCount = regionCorCount['infected'];
         deadCount = null;
