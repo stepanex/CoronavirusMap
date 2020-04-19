@@ -144,6 +144,18 @@ let mapHeight = (window.innerHeight/100)*90;
 if(mapHeight < czechHeight){
     zoom = Math.log(mapHeight/3)/Math.log(2);
 }
+
+var carto = new ol.layer.Tile({ 
+    source: new ol.source.XYZ({ 
+        url:'https://{1-4}.basemaps.cartocdn.com/rastertiles/dark_nolabels/{z}/{x}/{y}.png',
+    })
+});
+var cartoLabels = new ol.layer.Tile({ 
+    source: new ol.source.XYZ({ 
+		url: 'https://{1-4}.basemaps.cartocdn.com/rastertiles/dark_only_labels/{z}/{x}/{y}.png'
+    }),
+	zIndex: 20
+});
 var map = new ol.Map({
     target: 'map',
     interactions: ol.interaction.defaults({
@@ -162,12 +174,16 @@ var map = new ol.Map({
         attribution: false,
         rotate: false
     }),
+	layers: [
+		carto,
+		cartoLabels
+	],
     view: new ol.View({
         center: ol.proj.fromLonLat(center),
         zoom: zoom
     })
 });
-olms.apply(map, styleJson);
+//olms.apply(map, styleJson);
 
 var regionsIndex = {
     'CZ':{
