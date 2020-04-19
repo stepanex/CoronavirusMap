@@ -32,7 +32,7 @@
     <meta name="robots" content="index" />
     <meta name="googlebot" content="index" />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="/style.css?v=1.2.5" rel="stylesheet">
+    <link href="/style.css?v=1.2.7" rel="stylesheet">
     <!--<script data-ad-client="ca-pub-8503799930198018" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
 </head>
 <body>
@@ -144,7 +144,32 @@
         <a href="https://cs.wikipedia.org/wiki/Epidemie_koronaviru_SARS-CoV-2_v_%C4%8Cesku" id="footerRightUrl">Zdroj dat</a>
     </div>
     <div class="footer_small">
-        <div class="text"><a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a></div>
+		<div id='infoButton' class='infoButton'>i</div>
+		<div id='infoText' class='infoText' style='display: none'>
+			<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>
+			<div id='infoTextClose' class='infoTextClose'>✖</div>
+		</div>
+	<script>
+		let infoButton = document.getElementById('infoButton');
+		let infoText = document.getElementById('infoText');
+		let infoTextClose = document.getElementById('infoTextClose');
+		let displayed = 'button';
+		
+		infoButton.addEventListener('click', function(event){
+			if(displayed === 'button'){
+				infoButton.style.display = 'none';
+				infoText.style.display = 'inline-block';
+				displayed = 'text';
+			}
+		});
+		infoTextClose.addEventListener('click', function(event){
+			if(displayed === 'text'){
+				infoButton.style.display = 'block';
+				infoText.style.display = 'none';
+				displayed = 'button';
+			}
+		});
+	</script>
     </div>
 </body>
 <script src="/map.js?v=1.2.2"></script>
