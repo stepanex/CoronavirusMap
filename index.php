@@ -5,9 +5,6 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/build/ol.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/css/ol.css" type="text/css">
 
-    <script src="https://cdn.maptiler.com/ol-mapbox-style/v5.0.2/olms.js"></script>
-    <link rel="stylesheet" href="https://cdn.maptiler.com/ol/v6.0.0/ol.css">
-
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160373551-1"></script>
     <script>
@@ -146,7 +143,7 @@
     <div class="footer_small">
 		<div id='infoButton' class='infoButton'>i</div>
 		<div id='infoText' class='infoText' style='display: none'>
-			<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>
+			<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors <a href="https://carto.com/attributions">CARTO</a>
 			<div id='infoTextClose' class='infoTextClose'>✖</div>
 		</div>
 	<script>
@@ -172,5 +169,5 @@
 	</script>
     </div>
 </body>
-<script src="/map.js?v=1.2.2"></script>
+<script src="/map.js?v=1.2.5"></script>
 </html>

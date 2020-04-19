@@ -152,7 +152,8 @@ var carto = new ol.layer.Tile({
 });
 var cartoLabels = new ol.layer.Tile({ 
     source: new ol.source.XYZ({ 
-		url: 'https://{1-4}.basemaps.cartocdn.com/rastertiles/dark_only_labels/{z}/{x}/{y}.png'
+		url: 'https://{1-4}.basemaps.cartocdn.com/rastertiles/dark_only_labels/{z}/{x}/{y}@3x.png',
+		tilePixelRatio: 3
     }),
 	zIndex: 20
 });
@@ -183,7 +184,6 @@ var map = new ol.Map({
         zoom: zoom
     })
 });
-//olms.apply(map, styleJson);
 
 var regionsIndex = {
     'CZ':{
