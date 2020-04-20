@@ -266,19 +266,19 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     right: 215px;
 }
 
-.footer_small{
-    bottom: 9px;
-    right: 308px;
-    position: fixed;
-    font-size: 7px;
+.contributions{
+    font-size: 9px;
 	background-color: white;
     padding-right: 1px;
+    padding-left: 1px;
     border-radius: 2px;
 	color: black;
 	z-index: 11;
+	display: inline-block;
+	position: sticky;
+    bottom: 8px;
 }
 .infoButton{
-	height: 10px;
     width: 10px;
     text-align: center;
     font-weight: bold;
@@ -290,7 +290,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 }
 
 .infoTextClose {
-	height: 10px;
     width: 10px;
     text-align: center;
 	cursor: pointer;
@@ -312,9 +311,12 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     .footer_right{
         right: 10px;
     }
-	.footer_small{
-		right: 85px;
+	.contributions{
+		font-size: 7px;
 		bottom: 4px;
+	}
+	.infoButton, .infoTextClose{
+		width: 7px;
 	}
 }
 
