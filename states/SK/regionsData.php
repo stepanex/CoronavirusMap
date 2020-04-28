@@ -100,18 +100,30 @@ if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1][
     }
     if(strpos($wikiTableHeader->childNodes[18]->nodeValue, 'Confirmed') !== false){
         $arr['infected'] = intval($wikiTableFooter->childNodes[20]->nodeValue);
+		if($arr['infected']===0){
+			$arr['errorCount']+=1;
+			array_push($arr['error'], 'Confirmed number is 0.');
+		}
     } else {
         $arr['errorCount']+=1;
         array_push($arr['error'], 'Confirmed number not at usual place.');
     }
     if(strpos($wikiTableHeader->childNodes[20]->nodeValue, 'Deaths') !== false){
         $arr['dead'] = intval($wikiTableFooter->childNodes[24]->nodeValue);
+		if($arr['dead']===0){
+			$arr['errorCount']+=1;
+			array_push($arr['error'], 'Dead number is 0.');
+		}
     } else {
         $arr['errorCount']+=1;
         array_push($arr['error'], 'Dead number not at usual place.');
     }
     if(strpos($wikiTableHeader->childNodes[22]->nodeValue, 'Recoveries') !== false){
-        $arr['recovered'] = intval($wikiTableFooter->childNodes[26]->nodeValue);
+        $arr['recovered'] = intval($wikiTableFooter->childNodes[28]->nodeValue);
+		if($arr['recovered']===0){
+			$arr['errorCount']+=1;
+			array_push($arr['error'], 'Recovered number is 0.');
+		}
     } else {
         $arr['errorCount']+=1;
         array_push($arr['error'], 'Recovered number not at usual place.');
