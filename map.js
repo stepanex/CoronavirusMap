@@ -368,7 +368,7 @@ map.addOverlay(popupOverlay);
 
 var clickedOnce = false;
 popupContainer.onclick = function(){
-    if(!clickedOnce){
+    if(!clickedOnce && window.innerWidth <= 550){
         clickedOnce = true;
     } else {
         window.top.location.href = popupUrl;
