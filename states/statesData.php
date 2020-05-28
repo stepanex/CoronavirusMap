@@ -6,14 +6,16 @@ if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != null) {
 }
 $address = $http . '://' . $_SERVER['SERVER_NAME'];
 $result = [];
-$db = new database();
-$statesResult = json_decode($db->getStates(), true);
-if($statesResult[0]){
-    $statesJson = $statesResult[1];
-    foreach ($statesJson as $state){
-        $stateName = $state['state'];
-        $stateData = json_decode(file_get_contents($address.'/states/'.$stateName.'/regionsData.php'), true);
-        $result[$stateName]=$stateData['infected'];
-    }
-    echo json_encode($result);
+
+$dirs = array_filter(glob('*'), 'is_dir');
+foreach ($dirs as $dir){
+    $stateName = $dir;
+    $url = $address.'/states/'.$stateName.'/regionsData.php';
+    $file = @file_get_contents($url);
+    if($file === FALSE)
+        continue;
+    $stateData = json_decode($file, true);
+    $result[$stateName]=$stateData['infected'];
 }
+echo json_encode($result);
+die();
