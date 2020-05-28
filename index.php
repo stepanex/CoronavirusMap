@@ -40,7 +40,7 @@
     if(isset($_GET['state'])){
         $state = $_GET['state'];
     }
-    echo '"'.$state.'"';
+    echo json_encode($state)
     ?>;
 </script>
 <div id="popup">
