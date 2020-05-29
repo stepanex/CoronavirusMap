@@ -107,7 +107,11 @@ function printInfo(feature, coordinate = null, from=null) {
                 } else {
                     deadContainer.style.display='none';
                 }
-                recoveredContainer.style.display='none';
+                if(recoveredRegion !== null){
+                    document.getElementById('recoveredCount').innerText=recoveredRegion[regionName];
+                } else {
+                    recoveredContainer.style.display='none';
+                }
                 if (feature !== highlight) {
                     if (highlight) {
                         featureOverlay.getSource().removeFeature(highlight);
@@ -130,8 +134,6 @@ var color05 = [239,71,35];
 var color06 = [188,32,38];
 var color_white = [255, 255, 255];
 
-
-var styleJson = '/mapStyle.json?v=1.0.0';
 var stateCenter = {
     'CZ':[15.4749126, 49.8037633],
     'SK':[19.6961, 48.6738]
@@ -267,8 +269,9 @@ function styleFunction(feature, resolution) {
 var regionsCor = null;
 var infectedRegion = null;
 var deadRegion = null;
+var recoveredRegion = null;
 var stateCor = {'SK':0};
-console.log('loading wiki');
+console.log('loading data');
     fetch('/states/'+state+'/regionsData.php').then(regionCorCount => regionCorCount.json()).then(regionCorCount =>{
         console.log('loaded');
         regionsCor = regionCorCount;
@@ -277,6 +280,11 @@ console.log('loading wiki');
         if('deadRegion' in regionsCor){
             console.log('deadRegion exists');
             deadRegion = regionsCor['deadRegion'];
+        }
+
+        if('recoveredRegion' in regionsCor){
+            console.log('recoveredRegion exists');
+            recoveredRegion = regionsCor['recoveredRegion'];
         }
 
         infectedCount = regionCorCount['infected'];
@@ -305,7 +313,7 @@ console.log('loading wiki');
         printInfo(undefined);
     }).catch((error) => {
     console.error('Error:', error);
-});
+    });
 fetch('/states/statesData.php').then(statesCorCount => statesCorCount.json()).then(statesCorCount =>{
     stateCor = statesCorCount;
     countries.forEach(country => {

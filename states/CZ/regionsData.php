@@ -69,8 +69,25 @@ $deadRegion['Ústecký kraj'] = null;
 $deadRegion['Kraj Vysočina'] = null;
 $deadRegion['Zlínský kraj'] = null;
 
+$recoveredRegion =[];
+$recoveredRegion['Praha'] = null;
+$recoveredRegion['Královéhradecký kraj'] = null;
+$recoveredRegion['Karlovarský kraj'] = null;
+$recoveredRegion['Liberecký kraj'] = null;
+$recoveredRegion['Moravskoslezský kraj'] = null;
+$recoveredRegion['Olomoucký kraj'] = null;
+$recoveredRegion['Pardubický kraj'] = null;
+$recoveredRegion['Plzeňský kraj'] = null;
+$recoveredRegion['Středočeský kraj'] = null;
+$recoveredRegion['Jihočeský kraj'] = null;
+$recoveredRegion['Jihomoravský kraj'] = null;
+$recoveredRegion['Ústecký kraj'] = null;
+$recoveredRegion['Kraj Vysočina'] = null;
+$recoveredRegion['Zlínský kraj'] = null;
+
 $infectedRegionsCount = 0;
 $deadRegionsCount = 0;
+$recoveredRegionsCount = 0;
 
 
 $apify = file_get_contents('https://api.apify.com/v2/key-value-stores/K373S4uCFR9W1K8ei/records/LATEST?disableRedirect=true');
@@ -83,8 +100,8 @@ if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['infected']) && iss
     $arr['dead'] = $apifyJson['deceased'];
     $arr['recovered'] = $apifyJson['recovered'];
 
-    $infectedRegions = $apifyJson['infectedByRegion'];
-    foreach ($infectedRegions as $region){
+    $apifyInfectedRegions = $apifyJson['infectedByRegion'];
+    foreach ($apifyInfectedRegions as $region){
 		if(isset($region['name'])){
 			if($region['name'] == 'Vysočina')
 				$region['name'] = 'Kraj Vysočina';
@@ -99,8 +116,8 @@ if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['infected']) && iss
     $arr['infectedRegion'] = $infectedRegion;
 
     if(isset($apifyJson['deceasedByRegion'])){
-        $deadRegions = $apifyJson['deceasedByRegion'];
-        foreach ($deadRegions as $region){
+        $apifyDeadRegions = $apifyJson['deceasedByRegion'];
+        foreach ($apifyDeadRegions as $region){
             if(isset($region['name'])){
                 if($region['name'] == 'Vysočina')
                     $region['name'] = 'Kraj Vysočina';
@@ -115,6 +132,23 @@ if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['infected']) && iss
         $arr['deadRegion'] = $deadRegion;
     }
 
+    if(isset($apifyJson['recoveredByRegion'])){
+        $apifyRecoveredRegions = $apifyJson['recoveredByRegion'];
+        foreach ($apifyRecoveredRegions as $region){
+            if(isset($region['name'])){
+                if($region['name'] == 'Vysočina')
+                    $region['name'] = 'Kraj Vysočina';
+                if($region['name'] == 'Hlavní město Praha')
+                    $region['name'] = 'Praha';
+                if(array_key_exists($region['name'], $recoveredRegion)){
+                    $recoveredRegion[$region['name']] = $region['value'];
+                    $recoveredRegionsCount++;
+                }
+            }
+        }
+        $arr['recoveredRegion'] = $recoveredRegion;
+    }
+
     if($infectedRegionsCount != 14){
         $arr['errorCount'] += 1;
         array_push($arr['error'], 'Apify didnt find all infected regions.');
@@ -123,6 +157,11 @@ if(isset($apifyJson['infectedByRegion']) && isset($apifyJson['infected']) && iss
     if(isset($apifyJson['deceasedByRegion']) && $deadRegionsCount != 14){
         $arr['errorCount'] += 1;
         array_push($arr['error'], 'Apify didnt find all dead regions.');
+    }
+
+    if(isset($apifyJson['recoveredByRegion']) && $recoveredRegionsCount != 14){
+        $arr['errorCount'] += 1;
+        array_push($arr['error'], 'Apify didnt find all recovered regions.');
     }
 
 } else {
