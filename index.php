@@ -105,7 +105,7 @@
     </div>
     <div class="colorContainer">
         <div class="color" id="color01"></div>
-        <div class="colorText">0</div>
+        <div class="colorText" id="color01Text">No data</div>
     </div>
     <div class="colorContainer">
         <div class="color" id="color02"></div>
@@ -170,5 +170,5 @@
     </div>
     
 </body>
-<script src="/map.js?v=1.2.7"></script>
+<script src="/map.js?v=1.2.8"></script>
 </html>

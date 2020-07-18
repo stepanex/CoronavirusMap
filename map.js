@@ -8,6 +8,7 @@ var countriesPopupTranslation={
         'deadTitle':'úmrtí',
         'recoveredTitle':'uzdravení',
         'legendTitle':'Počet nakažených lidí',
+        'legendNoData':'Chybí data',
         'infoPlaceName':'Česká Republika',
         'footerRightTitle':'Zdroj dat',
         'footerRightUrl':'https://onemocneni-aktualne.mzcr.cz/covid-19'
@@ -20,13 +21,14 @@ var countriesPopupTranslation={
         'deadTitle':'úmrtí',
         'recoveredTitle':'uzdravení',
         'legendTitle':'Počet infikovaných ľudí',
+        'legendNoData':'Chýbajú dáta',
         'infoPlaceName':'Slovenská republika',
         'footerRightTitle':'Zdroj údajov',
         'footerRightUrl':'https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Slovakia'
     }
 };
 
-var color01legend = '#0f9246';
+var color01legend = '#9d9d9d';
 var color02legend = '#7dbb42';
 var color03legend = '#ffbf00';
 var color04legend = '#f68e1f';
@@ -126,13 +128,12 @@ function printInfo(feature, coordinate = null, from=null) {
     }
 }
 
-var color01 = [15,146,70];
+var color_white = [255, 255, 255];
 var color02 = [125,187,66];
 var color03 = [255,191,0];
 var color04 = [246,142,31];
 var color05 = [239,71,35];
 var color06 = [188,32,38];
-var color_white = [255, 255, 255];
 
 var stateCenter = {
     'CZ':[15.4749126, 49.8037633],
@@ -236,9 +237,7 @@ function styleFunction(feature, resolution) {
         styleInfectedCount=parseInt(stateCor[name]);
     }
     let color = color_white;
-    if (styleInfectedCount < 1) {
-        color = color01;
-    } else if (styleInfectedCount < 10) {
+    if (styleInfectedCount < 10) {
         color = color02;
     } else if (styleInfectedCount < 100) {
         color = color03;
@@ -335,6 +334,7 @@ fetch('/states/statesData.php').then(statesCorCount => statesCorCount.json()).th
 });
 
 document.getElementById('colorTitle').innerText=countriesPopupTranslation[state]['legendTitle'];
+document.getElementById('color01Text').innerText=countriesPopupTranslation[state]['legendNoData'];
 document.getElementById('infectedTitle').innerText=countriesPopupTranslation[state]['infectedTitle'];
 document.getElementById('deadTitle').innerText=countriesPopupTranslation[state]['deadTitle'];
 document.getElementById('recoveredTitle').innerText=countriesPopupTranslation[state]['recoveredTitle'];
