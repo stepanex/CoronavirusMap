@@ -81,6 +81,7 @@ function printInfo(feature, coordinate = null, from=null) {
     if(feature === undefined || (feature !== undefined && (stateName !== undefined || regionName === undefined))){
         document.getElementById('infoPlaceName').innerText=countriesPopupTranslation[state]['infoPlaceName'];
         document.getElementById('infectedCount').innerText=infectedCount;
+        document.getElementById('infectedContainer').style.display='inline-block';
         deadContainer.style.display='inline-block';
         document.getElementById('deadCount').innerText=deadCount;
         recoveredContainer.style.display='inline-block';
@@ -103,13 +104,17 @@ function printInfo(feature, coordinate = null, from=null) {
         if(feature !== undefined){
             if(feature.get('regionName') !== undefined){
                 document.getElementById('infoPlaceName').innerText=regionName;
-                document.getElementById('infectedCount').innerText=infectedRegion[regionName];
-                if(deadRegion !== null){
+                if(infectedRegion !== null && infectedRegion[regionName] !== null){
+                    document.getElementById('infectedCount').innerText=infectedRegion[regionName];
+                } else {
+                    document.getElementById('infectedContainer').style.display='none';
+                }
+                if(deadRegion !== null && deadRegion[regionName] !== null){
                     document.getElementById('deadCount').innerText=deadRegion[regionName];
                 } else {
                     deadContainer.style.display='none';
                 }
-                if(recoveredRegion !== null){
+                if(recoveredRegion !== null && recoveredRegion[regionName] !== null){
                     document.getElementById('recoveredCount').innerText=recoveredRegion[regionName];
                 } else {
                     recoveredContainer.style.display='none';
