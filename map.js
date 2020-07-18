@@ -128,7 +128,7 @@ function printInfo(feature, coordinate = null, from=null) {
     }
 }
 
-var color_white = [255, 255, 255];
+var color_gray = [157, 157, 157];
 var color02 = [125,187,66];
 var color03 = [255,191,0];
 var color04 = [246,142,31];
@@ -236,7 +236,7 @@ function styleFunction(feature, resolution) {
         name = feature.get('stateName');
         styleInfectedCount=parseInt(stateCor[name]);
     }
-    let color = color_white;
+    let color = color_gray;
     if (styleInfectedCount < 10) {
         color = color02;
     } else if (styleInfectedCount < 100) {
