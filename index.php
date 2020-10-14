@@ -29,7 +29,7 @@
     <meta name="robots" content="index" />
     <meta name="googlebot" content="index" />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="/style.css?v=1.3.1" rel="stylesheet">
+    <link href="/style.css?v=1.4" rel="stylesheet">
     <!--<script data-ad-client="ca-pub-8503799930198018" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
 </head>
 <body>
@@ -77,7 +77,17 @@
                 -
             </div>
             <div class="infectedTitle" id="infectedTitle">
-                -
+                <div class="infectedTitleText" id="infectedTitleText">
+                    -
+                </div>
+                <select class="infectedTitleSelect" id="infectedTitleSelect">
+                    <option id="infectedTitleSelectNow" value="0">
+                        -
+                    </option>
+                    <option id="infectedTitleSelectTotal" value="1">
+                        -
+                    </option>
+                </select>
             </div>
         </div>
         <div class="casesCasesContainer">
@@ -170,5 +180,5 @@
     </div>
     
 </body>
-<script src="/map.js?v=1.3"></script>
+<script src="/map.js?v=1.4.1"></script>
 </html>

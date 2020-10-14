@@ -15,7 +15,11 @@ foreach ($dirs as $dir){
     if($file === FALSE)
         continue;
     $stateData = json_decode($file, true);
-    $result[$stateName]=$stateData['infected'];
+    $result[$stateName]['infected']=$stateData['infected'];
+    if(isset($stateData['recovered']))
+        $result[$stateName]['recovered']=$stateData['recovered'];
+    if(isset($stateData['dead']))
+        $result[$stateName]['dead']=$stateData['dead'];
 }
 echo json_encode($result);
 die();

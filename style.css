@@ -49,7 +49,7 @@ html, body {
     padding: 2px 8px;
     float: left;
 }
-@media screen and (max-width: 650px){
+@media screen and (max-width: 666px){
     .logo{
         top: 15px;
         left: 15px;
@@ -118,11 +118,29 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     text-shadow: 0px 0px 10px #000000;
 }
 
-.infectedTitle {
+.infectedTitleText {
+    display: inline-block;
     font-size: 36px;
     line-height: 53px;
     color: #FFFFFF;
     text-shadow: 0px 0px 10px #000000;
+}
+
+.infectedTitleSelect {
+    pointer-events: all;
+    display: inline-block;
+    font-size: 36px;
+    line-height: 53px;
+    color: #FFFFFF;
+    text-shadow: 0px 0px 10px #000000;
+    background: transparent;
+    border-style: none;
+    font-family: 'Oswald', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+}
+option {
+    background: black;
 }
 
 .deadContainer {
@@ -182,7 +200,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 .casesCasesContainer{
     display: inline-block;
 }
-@media screen and (max-width: 1000px){
+@media screen and (max-width: 1150px){
 
     .casesCasesContainer{
         display: block;
@@ -190,8 +208,23 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     .deadContainer {
         margin-left: 0px;
     }
+    .deadCount, .recoveredCount {
+        font-size: 60px;
+        line-height: 72px;
+    }
+    .deadTitle, .recoveredTitle {
+        font-size: 20px;
+    }
+    .infectedTitleText, .infectedTitleSelect {
+        font-size: 30px;
+        line-height: 46px;
+    }
+    .infectedCount {
+        font-size: 130px;
+        line-height: 140px;
+    }
 }
-@media screen and (max-width: 650px), screen and (max-height: 500px){
+@media screen and (max-width: 666px), screen and (max-height: 500px){
     .casesCasesContainer{
         display: block;
     }
@@ -211,7 +244,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
         line-height: 82px;
         text-shadow: 0px 0px 5px #000000;
     }
-    .infectedTitle {
+    .infectedTitleText, .infectedTitleSelect {
         font-size: 20px;
         line-height: 37px;
     }
@@ -300,7 +333,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
         font-size: 12px;
     }
 }
-@media screen and (max-width: 650px){
+@media screen and (max-width: 666px){
     .footer {
         font-size: 10px;
         bottom: 2px;
@@ -365,7 +398,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     margin-bottom: 4px;
 }
 
-@media screen and (max-width: 650px){
+@media screen and (max-width: 666px){
         #colors{
             bottom: unset;
             top: 15px;
@@ -417,7 +450,7 @@ a:hover{
 	width: -moz-fit-content;
 	width: fit-content;
 }
-@media screen and (max-width: 650px){
+@media screen and (max-width: 666px){
     .ol-control.ol-zoom{
         right:10px;
         bottom: 30px;
@@ -462,7 +495,7 @@ a:hover{
     color: white;
 }
 
-@media screen and (max-width: 650px){
+@media screen and (max-width: 666px){
     #donate{
         top: unset;
         bottom: 120px;
