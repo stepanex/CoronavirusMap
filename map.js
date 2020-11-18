@@ -94,7 +94,7 @@ function printInfo(feature, coordinate = null, from=null) {
         if(showInfectedTotal)
             document.getElementById('infectedCount').innerText=infectedCount;
         else
-            document.getElementById('infectedCount').innerText=(infectedCount-recoveredCount).toString();
+            document.getElementById('infectedCount').innerText=(infectedCount-recoveredCount-deadCount).toString();
         document.getElementById('infectedContainer').style.display='inline-block';
         deadContainer.style.display='inline-block';
         document.getElementById('deadCount').innerText=deadCount;
@@ -126,8 +126,13 @@ function printInfo(feature, coordinate = null, from=null) {
                 if(infectedRegion !== null && infectedRegion[regionName] !== null){
                     if(showInfectedTotal)
                         document.getElementById('infectedCount').innerText=infectedRegion[regionName];
-                    else
-                        document.getElementById('infectedCount').innerText=(infectedRegion[regionName]-recoveredRegion[regionName]).toString();
+                    else {
+						let newInfectedCount = infectedRegion[regionName]-recoveredRegion[regionName];
+						if(deadRegion !== null && deadRegion[regionName] !== null){
+							newInfectedCount-=deadRegion[regionName];
+						}
+                        document.getElementById('infectedCount').innerText=(newInfectedCount).toString();
+					}
                 } else {
                     document.getElementById('infectedContainer').style.display='none';
                 }

@@ -180,5 +180,5 @@
     </div>
     
 </body>
-<script src="/map.js?v=1.4.1"></script>
+<script src="/map.js?v=1.4.2"></script>
 </html>
