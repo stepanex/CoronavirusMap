@@ -1,33 +1,5 @@
 <?php
-require_once('../../database.php');
-
 $state = 'SK';
-
-$db = new database();
-$dbStatus = $db->getStatusArr();
-if(!($dbStatus[0])){
-    $arr['errorCount'] +=1;
-    array_push($arr['error'], $dbStatus[1]);
-    echo json_encode($arr);
-    die();
-}
-
-function addFileToArray($array, $cachedRevidJson){
-    global $state;
-    global $db;
-    if($cachedRevidJson[0]){
-        $fileJson = json_decode(json_decode($db->getCache($state, 'wikiInfo'),true)[1]['data']);
-        if($fileJson!=null){
-            foreach ($fileJson as $region=>$count){
-                if(array_key_exists($region, $array)){
-                    $array[$region] = $count;
-                }
-            }
-        }
-    }
-    return $array;
-}
-$pageid = '63417582';
 $arr = [];
 $arr['errorCount'] = 0;
 $arr['error'] = [];
