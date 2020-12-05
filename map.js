@@ -13,7 +13,7 @@ var countriesPopupTranslation={
         'legendNoData':'Chybí data',
         'infoPlaceName':'Česká Republika',
         'footerRightTitle':'Zdroj dat',
-        'footerRightUrl':'https://onemocneni-aktualne.mzcr.cz/covid-19'
+        'footerRightUrl':'https://github.com/apify/covid-19/tree/master/czechia'
     },
     'SK':{
         'CZ':'Prejsť na Českú Republiku',
@@ -28,7 +28,7 @@ var countriesPopupTranslation={
         'legendNoData':'Chýbajú dáta',
         'infoPlaceName':'Slovenská republika',
         'footerRightTitle':'Zdroj údajov',
-        'footerRightUrl':'https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Slovakia'
+        'footerRightUrl':'https://github.com/apify/covid-19/tree/master/slovakia'
     }
 };
 
@@ -238,15 +238,14 @@ var regionsIndex = {
         'Zlínský kraj':'14'
     },
     'SK':{
-        'Bratislava':'01',
-        'Žilina':'02',
-        'Košice':'03',
-        'Trnava':'04',
-        'Trenčín':'05',
-        'Prešov':'06',
-        'Banská Bystrica':'07',
-        'Nitra':'08',
-        'Martin':'09'
+        'Bratislavský kraj':'01',
+        'Žilinský kraj':'02',
+        'Košický kraj':'03',
+        'Trnavský kraj':'04',
+        'Trenčiansky kraj':'05',
+        'Prešovský kraj':'06',
+        'Banskobystrický kraj':'07',
+        'Nitriansky kraj':'08'
     }
 };
 var stateIndex = {
@@ -339,7 +338,7 @@ console.log('loading data');
         }
         printInfo(undefined);
         var regionsData = new ol.source.Vector({
-            url: '/states/'+state+'/regions.geojson?v=1.0.2',
+            url: '/states/'+state+'/regions.geojson?v=1.0.3',
             format: new ol.format.GeoJSON()
         });
         regionLayer = new ol.layer.Vector({
@@ -353,7 +352,7 @@ console.log('loading data');
         document.getElementById('info').style.display='block';
         printInfo(undefined);
     }).catch((error) => {
-    console.error('Error:', error);
+		console.error('Error:', error.message);
     });
 fetch('/states/statesData.php').then(statesCorCount => statesCorCount.json()).then(statesCorCount =>{
     stateCor = statesCorCount;

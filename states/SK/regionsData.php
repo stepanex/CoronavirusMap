@@ -36,102 +36,58 @@ $arr['dead'] = null;
 $arr['recovered'] = null;
 
 $infectedRegion = [];
-$infectedRegion['Bratislava'] = null;
-$infectedRegion['Žilina'] = null;
-$infectedRegion['Košice'] = null;
-$infectedRegion['Trnava'] = null;
-$infectedRegion['Trenčín'] = null;
-$infectedRegion['Prešov'] = null;
-$infectedRegion['Banská Bystrica'] = null;
-$infectedRegion['Nitra'] = null;
+$infectedRegion['Bratislavský kraj'] = null;
+$infectedRegion['Žilinský kraj'] = null;
+$infectedRegion['Košický kraj'] = null;
+$infectedRegion['Trnavský kraj'] = null;
+$infectedRegion['Trenčiansky kraj'] = null;
+$infectedRegion['Prešovský kraj'] = null;
+$infectedRegion['Banskobystrický kraj'] = null;
+$infectedRegion['Nitriansky kraj'] = null;
 
-$wiki =  file_get_contents('https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids='.$pageid.'&rvprop=ids|content');
-$wikiJson = json_decode($wiki, true);
-$lastRevisionId = $wikiJson['query']['pages'][$pageid]['revisions'][0]['revid'];
-$cachedRevidJson = json_decode($db->getCacheLastRevision($state, 'wikiInfo'), true);
+$infectedRegionsCount = 0;
 
-function get_inner_html( $node ) {
-    $innerHTML= '';
-    $children = $node->childNodes;
-    foreach ($children as $child) {
-        $innerHTML .= $child->ownerDocument->saveXML( $child );
-    }
+$apify = file_get_contents('https://api.apify.com/v2/key-value-stores/GlTLAdXAuOz6bLAIO/records/LATEST?disableRedirect=true');
+$apifyJson = json_decode($apify, true);
 
-    return $innerHTML;
+if(isset($apifyJson['infectedPCR'])){
+    $arr['infected'] = $apifyJson['infectedPCR'];
 }
-
-if($cachedRevidJson[0] && intval($lastRevisionId) == intval($cachedRevidJson[1]['revid'])){
-    echo json_decode($db->getCache($state, 'wikiInfo'),true)[1]['data'];
-}else {
-    $arr = addFileToArray($arr, $cachedRevidJson);
-    $arr['errorCount'] = 0;
-    $arr['error']=[];
-    $newUrl = 'https://en.wikipedia.org/w/api.php?action=parse&prop=text&pageid=' . $pageid . '&format=json';
-    $wiki = file_get_contents($newUrl);
-    $wikiJson = json_decode($wiki, true);
-    $wikiData = $wikiJson['parse']['text']['*'];
-
-    $dom = new DomDocument();
-    $dom->loadHTML($wikiData);
-    $finder = new DomXPath($dom);
-    $classname = "wikitable mw-collapsible";
-    $nodes = $finder->query("//table[contains(@class, '$classname')]");
-    if(count($nodes) != 1){
-        $arr['errorCount'] += 1;
-        array_push($arr['error'], 'Count of found tables != 1.');
-        echo json_encode($arr);
-        die();
-    }
-    // for some reason there are different indexes at server than on local
-    // these here are the good ones for server
-
-    $wikiTable = $nodes[0]->childNodes[2];
-    $tableLength = $wikiTable->childNodes->length;
-    $wikiTableHeader = $wikiTable->firstChild;
-    $wikiTableFooter = $wikiTable->lastChild;
-    for ($i = 2; $i < 18; $i += 2) {
-        $regionName = $wikiTableHeader->childNodes[$i]->nodeValue;
-        $regionName = str_replace(array("\n", "\r"), '', $regionName);
-        $regionName = mb_convert_encoding($regionName, 'iso-8859-1','utf-8');
-        $regionCount = $wikiTableFooter->childNodes[$i]->nodeValue;
-        if(array_key_exists($regionName, $infectedRegion)){
-            $infectedRegion[$regionName] = intval($regionCount);
-        }
-    }
-    if(strpos($wikiTableHeader->childNodes[18]->nodeValue, 'Confirmed') !== false){
-        $arr['infected'] = intval($wikiTableFooter->childNodes[20]->nodeValue);
-		if($arr['infected']===0){
-			$arr['errorCount']+=1;
-			array_push($arr['error'], 'Confirmed number is 0.');
+else if(isset($apifyJson['infected'])){
+    $arr['infected'] = $apifyJson['infected'];
+} else {
+    $arr['errorCount'] += 1;
+    array_push($arr['error'], 'Apify didnt find infected count.');
+}
+if(isset($apifyJson['recovered'])){
+    $arr['recovered'] = $apifyJson['recovered'];
+} else {
+    $arr['errorCount'] += 1;
+    array_push($arr['error'], 'Apify didnt find recovered.');
+}
+if(isset($apifyJson['deceased'])){
+    $arr['dead'] = $apifyJson['deceased'];
+} else {
+    $arr['errorCount'] += 1;
+    array_push($arr['error'], 'Apify didnt find deceased.');
+}
+if(isset($apifyJson['regionsData'])){
+	$apifyInfectedRegions = $apifyJson['regionsData'];
+    foreach ($apifyInfectedRegions as $region){
+		if(isset($region['region'])){
+			if(array_key_exists($region['region'], $infectedRegion)){
+                $infectedRegion[$region['region']] = (int)filter_var($region['totalInfected'], FILTER_SANITIZE_NUMBER_INT);;
+                $infectedRegionsCount++;
+			}
 		}
-    } else {
-        $arr['errorCount']+=1;
-        array_push($arr['error'], 'Confirmed number not at usual place.');
     }
-    if(strpos($wikiTableHeader->childNodes[20]->nodeValue, 'Deaths') !== false){
-        $arr['dead'] = intval($wikiTableFooter->childNodes[24]->nodeValue);
-		if($arr['dead']===0){
-			$arr['errorCount']+=1;
-			array_push($arr['error'], 'Dead number is 0.');
-		}
-    } else {
-        $arr['errorCount']+=1;
-        array_push($arr['error'], 'Dead number not at usual place.');
-    }
-    if(strpos($wikiTableHeader->childNodes[22]->nodeValue, 'Recoveries') !== false){
-        $arr['recovered'] = intval($wikiTableFooter->childNodes[28]->nodeValue);
-		if($arr['recovered']===0){
-			$arr['errorCount']+=1;
-			array_push($arr['error'], 'Recovered number is 0.');
-		}
-    } else {
-        $arr['errorCount']+=1;
-        array_push($arr['error'], 'Recovered number not at usual place.');
-    }
-
     $arr['infectedRegion'] = $infectedRegion;
-    echo json_encode($arr);
-    $db->setCache($state, $lastRevisionId, json_encode($arr), 'wikiInfo');
-    $db->setStateInfected($state, $arr['infected']);
+	if($infectedRegionsCount != 8){
+        $arr['errorCount'] += 1;
+        array_push($arr['error'], 'Apify didnt find all infected regions.');
+    }
+} else {
+    $arr['errorCount'] += 1;
+    array_push($arr['error'], 'Apify didnt find regionsData.');
 }
-
+echo json_encode($arr);
