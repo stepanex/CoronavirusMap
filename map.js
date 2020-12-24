@@ -109,11 +109,11 @@ function printInfo(feature, coordinate = null, from=null) {
         clickedOnce = false;
         popupUrl = countriesPopupTranslation[state][stateName+'url'];
         popupTitle.innerHTML=countriesPopupTranslation[state][stateName];
-        if(showInfectedTotal || stateCor[stateName]['recovered'] === undefined){
+        if(showInfectedTotal || stateCor[stateName]['recovered'] === undefined || stateCor[stateName]['dead'] === undefined){
             popupInfectedCount.innerHTML = stateCor[stateName]['infected'];
             popupInfectedTitle.innerHTML = countriesPopupTranslation[state]['infected'] + ' ' + countriesPopupTranslation[state]['infectedTotal'];
         } else {
-            popupInfectedCount.innerHTML = (stateCor[stateName]['infected'] - stateCor[stateName]['recovered']).toString();
+            popupInfectedCount.innerHTML = (stateCor[stateName]['infected'] - stateCor[stateName]['recovered'] - stateCor[stateName]['dead']).toString();
             popupInfectedTitle.innerHTML = countriesPopupTranslation[state]['infected'] + ' ' + countriesPopupTranslation[state]['infectedNow'];
         }
         popupOverlay.setPosition(coordinate);
@@ -264,14 +264,14 @@ function styleFunction(feature, resolution) {
         if(showInfectedTotal)
             styleInfectedCount=infectedRegion[name];
         else
-            styleInfectedCount=infectedRegion[name]-recoveredRegion[name];
+            styleInfectedCount=infectedRegion[name]-recoveredRegion[name]-deadRegion[name];
     }
     else if(stateName !== undefined){
         name = feature.get('stateName');
-        if(showInfectedTotal || stateCor[name]['recovered'] === undefined)
+        if(showInfectedTotal || stateCor[name]['recovered'] === undefined || stateCor[name]['dead'] === undefined)
             styleInfectedCount=stateCor[name]['infected'];
         else
-            styleInfectedCount=stateCor[name]['infected']-stateCor[name]['recovered'];
+            styleInfectedCount=stateCor[name]['infected']-stateCor[name]['recovered']-stateCor[name]['dead'];
     }
     let color = color_gray;
     if (styleInfectedCount < 10) {
