@@ -640,6 +640,10 @@ input[type="number"] {
     padding: 3px 0;
 }
 
+#reproductionNumberText, #metInfectedChanceText, #metInfectedChance {
+	cursor: help;
+}
+
 div #metInfectedChanceText {
     text-align: center;
     padding-top: 9px;

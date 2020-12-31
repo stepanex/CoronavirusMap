@@ -17,8 +17,10 @@ var countriesPopupTranslation = {
         'metInfectedRegion': 'Kraj:',
         'metPeople': 'Potkaných lidí:',
         'reproductionNumber': 'Číslo R:',
+        'reproductionNumberHelp': 'Kolik lidí se průměrně nakazí od nakaženého',
         'metInfectedChance': 'Pravděpodobnost potkání alespoň jednoho nakaženého',
-        'metInfectedButton': 'Pravděpodobnost<br/>potkání nakaženého'
+        'metInfectedButton': 'Pravděpodobnost<br/>potkání nakaženého',
+        'metInfectedChanceHelp': 'Pravděpodobnost že je jeden nakažený = Pnak = (počet nakažených*číslo R)/počet zdravých\nPravděpodobnost že je jeden zdravý = Pzdr = 1 - Pnak\nPravděpodobnost že je n lidí zdravých = Pnzdr = Pzdr^n\nPravděpodobnost že z n lidí je alespoň jeden nakažený = 1 - Pnzdr'
     },
     'SK': {
         'CZ': 'Prejsť na Českú Republiku',
@@ -37,8 +39,10 @@ var countriesPopupTranslation = {
         'metInfectedRegion': 'Kraj:',
         'metPeople': 'Stretnutých ľudí:',
         'reproductionNumber': 'Číslo R:',
+        'reproductionNumberHelp': 'Koľko ľudí sa priemerne nakazí od nakazeného',
         'metInfectedChance': 'Pravdebodobnosť stretnutie aspoň jedného nakazeného',
-        'metInfectedButton': 'Pravdebodobnosť<br/>stretnutie nakazeného'
+        'metInfectedButton': 'Pravdebodobnosť<br/>stretnutie nakazeného',
+        'metInfectedChanceHelp': 'Pravdepodobnosť že je jeden nakazený = Pnak = (počet nakazených * číslo R) / počet zdravých\nPravdepodobnosť že je jeden zdravý = Pzdr = 1 - Pnak\nPravdepodobnosť že je n ľudí zdravých = Pnzdr = Pzdr^n\nPravdepodobnosť že z n ľudí je aspoň jeden nakazený = 1 - Pnzdr'
     }
 };
 var regionsIndex = {
@@ -519,7 +523,10 @@ document.getElementById('infoPlaceName').innerText = countriesPopupTranslation[s
 document.getElementById('metInfectedRegionText').innerText = countriesPopupTranslation[state]['metInfectedRegion'];
 document.getElementById('metPeopleText').innerText = countriesPopupTranslation[state]['metPeople'];
 document.getElementById('reproductionNumberText').innerText = countriesPopupTranslation[state]['reproductionNumber'];
+document.getElementById('reproductionNumberText').title = countriesPopupTranslation[state]['reproductionNumberHelp'];
 document.getElementById('metInfectedChanceText').innerText = countriesPopupTranslation[state]['metInfectedChance'];
+document.getElementById('metInfectedChanceText').title = countriesPopupTranslation[state]['metInfectedChanceHelp'];
+document.getElementById('metInfectedChance').title = countriesPopupTranslation[state]['metInfectedChanceHelp'];
 
 let footerRight = document.getElementById('footerRightUrl');
 footerRight.href = countriesPopupTranslation[state]['footerRightUrl'];
