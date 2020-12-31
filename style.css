@@ -5,32 +5,34 @@ html, body {
     font-family: 'Oswald', sans-serif;
     font-style: normal;
     font-weight: 500;
-	overflow: hidden;
-	background-color: #090909;
+    overflow: hidden;
+    background-color: #090909;
 }
+
 .logo {
     position: fixed;
     z-index: 10;
     width: -webkit-fit-content;
-	width: -moz-fit-content;
-	width: fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
     height: -webkit-fit-content;
-	height: -moz-fit-content;
-	height: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
     font-size: 36px;
     line-height: 53px;
     left: 20px;
     top: 20px;
     pointer-events: none
 }
+
 .logoLeft {
     background: rgba(232, 46, 46, 0.8);
     backdrop-filter: blur(4px);
     opacity: 0.85;
     display: inline-block;
     width: -webkit-fit-content;
-	width: -moz-fit-content;
-	width: fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
     height: 53px;
     color: #FFFFFF;
     padding: 2px 8px;
@@ -40,8 +42,8 @@ html, body {
 .logoRight {
     display: inline-block;
     width: -webkit-fit-content;
-	width: -moz-fit-content;
-	width: fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
     height: 53px;
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
@@ -49,8 +51,9 @@ html, body {
     padding: 2px 8px;
     float: left;
 }
-@media screen and (max-width: 666px){
-    .logo{
+
+@media screen and (max-width: 666px) {
+    .logo {
         top: 15px;
         left: 15px;
     }
@@ -59,19 +62,26 @@ html, body {
 #map {
     height: 100%;
 }
-a[href^="http://maps.google.com/maps"]{display:none !important}
-a[href^="https://maps.google.com/maps"]{display:none !important}
+
+a[href^="http://maps.google.com/maps"] {
+    display: none !important
+}
+
+a[href^="https://maps.google.com/maps"] {
+    display: none !important
+}
 
 .gmnoprint a, .gmnoprint span, .gm-style-cc {
-    display:none;
+    display: none;
 }
+
 .info {
     width: -webkit-fit-content;
-	width: -moz-fit-content;
-	width: fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
     height: -webkit-fit-content;
-	height: -moz-fit-content;
-	height: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
     position: fixed;
     bottom: 18px;
     left: 31px;
@@ -86,8 +96,8 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     padding: 2px 7px;
     width: max-content;
     width: -webkit-fit-content;
-	width: -moz-fit-content;
-	width: fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
 
     font-size: 36px;
     line-height: 53px;
@@ -101,11 +111,11 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 
 .infectedContainer {
     width: -webkit-fit-content;
-	width: -moz-fit-content;
-	width: fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
     height: -webkit-fit-content;
-	height: -moz-fit-content;
-	height: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
     margin-bottom: 13px;
 }
 
@@ -139,17 +149,18 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     font-style: normal;
     font-weight: 500;
 }
+
 .infectedTitleSelect > option {
     background: black;
 }
 
 .deadContainer {
     width: -webkit-fit-content;
-	width: -moz-fit-content;
-	width: fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
     height: -webkit-fit-content;
-	height: -moz-fit-content;
-	height: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
     margin-left: 23px;
 }
 
@@ -172,11 +183,11 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 
 .recoveredContainer {
     width: -webkit-fit-content;
-	width: -moz-fit-content;
-	width: fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
     height: -webkit-fit-content;
-	height: -moz-fit-content;
-	height: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
     margin-left: 33px;
 }
 
@@ -197,162 +208,194 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     display: inline-block;
     text-shadow: 0px 0px 10px #000000;
 }
-.casesCasesContainer{
+
+.casesCasesContainer {
     display: inline-block;
 }
-@media screen and (max-width: 1150px){
 
-    .casesCasesContainer{
+@media screen and (max-width: 1150px) {
+
+    .casesCasesContainer {
         display: block;
     }
+
     .deadContainer {
         margin-left: 0px;
     }
+
     .deadCount, .recoveredCount {
         font-size: 60px;
         line-height: 72px;
     }
+
     .deadTitle, .recoveredTitle {
         font-size: 20px;
     }
+
     .infectedTitleText, .infectedTitleSelect {
         font-size: 30px;
         line-height: 46px;
     }
+
     .infectedCount {
         font-size: 130px;
         line-height: 140px;
     }
 }
-@media screen and (max-width: 666px), screen and (max-height: 500px){
-    .casesCasesContainer{
+
+@media screen and (max-width: 666px), screen and (max-height: 500px) {
+    .casesCasesContainer {
         display: block;
     }
-    .info{
+
+    .info {
         left: 12px;
         bottom: 11px;
     }
-    .infoPlaceName{
+
+    .infoPlaceName {
         font-size: 20px;
         line-height: 37px;
     }
+
     .infectedContainer {
         margin-bottom: 0px;
     }
+
     .infectedCount {
         font-size: 72px;
         line-height: 82px;
         text-shadow: 0px 0px 5px #000000;
     }
+
     .infectedTitleText, .infectedTitleSelect {
         font-size: 20px;
         line-height: 37px;
     }
+
     .deadContainer {
         margin-left: 0px;
     }
+
     .deadCount {
         font-size: 47px;
         line-height: 60px;
         text-shadow: 0px 0px 5px #000000;
     }
+
     .deadTitle {
         font-size: 16px;
         line-height: 26px;
     }
+
     .recoveredContainer {
         margin-left: 11px;
     }
+
     .recoveredCount {
         font-size: 47px;
         line-height: 60px;
         text-shadow: 0px 0px 5px #000000;
     }
+
     .recoveredTitle {
         font-size: 16px;
         line-height: 26px;
     }
 
-    .logo{
+    .logo {
         font-size: 30px;
         line-height: 46px;
     }
-    .logoLeft{
+
+    .logoLeft {
         height: 50px;
     }
-    .logoRight{
+
+    .logoRight {
         height: 50px;
     }
 }
 
-@media screen and (max-width: 450px){
-    .deadContainer{
+@media screen and (max-width: 450px) {
+    .deadContainer {
         display: block;
     }
-    .recoveredContainer{
+
+    .recoveredContainer {
         margin-left: 0px;
     }
+
     .infectedCount {
         font-size: 34px;
         line-height: 38px;
         text-shadow: 0px 0px 5px #000000;
     }
+
     .infectedTitleText, .infectedTitleSelect {
         font-size: 16px;
         line-height: 26px;
     }
+
     .deadCount {
         font-size: 27px;
         line-height: 37px;
         text-shadow: 0px 0px 5px #000000;
     }
+
     .deadTitle {
         font-size: 14px;
         line-height: 24px;
     }
+
     .recoveredCount {
         font-size: 27px;
         line-height: 37px;
         text-shadow: 0px 0px 5px #000000;
     }
+
     .recoveredTitle {
         font-size: 14px;
         line-height: 24px;
     }
 }
 
-.footer{
+.footer {
     position: fixed;
     z-index: 10;
     bottom: 5px;
     color: white;
     font-size: 13px;
 }
-.footer_left{
+
+.footer_left {
     left: 31px;
 }
-.footer_right{
+
+.footer_right {
     right: 215px;
 }
 
-.contributions{
+.contributions {
     font-size: 9px;
-	background-color: white;
+    background-color: white;
     padding-right: 1px;
     padding-left: 1px;
     border-radius: 2px;
-	color: black;
-	z-index: 11;
-	display: inline-block;
-	position: sticky;
+    color: black;
+    z-index: 11;
+    display: inline-block;
+    position: sticky;
     bottom: 8px;
 }
-.infoButton{
+
+.infoButton {
     width: 10px;
     text-align: center;
     font-weight: bold;
-	cursor: pointer;
+    cursor: pointer;
 }
+
 .infoText > a {
     color: black;
     text-shadow: none;
@@ -361,41 +404,47 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 .infoTextClose {
     width: 10px;
     text-align: center;
-	cursor: pointer;
+    cursor: pointer;
     display: inline-block;
 }
-@media screen and (max-width: 600px){
-    .footer{
+
+@media screen and (max-width: 600px) {
+    .footer {
         font-size: 12px;
     }
 }
-@media screen and (max-width: 666px){
+
+@media screen and (max-width: 666px) {
     .footer {
         font-size: 10px;
         bottom: 2px;
     }
-    .footer_left{
+
+    .footer_left {
         left: 12px;
     }
-    .footer_right{
+
+    .footer_right {
         right: 10px;
     }
-	.contributions{
-		font-size: 7px;
-		bottom: 4px;
-	}
-	.infoButton, .infoTextClose{
-		width: 7px;
-	}
+
+    .contributions {
+        font-size: 7px;
+        bottom: 4px;
+    }
+
+    .infoButton, .infoTextClose {
+        width: 7px;
+    }
 }
 
-#colors{
+#colors {
     display: none;
     position: fixed;
     width: 128px;
     height: -webkit-fit-content;
-	height: -moz-fit-content;
-	height: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
     padding: 5px;
     background-color: black;
     border: 1px solid red;
@@ -408,57 +457,62 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     right: 10px;
     bottom: 15px;
 }
-.color{
+
+.color {
     height: 13px;
     width: 13px;
     display: inline-block;
     vertical-align: middle;
 }
-.colorContainer{
+
+.colorContainer {
     text-align: left;
     padding: 1px 0;
     height: -webkit-fit-content;
-	height: -moz-fit-content;
-	height: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
 }
-.colorText{
+
+.colorText {
     display: inline-block;
     width: -webkit-fit-content;
-	width: -moz-fit-content;
-	width: fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
     margin-left: 2px;
     vertical-align: middle;
 }
-.colorTitle{
+
+.colorTitle {
     text-align: center;
     margin-bottom: 4px;
 }
 
-@media screen and (max-width: 666px){
-        #colors{
-            bottom: unset;
-            top: 15px;
-            right: 15px;
+@media screen and (max-width: 666px) {
+    #colors {
+        bottom: unset;
+        top: 15px;
+        right: 15px;
     }
 }
 
-@media screen and (max-width: 450px){
-    #colors{
+@media screen and (max-width: 450px) {
+    #colors {
         font-size: 10px;
         width: 110px;
     }
 }
 
-a{
+a {
     text-decoration: none;
     color: white;
     text-shadow: 0px 0px 2px #000000;
 }
-a:hover{
+
+a:hover {
     text-decoration: underline;
 }
 
-.ol-control button{
+.ol-control button {
     width: 40px;
     height: 40px;
     margin: 0px;
@@ -466,36 +520,43 @@ a:hover{
     color: #666666;
     font-size: 30px;
 }
-.ol-control button:focus, .ol-control button:hover{
+
+.ol-control button:focus, .ol-control button:hover {
     color: #333333;
     background-color: white;
 }
-.ol-control{
+
+.ol-control {
     padding: 0;
     border-radius: 2px;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
 }
-.ol-control:hover{
+
+.ol-control:hover {
     background-color: white;
 }
-.ol-control.ol-attribution{
+
+.ol-control.ol-attribution {
     display: none;
 }
-.ol-control.ol-zoom{
+
+.ol-control.ol-zoom {
     top: unset;
     left: unset;
     right: 160px;
     bottom: 15px;
 }
-.ol-overlay-container.ol-selectable{
+
+.ol-overlay-container.ol-selectable {
     width: -webkit-fit-content;
-	width: -moz-fit-content;
-	width: fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
 }
-@media screen and (max-width: 666px){
-    .ol-control.ol-zoom{
-        right:10px;
+
+@media screen and (max-width: 666px) {
+    .ol-control.ol-zoom {
+        right: 10px;
         bottom: 30px;
     }
 }
@@ -513,7 +574,7 @@ a:hover{
     cursor: pointer;
 }
 
-#popupTitle{
+#popupTitle {
     font-weight: 400;
 }
 
@@ -527,33 +588,35 @@ a:hover{
     display: inline-block;
 }
 
-#donate{
+#donate {
     position: absolute;
     top: 20px;
     right: 20px;
     z-index: 100;
 }
-#donate > input[type="image"]{
+
+#donate > input[type="image"] {
     width: 50px;
     color: white;
 }
 
-@media screen and (max-width: 666px){
-    #donate{
+@media screen and (max-width: 666px) {
+    #donate {
         top: unset;
         bottom: 120px;
         right: 10px;
     }
-    #donate > input[type="image"]{
+
+    #donate > input[type="image"] {
         width: 40px;
     }
 }
 
-input[type="number"]{
+input[type="number"] {
     width: 120px;
 }
 
-#metInfectedButton{
+#metInfectedButton {
     right: 10px;
     top: 3px;
     position: absolute;
@@ -561,31 +624,31 @@ input[type="number"]{
     display: contents;
 }
 
-#metInfectedChance{
+#metInfectedChance {
     font-size: 18px;
     text-align: center;
 }
 
-#metInfectedContainer{
+#metInfectedContainer {
     width: 128px;
     display: none;
 }
 
-#metInfectedContainer > div{
+#metInfectedContainer > div {
     display: block;
     padding: 3px 0;
 }
 
-div #metInfectedChanceText{
+div #metInfectedChanceText {
     text-align: center;
     padding-top: 9px;
 }
 
-#metInfectedContainer > select{
+#metInfectedContainer > select {
     width: 128px;
 }
 
-#metInfected{
+#metInfected {
     position: fixed;
     height: -webkit-fit-content;
     height: -moz-fit-content;
@@ -607,24 +670,26 @@ div #metInfectedChanceText{
     min-width: 128px;
 }
 
-@media screen and (max-width: 666px){
-    #metInfected{
+@media screen and (max-width: 666px) {
+    #metInfected {
         bottom: unset;
         right: 15px;
         top: 170px;
     }
 }
 
-@media screen and (max-width: 450px){
-    #metInfected{
+@media screen and (max-width: 450px) {
+    #metInfected {
         top: 147px;
         min-width: 110px;
         font-size: 10px;
     }
-    #metInfectedContainer, #metInfectedContainer > select{
+
+    #metInfectedContainer, #metInfectedContainer > select {
         width: 110px;
     }
-    input[type="number"]{
+
+    input[type="number"] {
         width: 102px;
     }
 }
