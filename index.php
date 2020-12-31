@@ -152,9 +152,9 @@
         <div id="metInfectedRegionText"></div>
         <select id="metInfectedRegion"></select>
         <div id="metPeopleText"></div>
-        <input type="number" id="metPeople" value="0"/>
+        <input type="number" id="metPeople" value="0" min="0"/>
         <div id="reproductionNumberText"></div>
-        <input type="number" id="reproductionNumber" value="0" step="0.1"/>
+        <input type="number" id="reproductionNumber" value="0" step="0.1" min="0"/>
         <div id="metInfectedChanceText"></div>
         <div id="metInfectedChance">0.0%</div>
     </div>
