@@ -497,7 +497,7 @@ a[href^="https://maps.google.com/maps"] {
 
 @media screen and (max-width: 450px) {
     #colors {
-        font-size: 10px;
+        font-size: 11px;
         width: 110px;
     }
 }
@@ -614,6 +614,7 @@ a:hover {
 
 input[type="number"] {
     width: 120px;
+    text-align: center;
 }
 
 #metInfectedButton {
@@ -684,12 +685,17 @@ div #metInfectedChanceText {
         min-width: 110px;
         font-size: 10px;
     }
-
-    #metInfectedContainer, #metInfectedContainer > select {
+    #metInfectedContainer{
         width: 110px;
+        font-size: 11px;
+    }
+    #metInfectedContainer > select {
+        width: 110px;
+        font-size: 12px;
     }
 
     input[type="number"] {
         width: 102px;
+        font-size: 11px;
     }
 }

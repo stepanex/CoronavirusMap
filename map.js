@@ -17,7 +17,7 @@ var countriesPopupTranslation = {
         'metInfectedRegion': 'Kraj:',
         'metPeople': 'Potkaných lidí:',
         'reproductionNumber': 'Číslo R:',
-        'metInfectedChance': 'Pravděpodobnost potkání nakaženého',
+        'metInfectedChance': 'Pravděpodobnost potkání alespoň jednoho nakaženého',
         'metInfectedButton': 'Pravděpodobnost<br/>potkání nakaženého'
     },
     'SK': {
@@ -37,7 +37,7 @@ var countriesPopupTranslation = {
         'metInfectedRegion': 'Kraj:',
         'metPeople': 'Stretnutých ľudí:',
         'reproductionNumber': 'Číslo R:',
-        'metInfectedChance': 'Pravdebodobnosť stretnutie nakazeného',
+        'metInfectedChance': 'Pravdebodobnosť stretnutie aspoň jedného nakazeného',
         'metInfectedButton': 'Pravdebodobnosť<br/>stretnutie nakazeného'
     }
 };
