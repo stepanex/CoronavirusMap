@@ -29,7 +29,7 @@
     <meta name="robots" content="index" />
     <meta name="googlebot" content="index" />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="/style.css?v=1.4" rel="stylesheet">
+    <link href="/style.css?v=1.5" rel="stylesheet">
 	<link rel="icon" href="favicon.ico" type="image/x-icon"/>
     <!--<script data-ad-client="ca-pub-8503799930198018" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
 </head>
@@ -139,6 +139,19 @@
         <div class="colorText">5000 < </div>
     </div>
 </div>
+<div id="metInfected">
+    <div id="metInfectedButton"></div>
+    <div id="metInfectedContainer">
+        <div id="metInfectedRegionText"></div>
+        <select id="metInfectedRegion"></select>
+        <div id="metPeopleText"></div>
+        <input type="number" id="metPeople" value="0"/>
+        <div id="reproductionNumberText"></div>
+        <input type="number" id="reproductionNumber" value="0" step="0.1"/>
+        <div id="metInfectedChanceText"></div>
+        <div id="metInfectedChance">0.0%</div>
+    </div>
+</div>
 <div id="map" class="map"></div>
     <div class="footer footer_left">© 2020
         <a href="https://www.linkedin.com/in/stepan-strba/">Štěpán Štrba</a>,
@@ -181,5 +194,5 @@
     </div>
     
 </body>
-<script src="/map.js?v=1.4.4"></script>
+<script src="/map.js?v=1.5.0"></script>
 </html>

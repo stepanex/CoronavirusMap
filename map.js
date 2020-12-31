@@ -13,7 +13,12 @@ var countriesPopupTranslation={
         'legendNoData':'Chybí data',
         'infoPlaceName':'Česká Republika',
         'footerRightTitle':'Zdroj dat',
-        'footerRightUrl':'https://github.com/apify/covid-19/tree/master/czechia'
+        'footerRightUrl':'https://github.com/apify/covid-19/tree/master/czechia',
+        'metInfectedRegion': 'Kraj:',
+        'metPeople': 'Potkaných lidí:',
+        'reproductionNumber': 'Číslo R:',
+        'metInfectedChance': 'Pravděpodobnost potkání nakaženého',
+        'metInfectedButton': 'Pravděpodobnost<br/>potkání nakaženého'
     },
     'SK':{
         'CZ':'Prejsť na Českú Republiku',
@@ -28,9 +33,74 @@ var countriesPopupTranslation={
         'legendNoData':'Chýbajú dáta',
         'infoPlaceName':'Slovenská republika',
         'footerRightTitle':'Zdroj údajov',
-        'footerRightUrl':'https://github.com/apify/covid-19/tree/master/slovakia'
+        'footerRightUrl':'https://github.com/apify/covid-19/tree/master/slovakia',
+        'metInfectedRegion': 'Kraj:',
+        'metPeople': 'Stretnutých ľudí:',
+        'reproductionNumber': 'Číslo R:',
+        'metInfectedChance': 'Pravdebodobnosť stretnutie nakazeného',
+        'metInfectedButton': 'Pravdebodobnosť<br/>stretnutie nakazeného'
     }
 };
+var regionsIndex = {
+    'CZ':{
+        'Jihočeský kraj':'10',
+        'Jihomoravský kraj':'11',
+        'Karlovarský kraj':'03',
+        'Kraj Vysočina':'13',
+        'Královéhradecký kraj':'02',
+        'Liberecký kraj':'04',
+        'Moravskoslezský kraj':'05',
+        'Olomoucký kraj':'06',
+        'Pardubický kraj':'07',
+        'Plzeňský kraj':'08',
+        'Praha':'01',
+        'Středočeský kraj':'09',
+        'Ústecký kraj':'12',
+        'Zlínský kraj':'14'
+    },
+    'SK':{
+        'Banskobystrický kraj':'07',
+        'Bratislavský kraj':'01',
+        'Košický kraj':'03',
+        'Nitriansky kraj':'08',
+        'Prešovský kraj':'06',
+        'Trnavský kraj':'04',
+        'Trenčiansky kraj':'05',
+        'Žilinský kraj':'02'
+    }
+};
+var stateIndex = {
+    'CZ': '01',
+    'SK': '02'
+};
+var regionsPopulation = {
+    'CZ':{
+        'Praha':1309000,
+        'Královéhradecký kraj':551000,
+        'Karlovarský kraj':295000,
+        'Liberecký kraj':442000,
+        'Moravskoslezský kraj':1203000,
+        'Olomoucký kraj':633000,
+        'Pardubický kraj':520000,
+        'Plzeňský kraj':585000,
+        'Středočeský kraj':1369000,
+        'Jihočeský kraj':642000,
+        'Jihomoravský kraj':1189000,
+        'Ústecký kraj':821000,
+        'Kraj Vysočina':509000,
+        'Zlínský kraj':583000
+    },
+    'SK':{
+        'Bratislavský kraj':669592,
+        'Žilinský kraj':691509,
+        'Košický kraj':801460,
+        'Trnavský kraj':564917,
+        'Trenčiansky kraj':584569,
+        'Prešovský kraj':826244,
+        'Banskobystrický kraj':645276,
+        'Nitriansky kraj':674306
+    }
+}
 
 var color01legend = '#9d9d9d';
 var color02legend = '#7dbb42';
@@ -61,6 +131,66 @@ document.getElementById('infectedTitleSelect').addEventListener("change", functi
     }
     printInfo(undefined);
 });
+
+var reproductionNumberElement = document.getElementById('reproductionNumber');
+var metPeopleElement = document.getElementById('metPeople');
+var metInfected = document.getElementById('metInfected');
+var metInfectedButton = document.getElementById('metInfectedButton');
+var metInfectedChance = document.getElementById('metInfectedChance');
+var metInfectedContainer = document.getElementById('metInfectedContainer');
+var metInfectedRegion = document.getElementById('metInfectedRegion');
+Object.keys(regionsIndex[state]).forEach(key => {
+    let option = document.createElement('option');
+    option.innerText = key;
+    option.value = key;
+    metInfectedRegion.appendChild(option);
+})
+let selectedMetInfectedRegion = localStorage.getItem('selectedMetInfectedRegion');
+if(selectedMetInfectedRegion !== null && Object.keys(regionsIndex[state]).includes(selectedMetInfectedRegion)){
+    metInfectedRegion.value = selectedMetInfectedRegion;
+}
+
+function countMetInfectedChance(event){
+    let chosenRegion = metInfectedRegion.value;
+    let regionPop = regionsPopulation['CZ'][chosenRegion];
+    let reproductionNumber = reproductionNumberElement.value;
+    let infectedPop = (infectedRegion[chosenRegion]-recoveredRegion[chosenRegion]-deadRegion[chosenRegion])*reproductionNumber;
+    let metPeople = metPeopleElement.value;
+    let infectedProbability = infectedPop/regionPop;
+    let healthyProbability = 1-infectedProbability;
+    metInfectedChance.innerText = ((1-Math.pow(healthyProbability,metPeople))*100).toFixed(1) + '%';
+}
+function handleChangeRegion(event){
+    localStorage.setItem('selectedMetInfectedRegion', metInfectedRegion.value);
+    countMetInfectedChance();
+}
+metPeopleElement.addEventListener('input', countMetInfectedChance);
+reproductionNumberElement.addEventListener('input', countMetInfectedChance);
+metInfectedRegion.addEventListener('change', handleChangeRegion);
+
+function displayMetInfected(){
+    metInfectedContainer.style.display = 'block';
+    metInfectedButton.style.display = 'block';
+    metInfectedButton.innerText = '✖';
+    localStorage.setItem('metInfectedVisible', 'true');
+}
+metInfectedButton.addEventListener('click',(event)=>{
+    if(metInfectedContainer.style.display !== 'block'){
+        displayMetInfected();
+    } else {
+        metInfectedContainer.style.display = 'none';
+        metInfectedButton.style.display = 'contents';
+        metInfectedButton.innerHTML = countriesPopupTranslation[state]['metInfectedButton'];
+        localStorage.setItem('metInfectedVisible', 'false');
+    }
+});
+var metInfectedVisible = localStorage.getItem('metInfectedVisible');
+if(metInfectedVisible !== null && metInfectedVisible ==='true'){
+    displayMetInfected();
+} else {
+    metInfectedButton.innerHTML=countriesPopupTranslation[state]['metInfectedButton'];
+}
+
 var showInfectedTotal = false;
 var highlight;
 var regionLayer = null;
@@ -220,39 +350,6 @@ var map = new ol.Map({
     })
 });
 
-var regionsIndex = {
-    'CZ':{
-        'Praha':'01',
-        'Královéhradecký kraj':'02',
-        'Karlovarský kraj':'03',
-        'Liberecký kraj':'04',
-        'Moravskoslezský kraj':'05',
-        'Olomoucký kraj':'06',
-        'Pardubický kraj':'07',
-        'Plzeňský kraj':'08',
-        'Středočeský kraj':'09',
-        'Jihočeský kraj':'10',
-        'Jihomoravský kraj':'11',
-        'Ústecký kraj':'12',
-        'Vysočina':'13',
-        'Zlínský kraj':'14'
-    },
-    'SK':{
-        'Bratislavský kraj':'01',
-        'Žilinský kraj':'02',
-        'Košický kraj':'03',
-        'Trnavský kraj':'04',
-        'Trenčiansky kraj':'05',
-        'Prešovský kraj':'06',
-        'Banskobystrický kraj':'07',
-        'Nitriansky kraj':'08'
-    }
-};
-var stateIndex = {
-    'CZ': '01',
-    'SK': '02'
-};
-
 function styleFunction(feature, resolution) {
     let name = null;
     let styleInfectedCount=0;
@@ -307,6 +404,7 @@ var infectedRegion = null;
 var deadRegion = null;
 var recoveredRegion = null;
 var stateCor = {'SK':0};
+var reproductionNumber = null;
 console.log('loading data');
     fetch('/states/'+state+'/regionsData.php').then(regionCorCount => regionCorCount.json()).then(regionCorCount =>{
         console.log('loaded');
@@ -321,6 +419,15 @@ console.log('loading data');
         if('recoveredRegion' in regionsCor){
             console.log('recoveredRegion exists');
             recoveredRegion = regionsCor['recoveredRegion'];
+        }
+
+        if('deadRegion' in regionsCor && 'recoveredRegion' in regionsCor){
+            metInfected.style.display = 'block';
+        }
+
+        if('reproduction' in regionsCor){
+            reproductionNumber = regionsCor['reproduction'];
+            reproductionNumberElement.value = parseFloat(reproductionNumber);
         }
 
         infectedCount = regionCorCount['infected'];
@@ -382,6 +489,10 @@ document.getElementById('infectedTitleSelectNow').innerText=countriesPopupTransl
 document.getElementById('deadTitle').innerText=countriesPopupTranslation[state]['deadTitle'];
 document.getElementById('recoveredTitle').innerText=countriesPopupTranslation[state]['recoveredTitle'];
 document.getElementById('infoPlaceName').innerText=countriesPopupTranslation[state]['infoPlaceName'];
+document.getElementById('metInfectedRegionText').innerText=countriesPopupTranslation[state]['metInfectedRegion'];
+document.getElementById('metPeopleText').innerText=countriesPopupTranslation[state]['metPeople'];
+document.getElementById('reproductionNumberText').innerText=countriesPopupTranslation[state]['reproductionNumber'];
+document.getElementById('metInfectedChanceText').innerText=countriesPopupTranslation[state]['metInfectedChance'];
 
 let footerRight = document.getElementById('footerRightUrl');
 footerRight.href = countriesPopupTranslation[state]['footerRightUrl'];

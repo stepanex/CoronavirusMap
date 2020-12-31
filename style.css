@@ -139,7 +139,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     font-style: normal;
     font-weight: 500;
 }
-option {
+.infectedTitleSelect > option {
     background: black;
 }
 
@@ -406,6 +406,13 @@ option {
     }
 }
 
+@media screen and (max-width: 450px){
+    #colors{
+        font-size: 10px;
+        width: 110px;
+    }
+}
+
 a{
     text-decoration: none;
     color: white;
@@ -503,5 +510,85 @@ a:hover{
     }
     #donate > input[type="image"]{
         width: 40px;
+    }
+}
+
+input[type="number"]{
+    width: 120px;
+}
+
+#metInfectedButton{
+    right: 10px;
+    top: 3px;
+    position: absolute;
+    cursor: pointer;
+    display: contents;
+}
+
+#metInfectedChance{
+    font-size: 18px;
+    text-align: center;
+}
+
+#metInfectedContainer{
+    width: 128px;
+    display: none;
+}
+
+#metInfectedContainer > div{
+    display: block;
+    padding: 3px 0;
+}
+
+div #metInfectedChanceText{
+    text-align: center;
+    padding-top: 9px;
+}
+
+#metInfectedContainer > select{
+    width: 128px;
+}
+
+#metInfected{
+    position: fixed;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    padding: 5px;
+    background-color: black;
+    border: 1px solid red;
+    color: white;
+    font-size: 13px;
+    font-family: Roboto, Arial, sans-serif;
+    z-index: 10;
+    right: 10px;
+
+    display: none;
+    bottom: 170px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    min-width: 128px;
+}
+
+@media screen and (max-width: 666px){
+    #metInfected{
+        bottom: unset;
+        right: 15px;
+        top: 170px;
+    }
+}
+
+@media screen and (max-width: 450px){
+    #metInfected{
+        top: 147px;
+        min-width: 110px;
+        font-size: 10px;
+    }
+    #metInfectedContainer, #metInfectedContainer > select{
+        width: 110px;
+    }
+    input[type="number"]{
+        width: 102px;
     }
 }

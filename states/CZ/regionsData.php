@@ -7,6 +7,7 @@ $arr['error'] = [];
 $arr['infected'] = null;
 $arr['dead'] = null;
 $arr['recovered'] = null;
+$arr['reproduction'] = null;
 
 $infectedRegion = [];
 $infectedRegion['Praha'] = null;
@@ -62,6 +63,10 @@ $infectedRegionsCount = 0;
 $deadRegionsCount = 0;
 $recoveredRegionsCount = 0;
 
+$apifyReproduction = file_get_contents('https://api.apify.com/v2/key-value-stores/DO0Mg4d1cPbWhtPSD/records/LATEST?disableRedirect=true');
+$apifyReproductionJson = json_decode($apifyReproduction, true);
+if(isset($apifyReproductionJson['data']) && isset($apifyReproductionJson['data'][0]) && isset($apifyReproductionJson['data'][0][3]))
+    $arr['reproduction'] = $apifyReproductionJson['data'][0][3];
 
 $apify = file_get_contents('https://api.apify.com/v2/key-value-stores/K373S4uCFR9W1K8ei/records/LATEST?disableRedirect=true');
 $apifyJson = json_decode($apify, true);
