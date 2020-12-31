@@ -230,7 +230,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     }
     .info{
         left: 12px;
-        bottom: 10px;
+        bottom: 11px;
     }
     .infoPlaceName{
         font-size: 20px;
@@ -282,6 +282,42 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     }
     .logoRight{
         height: 50px;
+    }
+}
+
+@media screen and (max-width: 450px){
+    .deadContainer{
+        display: block;
+    }
+    .recoveredContainer{
+        margin-left: 0px;
+    }
+    .infectedCount {
+        font-size: 34px;
+        line-height: 38px;
+        text-shadow: 0px 0px 5px #000000;
+    }
+    .infectedTitleText, .infectedTitleSelect {
+        font-size: 16px;
+        line-height: 26px;
+    }
+    .deadCount {
+        font-size: 27px;
+        line-height: 37px;
+        text-shadow: 0px 0px 5px #000000;
+    }
+    .deadTitle {
+        font-size: 14px;
+        line-height: 24px;
+    }
+    .recoveredCount {
+        font-size: 27px;
+        line-height: 37px;
+        text-shadow: 0px 0px 5px #000000;
+    }
+    .recoveredTitle {
+        font-size: 14px;
+        line-height: 24px;
     }
 }
 

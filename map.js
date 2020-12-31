@@ -225,11 +225,14 @@ function printInfo(feature, coordinate = null, from=null) {
             document.getElementById('infectedCount').innerText=infectedCount;
         else
             document.getElementById('infectedCount').innerText=(infectedCount-recoveredCount-deadCount).toString();
-        document.getElementById('infectedContainer').style.display='inline-block';
-        deadContainer.style.display='inline-block';
-        document.getElementById('deadCount').innerText=deadCount;
-        recoveredContainer.style.display='inline-block';
         document.getElementById('recoveredCount').innerText=recoveredCount;
+        document.getElementById('deadCount').innerText=deadCount;
+        let display = 'inline-block';
+        if(window.innerWidth < 450)
+            display = 'block';
+        document.getElementById('infectedContainer').style.display=display;
+        deadContainer.style.display=display;
+        recoveredContainer.style.display=display;
         if(highlight)
             featureOverlay.getSource().removeFeature(highlight);
         highlight = null;

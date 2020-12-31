@@ -56,9 +56,6 @@
         </div>
     </div>
 </div>
-<script>
-
-</script>
 <div class="logo">
     <div class="logoLeft">Korona</div>
     <div class="logoRight">Map</div>
