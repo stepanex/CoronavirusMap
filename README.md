@@ -12,18 +12,19 @@ It is fairly easy to add new state, create pull request when you are done.
 1. Add 'regionsData.php' in 'states/[ISO 3166 of the state]/', this file should print array as json.
    * The array structure should be like this:
       * array['errorCount'] = number of errors.
-      * array['error'] = array of error text.
+      * array['error'] = array of error texts.
       * array['infected'] = number of infected people.
       * array['dead'] = number of deaths.
       * array['recovered'] = number of recoveries.
       * array['infectedRegion'] = array of infections by regions. (for example "array['infectedRegion']['Praha'] = 2066")
       * array['deadRegion'] = array of deaths by regions. (for example "array['deadRegion']['Praha'] = 94")
       * array['recoveredRegion'] = array of recoveries by regions. (for example "array['recovereddRegion']['Praha'] = 1249")
+      * array['reproduction'] = current reproduction number
    * The regions in 'infectedRegion', 'deadRegion' and 'recoveredRegion' has to be named same as in regions.geojson.
-   * 'deadRegion' and 'recoveredRegion' are not required.
+   * 'deadRegion', 'recoveredRegion' and 'reproduction' are not required.
 1. map.js add:
    1. state into variable 'countries'
-   1. translation into variable 'countriesPopupTranslation'
+   1. translations into variable 'countriesPopupTranslation'
    1. state center into variable 'stateCenter'
    1. state name into variable 'stateIndex'
    1. region names into variable 'regionsIndex'
