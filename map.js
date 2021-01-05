@@ -136,6 +136,13 @@ document.getElementById('infectedTitleSelect').addEventListener("change", functi
     printInfo(undefined);
 });
 
+document.getElementById('metInfectedChanceContainer').addEventListener("click", function(e){
+    alert(countriesPopupTranslation[state]['metInfectedChanceHelp']);
+});
+document.getElementById('reproductionNumberTitle').addEventListener("click", function(e){
+    alert(countriesPopupTranslation[state]['reproductionNumberHelp']);
+});
+
 var reproductionNumberElement = document.getElementById('reproductionNumber');
 var metPeopleElement = document.getElementById('metPeople');
 var metInfected = document.getElementById('metInfected');
@@ -523,9 +530,9 @@ document.getElementById('infoPlaceName').innerText = countriesPopupTranslation[s
 document.getElementById('metInfectedRegionText').innerText = countriesPopupTranslation[state]['metInfectedRegion'];
 document.getElementById('metPeopleText').innerText = countriesPopupTranslation[state]['metPeople'];
 document.getElementById('reproductionNumberText').innerText = countriesPopupTranslation[state]['reproductionNumber'];
-document.getElementById('reproductionNumberText').title = countriesPopupTranslation[state]['reproductionNumberHelp'];
+document.getElementById('reproductionNumberTitle').title = countriesPopupTranslation[state]['reproductionNumberHelp'];
 document.getElementById('metInfectedChanceText').innerText = countriesPopupTranslation[state]['metInfectedChance'];
-document.getElementById('metInfectedChanceText').title = countriesPopupTranslation[state]['metInfectedChanceHelp'];
+document.getElementById('metInfectedChanceContainer').title = countriesPopupTranslation[state]['metInfectedChanceHelp'];
 document.getElementById('metInfectedChance').title = countriesPopupTranslation[state]['metInfectedChanceHelp'];
 
 let footerRight = document.getElementById('footerRightUrl');

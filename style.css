@@ -628,6 +628,7 @@ input[type="number"] {
 #metInfectedChance {
     font-size: 18px;
     text-align: center;
+    display: inline-block;
 }
 
 #metInfectedContainer {
@@ -640,11 +641,15 @@ input[type="number"] {
     padding: 3px 0;
 }
 
+#metInfectedChanceText {
+    padding-bottom: 6px;
+}
+
 #reproductionNumberText, #metInfectedChanceText, #metInfectedChance {
 	cursor: help;
 }
 
-div #metInfectedChanceText {
+div #metInfectedChanceContainer {
     text-align: center;
     padding-top: 9px;
 }
@@ -675,6 +680,16 @@ div #metInfectedChanceText {
     min-width: 128px;
 }
 
+svg {
+    height: 12px;
+    top: 1px;
+    position: relative;
+}
+
+.title > * {
+    display: inline-block;
+}
+
 @media screen and (max-width: 666px) {
     #metInfected {
         bottom: unset;
@@ -701,5 +716,9 @@ div #metInfectedChanceText {
     input[type="number"] {
         width: 102px;
         font-size: 11px;
+    }
+
+    svg {
+        height: 10px;
     }
 }
