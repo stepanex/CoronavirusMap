@@ -2,7 +2,7 @@ var countries = ['CZ', 'SK'];
 var countriesPopupTranslation = {
     'CZ': {
         'SK': 'Přejít na Slovenskou republiku',
-        'SKurl': 'http://koronamap.sk',
+        'SKurl': 'https://koronamap.cz/?state=SK',
         'infected': 'Nakažených',
         'infectedTitle': 'počet nakažených',
         'infectedTotal': 'celkem',
@@ -20,11 +20,11 @@ var countriesPopupTranslation = {
         'reproductionNumberHelp': 'Kolik lidí se průměrně nakazí od nakaženého',
         'metInfectedChance': 'Pravděpodobnost potkání alespoň jednoho nakaženého',
         'metInfectedButton': 'Pravděpodobnost<br/>potkání nakaženého',
-        'metInfectedChanceHelp': 'Pravděpodobnost že je jeden nakažený = Pnak = (počet nakažených*číslo R)/počet zdravých\nPravděpodobnost že je jeden zdravý = Pzdr = 1 - Pnak\nPravděpodobnost že je n lidí zdravých = Pnzdr = Pzdr^n\nPravděpodobnost že z n lidí je alespoň jeden nakažený = 1 - Pnzdr'
+        'metInfectedChanceHelp': 'Pravděpodobnost že je jeden nakažený = Pnak = (počet nakažených * (1 + číslo R)) / počet zdravých\nPravděpodobnost že je jeden zdravý = Pzdr = 1 - Pnak\nPravděpodobnost že je n lidí zdravých = Pnzdr = Pzdr^n\nPravděpodobnost že z n lidí je alespoň jeden nakažený = 1 - Pnzdr'
     },
     'SK': {
         'CZ': 'Prejsť na Českú Republiku',
-        'CZurl': 'http://koronamap.cz',
+        'CZurl': 'https://koronamap.cz',
         'infected': 'Infikovaných',
         'infectedTitle': 'počet infikovaných',
         'infectedTotal': 'celkom',
@@ -42,7 +42,7 @@ var countriesPopupTranslation = {
         'reproductionNumberHelp': 'Koľko ľudí sa priemerne nakazí od nakazeného',
         'metInfectedChance': 'Pravdebodobnosť stretnutie aspoň jedného nakazeného',
         'metInfectedButton': 'Pravdebodobnosť<br/>stretnutie nakazeného',
-        'metInfectedChanceHelp': 'Pravdepodobnosť že je jeden nakazený = Pnak = (počet nakazených * číslo R) / počet zdravých\nPravdepodobnosť že je jeden zdravý = Pzdr = 1 - Pnak\nPravdepodobnosť že je n ľudí zdravých = Pnzdr = Pzdr^n\nPravdepodobnosť že z n ľudí je aspoň jeden nakazený = 1 - Pnzdr'
+        'metInfectedChanceHelp': 'Pravdepodobnosť že je jeden nakazený = Pnak = (počet nakazených * (1 + číslo R)) / počet zdravých\nPravdepodobnosť že je jeden zdravý = Pzdr = 1 - Pnak\nPravdepodobnosť že je n ľudí zdravých = Pnzdr = Pzdr^n\nPravdepodobnosť že z n ľudí je aspoň jeden nakazený = 1 - Pnzdr'
     }
 };
 var regionsIndex = {
@@ -164,8 +164,8 @@ if(selectedMetInfectedRegion !== null && Object.keys(regionsIndex[state]).includ
 function countMetInfectedChance(event){
     let chosenRegion = metInfectedRegion.value;
     let regionPop = regionsPopulation['CZ'][chosenRegion];
-    let reproductionNumber = reproductionNumberElement.value;
-    let infectedPop = (infectedRegion[chosenRegion] - recoveredRegion[chosenRegion] - deadRegion[chosenRegion]) * reproductionNumber;
+    let reproductionNumber = parseFloat(reproductionNumberElement.value);
+    let infectedPop = (infectedRegion[chosenRegion] - recoveredRegion[chosenRegion] - deadRegion[chosenRegion]) * (1 + reproductionNumber);
     let metPeople = metPeopleElement.value;
     let infectedProbability = infectedPop / regionPop;
     let healthyProbability = 1 - infectedProbability;
