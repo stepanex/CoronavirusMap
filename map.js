@@ -387,7 +387,10 @@ function styleFunction(feature, resolution){
     let stateName = feature.get('stateName');
     if(regionName !== undefined){
         name = feature.get('regionName');
-        if(showInfectedTotal){
+        if(infectedRegion[name] == undefined){
+            styleInfectedCount = null;
+        }
+        else if(showInfectedTotal){
             styleInfectedCount = infectedRegion[name];
         }
         else {
@@ -396,7 +399,10 @@ function styleFunction(feature, resolution){
     }
     else if(stateName !== undefined){
         name = feature.get('stateName');
-        if(showInfectedTotal || stateCor[name]['recovered'] === undefined || stateCor[name]['dead'] === undefined){
+        if(stateCor[name]['infected'] == undefined){
+            styleInfectedCount = null;
+        }
+        else if(showInfectedTotal || stateCor[name]['recovered'] == undefined || stateCor[name]['dead'] == undefined){
             styleInfectedCount = stateCor[name]['infected'];
         }
         else {
@@ -404,7 +410,10 @@ function styleFunction(feature, resolution){
         }
     }
     let color = color_gray;
-    if(styleInfectedCount < 10){
+    if(styleInfectedCount == undefined){
+        color = color_gray;
+    }
+    else if(styleInfectedCount < 10){
         color = color02;
     }
     else if(styleInfectedCount < 100){
