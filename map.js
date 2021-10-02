@@ -263,9 +263,14 @@ function printInfo(feature, coordinate = null, from = null){
         clickedOnce = false;
         popupUrl = countriesPopupTranslation[state][stateName + 'url'];
         popupTitle.innerHTML = countriesPopupTranslation[state][stateName];
-        if(showInfectedTotal || stateCor[stateName]['recovered'] === undefined || stateCor[stateName]['dead'] === undefined){
-            popupInfectedCount.innerHTML = stateCor[stateName]['infected'];
-            popupInfectedTitle.innerHTML = countriesPopupTranslation[state]['infected'] + ' ' + countriesPopupTranslation[state]['infectedTotal'];
+        if(showInfectedTotal || stateCor[stateName] === undefined || stateCor[stateName]['recovered'] === undefined || stateCor[stateName] === undefined || stateCor[stateName]['dead'] === undefined){
+			if(stateCor[stateName] === undefined || stateCor[stateName]['infected'] === undefined){
+				popupInfectedCount.innerHTML = countriesPopupTranslation[state]['legendNoData'];
+				popupInfectedTitle.innerHTML = '';
+			} else {
+				popupInfectedCount.innerHTML = stateCor[stateName]['infected'];
+				popupInfectedTitle.innerHTML = countriesPopupTranslation[state]['infected'] + ' ' + countriesPopupTranslation[state]['infectedTotal'];
+			}
         }
         else {
             popupInfectedCount.innerHTML = (stateCor[stateName]['infected'] - stateCor[stateName]['recovered'] - stateCor[stateName]['dead']).toString();
@@ -399,7 +404,7 @@ function styleFunction(feature, resolution){
     }
     else if(stateName !== undefined){
         name = feature.get('stateName');
-        if(stateCor[name]['infected'] == undefined){
+        if(stateCor[name] == undefined || stateCor[name]['infected'] == undefined){
             styleInfectedCount = null;
         }
         else if(showInfectedTotal || stateCor[name]['recovered'] == undefined || stateCor[name]['dead'] == undefined){
