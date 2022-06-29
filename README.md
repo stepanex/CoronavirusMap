@@ -1,5 +1,5 @@
 # Koronamap
-Interactive map of coronavirus cases, now hosted at [koronamap.cz](https://koronamap.cz) and [koronamap.sk](https://koronamap.sk).
+Interactive map of coronavirus cases, now hosted at [koronamap.vercel.app](https://koronamap.vercel.app/).
 
 ## Adding new state
 It is fairly easy to add new state, create pull request when you are done.
@@ -9,7 +9,7 @@ It is fairly easy to add new state, create pull request when you are done.
 1. Rename file with level 0 to 'state.geojson' and file with level 1 to 'regions.geojson' and place them in 'states/[ISO 3166 of the state]/'
    1. Open regions.geojson in text editor and replace (or add) properties with '"properties":{"regionName":"[region name]"}'.
    1. Open state.geojson in text editor and replace (or add) properties with '"properties":{"stateName":"[ISO 3166 of the state]"}'.
-1. Add 'regionsData.php' in 'states/[ISO 3166 of the state]/', this file should print array as json.
+1. Add 'regionsData.php' in 'api/states/[ISO 3166 of the state]/', this file should print array as json.
    * The array structure should be like this:
       * array['errorCount'] = number of errors.
       * array['error'] = array of error texts.

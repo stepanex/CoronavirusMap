@@ -1,8 +1,4 @@
-/wikiData/cache
-/wikiData/cacheId
-/wikiData/regionsCache
-/wikiData/regionsCacheId
 .idea
 .htaccess
 /backup/
-/aText/
+.vercel

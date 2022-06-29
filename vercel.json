@@ -1,0 +1,18 @@
+{
+  "functions": {
+    "api/*/*/*.php": {
+      "runtime": "vercel-php@0.5.0"
+    },
+    "api/*/*.php": {
+      "runtime": "vercel-php@0.5.0"
+    },
+    "api/*.php": {
+      "runtime": "vercel-php@0.5.0"
+    }
+  },
+  "routes": [
+    { "src": "/states/(.*)/regionsData.php",  "dest": "/api/states/$1/regionsData.php" },
+    { "src": "/states/statesData.php",  "dest": "/api/states/statesData.php" },
+    { "src": "/",  "dest": "/api/index.php" }
+  ]
+}

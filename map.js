@@ -2,7 +2,7 @@ var countries = ['CZ', 'SK'];
 var countriesPopupTranslation = {
     'CZ': {
         'SK': 'Přejít na Slovenskou republiku',
-        'SKurl': 'https://koronamap.cz/?state=SK',
+        'SKurl': 'https://koronamap.vercel.app/?state=SK',
         'infected': 'Nakažených',
         'infectedTitle': 'počet nakažených',
         'infectedTotal': 'celkem',
@@ -24,7 +24,7 @@ var countriesPopupTranslation = {
     },
     'SK': {
         'CZ': 'Prejsť na Českú Republiku',
-        'CZurl': 'https://koronamap.cz',
+        'CZurl': 'https://koronamap.vercel.app/',
         'infected': 'Infikovaných',
         'infectedTitle': 'počet infikovaných',
         'infectedTotal': 'celkom',
